@@ -7,6 +7,8 @@
 2. Github
 3. Discord
 
+`git clone "현재깃주소" "저장위치" 로 클론해주세요!`
+
 
 ## Clean Architecture
 
