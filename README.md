@@ -1,5 +1,13 @@
 # 2022_final_project
 
+### 개발 환경
+1. Android Studio
+  - java 11
+  - Android Studio Chipmunck 2021.2.1 (실행이 안되면 통일)
+2. Github
+3. Discord
+
+
 ## Clean Architecture
 
 Data Layer, Domain Layer, Presentation Layer로 계층을 분리해서 분업을 합니다.
