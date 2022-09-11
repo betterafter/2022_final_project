@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.kuroutine.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
+    // 커밋 테스트!!
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
