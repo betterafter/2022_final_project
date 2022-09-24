@@ -7,4 +7,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "kuroutine"
-include ':app'
+include ':presentation'
+include ':domain'
+include ':data'
