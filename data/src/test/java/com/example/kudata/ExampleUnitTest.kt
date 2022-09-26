@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.kudata
 
 import org.junit.Test
 
