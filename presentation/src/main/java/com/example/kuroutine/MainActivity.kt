@@ -7,10 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    // 커밋 테스트!!
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
