@@ -1,8 +1,8 @@
 package com.example.domain.usecase
 
 import com.example.domain.repository.PapagoRepositoryImpl
-import com.example.domain.usecase.PapagoUsecase
-import com.example.domain.usecase.PapagoUsecaseImpl
+import com.example.domain.usecase.papago.PapagoUsecase
+import com.example.domain.usecase.papago.PapagoUsecaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

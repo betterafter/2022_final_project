@@ -1,5 +1,7 @@
 package com.example.kudata.repository.datasource
 
+import com.example.kudata.repository.datasource.papago.PapagoDatasource
+import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
