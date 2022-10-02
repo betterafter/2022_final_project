@@ -38,7 +38,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun createPapagoService(): PapagoApi {
+    fun providePapagoService(): PapagoApi {
         return retrofit.create(PapagoApi::class.java)
     }
 }
