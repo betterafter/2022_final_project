@@ -1,13 +1,47 @@
 package com.example.kuroutine
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.domain.usecase.PapagoUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // hilt라는 라이브러리를 쓰기 위한 어노테이션(@)이에요. hilt는 의존성 주입을 위한 라이브러리입니다.
 // 밑에 보시면 @Inject constructor라는 것이 있는데, 이걸 왜 쓰는지는 아래를 봐주세요.
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val papagoUsecase: PapagoUsecase
+) : ViewModel() {
+    private val _papagoTranslatedText = MutableLiveData<String>().apply {
+        value = "Please enter the content to be translated."
+    }
+    val papagoTranslatedText: LiveData<String> = _papagoTranslatedText
+
+    private val _tarLandType = MutableLiveData<String>().apply { value = "en" }
+    val tarLangType: LiveData<String> = _tarLandType
+
+    private val _srcLangType = MutableLiveData<String>().apply { value = "ko" }
+    val srcLangType: LiveData<String> = _srcLangType
+
+
+    fun getTranslateResult(text: String) {
+        viewModelScope.launch {
+            _papagoTranslatedText.value = _srcLangType.value?.let { src ->
+                _tarLandType.value?.let { tar ->
+                    papagoUsecase.getText(text = text, source = src, target = tar)
+                }.run {
+                    papagoUsecase.getText(text = text, source = src, target = "en")
+                }.run {
+                    papagoUsecase.getText(text = text, source = "ko", target = "en")
+                }
+            }
+        }
+    }
 }
 
 
