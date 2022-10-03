@@ -1,41 +1,32 @@
 package com.kuroutine.kulture.login
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityLoginBinding
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoginActivity: AppCompatActivity() {
+@AndroidEntryPoint
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = DataBindingUtil.setContentView<ActivityLoginBinding?>(this, R.layout.activity_login).apply {
+            viewModel = loginViewModel
+            lifecycleOwner = this@LoginActivity
+        }
+    }
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        binding.btnLoginFacebook.registerCallback(
-            CallbackManager.Factory.create(),
-            object : FacebookCallback<LoginResult> {
-                override fun onCancel() {
-                    Log.d("[keykat]", "cancel")
-                }
-
-                override fun onError(error: FacebookException) {
-                    Log.d("[keykat]", "$error")
-                }
-
-                override fun onSuccess(result: LoginResult) {
-                    Log.d("[keykat]", "success")
-                }
-
-            }
-        )
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Pass the activity result back to the Facebook SDK
+        binding.viewModel?.callbackManagerOnActivityResult(requestCode, resultCode, data)
     }
 }

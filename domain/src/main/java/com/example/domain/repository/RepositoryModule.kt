@@ -1,6 +1,8 @@
 package com.example.domain.repository
 
+import com.example.kudata.repository.LoginRepository
 import com.example.kudata.repository.PapagoRepository
+import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
 import dagger.Module
 import dagger.Provides
@@ -18,4 +20,11 @@ class RepositoryModule {
         papagoDatasourceImpl: PapagoDatasourceImpl
     ) : PapagoRepository
             = PapagoRepositoryImpl(papagoDatasourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideLgoinRepository(
+        facebookLoginDatasourceImpl: FacebookLoginDatasourceImpl
+    ) : LoginRepository
+            = LoginRepositoryImpl(facebookLoginDatasourceImpl)
 }
