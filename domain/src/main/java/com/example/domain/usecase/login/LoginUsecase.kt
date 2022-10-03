@@ -5,6 +5,6 @@ import com.google.firebase.auth.FirebaseUser
 
 interface LoginUsecase {
     suspend fun loginWithEmail()
-    suspend fun loginWithFacebook() : FirebaseUser?
+    suspend fun loginWithFacebook(callback: ((FirebaseUser?)->Unit))
     suspend fun  callbackManagerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 }

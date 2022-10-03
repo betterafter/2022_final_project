@@ -19,8 +19,7 @@ class FacebookLoginDatasourceImpl : FacebookLoginDatasource {
     private val loginManager = LoginManager.getInstance()
     private val firebaseAuth = Firebase.auth
 
-    override fun login(callback : ((LoginResult)->Unit)) {
-        Log.d("[keykat]", "login")
+    override suspend fun login(callback : ((LoginResult)->Unit)) {
         loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onCancel() {
                 Log.d("[keykat]", "login canceled.")
@@ -41,15 +40,12 @@ class FacebookLoginDatasourceImpl : FacebookLoginDatasource {
         accessToken: AccessToken,
         callback: (FirebaseUser?) -> Unit
     ) {
-        print("[keykat] !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         val credential = FacebookAuthProvider.getCredential(accessToken.token)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(FirebaseExecutor()) { task ->
                 if (task.isSuccessful) {
-                    //Log.d("[keykat]", "user????????????: " + firebaseAuth.currentUser?.toString())
                     callback(firebaseAuth.currentUser)
                 } else {
-                    //Log.d("[keykat]", "null????????????: ")
                     callback(null)
                 }
             }

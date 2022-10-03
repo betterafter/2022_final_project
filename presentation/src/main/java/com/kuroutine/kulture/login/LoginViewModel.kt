@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.login.LoginUsecase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,8 @@ class LoginViewModel @Inject constructor(
     private val _currentUser = MutableLiveData<FirebaseUser?>().apply { value = null }
     val currentUser: LiveData<FirebaseUser?> = _currentUser
 
+    val permissionList : MutableList<String> = listOf("public_profile", "email") as MutableList<String>
+
     fun callbackManagerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         viewModelScope.launch {
             loginUsecase.callbackManagerOnActivityResult(requestCode, resultCode, data)
@@ -26,9 +30,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun loginWithFacebook() {
-        Log.d("[keykat]", " click!!!!!!!!!!!!!!!!!")
-        viewModelScope.launch {
-            _currentUser.value = loginUsecase.loginWithFacebook()
+        viewModelScope.async {
+            loginUsecase.loginWithFacebook(callback = {
+                _currentUser.value = it
+                Log.d("[keykat]", "user at loginWithFacebook: ${_currentUser.value}")
+            })
+
         }
 
     }

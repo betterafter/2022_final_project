@@ -7,6 +7,9 @@ import com.example.kudata.repository.datasource.login.FacebookLoginDatasource
 import com.facebook.AccessToken
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
@@ -17,10 +20,10 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override suspend fun loginWithFacebook(callback: ((LoginResult)->Unit)) {
-        Log.d("[keykat]", "result");
-        facebookLoginDatasource.login { loginResult ->
-            Log.d("[keykat]", "result:"+loginResult);
-            callback(loginResult)
+        CoroutineScope(Dispatchers.IO).launch {
+            facebookLoginDatasource.login { loginResult ->
+                callback(loginResult)
+            }
         }
     }
 

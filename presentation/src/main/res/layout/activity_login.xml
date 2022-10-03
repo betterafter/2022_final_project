@@ -13,17 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_login_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="108dp"
-            android:onClick="@{()->viewModel.loginWithFacebook()}"
+<!--        <com.facebook.login.widget.LoginButton-->
+<!--            android:id="@+id/btn_login_facebook"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="108dp"-->
+<!--            android:onClick="click"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.497"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="facebookLogin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

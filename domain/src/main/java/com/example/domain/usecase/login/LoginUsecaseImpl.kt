@@ -13,22 +13,17 @@ class LoginUsecaseImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun loginWithFacebook(): FirebaseUser? {
-        Log.d("[keykat]"," !!!!!!!!!!!!!!!!!")
-        var user: FirebaseUser? = null
+    override suspend fun loginWithFacebook(callback: ((FirebaseUser?)->Unit)) {
         loginRepository.loginWithFacebook { loginResult ->
             loginRepository.handleFacebookAccessToken(
                 loginResult.accessToken,
                 object : ((FirebaseUser?)->Unit) {
                     override fun invoke(firebaseUser: FirebaseUser?) {
-                        Log.d("[keykat]", "fireaseUser: " + firebaseUser.toString())
-                        user = firebaseUser
+                        callback(firebaseUser)
                     }
                 }
             )
         }
-        Log.d("[keykat]", "user: " + user.toString())
-        return user
     }
 
     override suspend fun callbackManagerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
