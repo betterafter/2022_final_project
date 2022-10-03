@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id("dagger.hilt.android.plugin")
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -13,11 +14,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.kuroutine"
+        applicationId 'com.kuroutine.kulture'
         minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,6 +58,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation "androidx.startup:startup-runtime:1.2.0-alpha01"
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.42")
@@ -63,6 +66,15 @@ dependencies {
 
     // domain module
     implementation(project(":domain"))
+
+    // facebook
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }
 
 kapt {
