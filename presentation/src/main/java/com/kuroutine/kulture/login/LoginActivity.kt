@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityLoginBinding
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
 import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
+import com.kuroutine.kulture.GOOGLE_SIGNIN_RESULT_CODE
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -31,16 +28,50 @@ class LoginActivity : AppCompatActivity() {
             viewModel = loginViewModel
             lifecycleOwner = this@LoginActivity
         }
+
+        initObserver()
+        initListener()
+    }
+
+    // view와 결합성이 커서 나누지 못할 경우 사용
+    private fun initObserver() {
+        loginViewModel.googleSingInIntent.observe(this) { googleIntent ->
+            if (googleIntent != null) {
+                startActivityForResult(googleIntent, GOOGLE_SIGNIN_RESULT_CODE)
+            }
+        }
+    }
+
+    // view와 결합성이 커서 나누지 못할 경우 사용
+    // xml의 onClick이 먹지 않는 경우 사용 (ex.구글 로그인 버튼)
+    private fun initListener() {
+        binding.btnLoginGoogle.setOnClickListener {
+            googleLogin()
+        }
+    }
+
+    private fun googleLogin() {
+        loginViewModel.getGoogleSignInIntent()
     }
 
     fun facebookLogin(view: View) {
-        LoginManager.getInstance().logInWithReadPermissions(this@LoginActivity,
-            loginViewModel.permissionList)
+        LoginManager.getInstance().logInWithReadPermissions(
+            this@LoginActivity,
+            loginViewModel.permissionList
+        )
         loginViewModel.loginWithFacebook()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        binding.viewModel?.callbackManagerOnActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
+        // google 로그인일 경우
+        if (requestCode == GOOGLE_SIGNIN_RESULT_CODE) {
+            loginViewModel.googleLogin(data)
+        }
+
+        // 그 외의 경우 (지금은 facebook만)
+        else {
+            binding.viewModel?.callbackManagerOnActivityResult(requestCode, resultCode, data)
+        }
     }
 }

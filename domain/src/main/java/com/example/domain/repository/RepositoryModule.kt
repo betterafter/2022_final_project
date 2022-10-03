@@ -3,6 +3,7 @@ package com.example.domain.repository
 import com.example.kudata.repository.LoginRepository
 import com.example.kudata.repository.PapagoRepository
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
+import com.example.kudata.repository.datasource.login.GoogleLoginDatasourceImpl
 import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,8 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideLgoinRepository(
+        googleLoginDatasourceImpl: GoogleLoginDatasourceImpl,
         facebookLoginDatasourceImpl: FacebookLoginDatasourceImpl
     ) : LoginRepository
-            = LoginRepositoryImpl(facebookLoginDatasourceImpl)
+            = LoginRepositoryImpl(googleLoginDatasourceImpl, facebookLoginDatasourceImpl)
 }

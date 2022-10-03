@@ -26,7 +26,7 @@ class UsecaseModule {
     @Provides
     @Singleton
     fun provideLoginUsecase(
-        facebookLoginRepositoryImpl: LoginRepositoryImpl
+        loginRepositoryImpl: LoginRepositoryImpl
     ) : LoginUsecase
-            = LoginUsecaseImpl(facebookLoginRepositoryImpl)
+            = LoginUsecaseImpl(loginRepositoryImpl)
 }

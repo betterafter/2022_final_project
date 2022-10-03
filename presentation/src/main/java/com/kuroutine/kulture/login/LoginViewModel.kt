@@ -21,7 +21,30 @@ class LoginViewModel @Inject constructor(
     private val _currentUser = MutableLiveData<FirebaseUser?>().apply { value = null }
     val currentUser: LiveData<FirebaseUser?> = _currentUser
 
+    private val _googleSignInIntent = MutableLiveData<Intent?>().apply { value = null }
+    val googleSingInIntent: LiveData<Intent?> = _googleSignInIntent
+
     val permissionList : MutableList<String> = listOf("public_profile", "email") as MutableList<String>
+
+    fun getGoogleSignInIntent() {
+        viewModelScope.launch {
+            _googleSignInIntent.value = loginUsecase.getGoogleSignInIntent()
+        }
+    }
+
+    fun googleLogin(data : Intent?) {
+        if (data == null) {
+            // TODO : toast 메세지로 '로그인에 실패했다' 는 메세지 띄울 것
+            return
+        }
+
+        viewModelScope.launch {
+            loginUsecase.googleLogin(data) {
+                _currentUser.value = it
+                Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
+            }
+        }
+    }
 
     fun callbackManagerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         viewModelScope.launch {
@@ -33,10 +56,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.async {
             loginUsecase.loginWithFacebook(callback = {
                 _currentUser.value = it
-                Log.d("[keykat]", "user at loginWithFacebook: ${_currentUser.value}")
+                Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
             })
-
         }
-
     }
 }

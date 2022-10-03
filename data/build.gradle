@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id("dagger.hilt.android.plugin")
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -65,6 +66,9 @@ dependencies {
 
     // facebook
     implementation 'com.facebook.android:facebook-login:latest.release'
+
+    // google
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
 }
 
 kapt {
