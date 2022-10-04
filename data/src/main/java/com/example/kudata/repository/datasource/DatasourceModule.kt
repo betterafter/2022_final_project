@@ -7,6 +7,8 @@ import com.example.kudata.repository.datasource.login.GoogleLoginDatasource
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasourceImpl
 import com.example.kudata.repository.datasource.papago.PapagoDatasource
 import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
+import com.example.kudata.repository.datasource.user.UserDatasource
+import com.example.kudata.repository.datasource.user.UserDatasourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,4 +34,9 @@ class RepositoryModule {
     @Singleton
     fun provideFacebookLoginDatasource() : FacebookLoginDatasource
             = FacebookLoginDatasourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideUserDatasource() : UserDatasource
+            = UserDatasourceImpl()
 }

@@ -2,10 +2,13 @@ package com.example.domain.usecase
 
 import com.example.domain.repository.LoginRepositoryImpl
 import com.example.domain.repository.PapagoRepositoryImpl
+import com.example.domain.repository.UserRepositoryImpl
 import com.example.domain.usecase.login.LoginUsecase
 import com.example.domain.usecase.login.LoginUsecaseImpl
 import com.example.domain.usecase.papago.PapagoUsecase
 import com.example.domain.usecase.papago.PapagoUsecaseImpl
+import com.example.domain.usecase.user.UserUsecase
+import com.example.domain.usecase.user.UserUsecaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +29,15 @@ class UsecaseModule {
     @Provides
     @Singleton
     fun provideLoginUsecase(
-        loginRepositoryImpl: LoginRepositoryImpl
+        loginRepositoryImpl: LoginRepositoryImpl,
+        userRepositoryImpl: UserRepositoryImpl
     ) : LoginUsecase
-            = LoginUsecaseImpl(loginRepositoryImpl)
+            = LoginUsecaseImpl(loginRepositoryImpl, userRepositoryImpl)
+
+    @Provides
+    @Singleton
+    fun provideUserUsecase(
+        userRepositoryImpl: UserRepositoryImpl
+    ) : UserUsecase
+            = UserUsecaseImpl(userRepositoryImpl)
 }
