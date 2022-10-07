@@ -5,20 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_mypage_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/iv_mypage_applogo"
+        android:layout_width="189dp"
+        android:layout_height="80dp"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="45dp"
-        android:text="KULTURE"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/iv_mypage_levelicon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/kulture_logo" />
 
     <ImageView
         android:id="@+id/iv_mypage_userpic"
@@ -28,7 +26,8 @@
         android:layout_marginTop="110dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+        app:srcCompat="@drawable/ic_baseline_account_circle_24"
+        app:tint="@color/orange" />
 
     <TextView
         android:id="@+id/tv_mypage_username"
