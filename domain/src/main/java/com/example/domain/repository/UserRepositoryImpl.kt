@@ -21,8 +21,4 @@ class UserRepositoryImpl @Inject constructor(
     ) {
         userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp)
     }
-
-//    suspend fun updateUserRef(firebaseUser: FirebaseUser) {
-//
-//    }
 }

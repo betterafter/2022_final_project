@@ -47,6 +47,7 @@ class LoginViewModel @Inject constructor(
             loginUsecase.googleLogin(data) {
                 _currentUser.value = it
                 Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
+                viewModelScope.launch { userUsercas.initUser() }
             }
         }
     }
@@ -63,19 +64,6 @@ class LoginViewModel @Inject constructor(
                 _currentUser.value = it
                 Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
                 viewModelScope.launch { userUsercas.initUser() }
-//                viewModelScope.launch {    Firebase.auth.currentUser?.uid?.let { it ->
-//                    Log.d("[keykat]", it)
-//                    //var userInfo = _firestore.collection(it).document()
-//                    FirebaseFirestore.getInstance().collection(it).document().set(
-//                        mapOf(
-//                            "uid" to _currentUser.value?.uid,
-//                            "userName" to "1",
-//                            "userEmail" to "2",
-//                            "userRank" to "3",
-//                            "userXp" to "4"
-//                        )
-//                    )
-//                } }
             })
         }
     }

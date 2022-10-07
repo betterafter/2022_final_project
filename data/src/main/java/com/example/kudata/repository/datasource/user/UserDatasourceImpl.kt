@@ -12,15 +12,20 @@ class UserDatasourceImpl : UserDatasource {
     private val _firestore = FirebaseFirestore.getInstance()
 
     override suspend fun initUserInfo() {
-        _auth.currentUser?.uid?.let { it ->
-            val user = User(
-                it,
-                _auth.currentUser?.displayName,
-                _auth.currentUser?.email,
-                "newbie",
-                0,
-            )
-            _firestore.collection(it).document().set(user)
+        _auth.currentUser?.uid?.let { id ->
+            _firestore.collection(id).get().addOnSuccessListener {
+                if (it.isEmpty) {
+                    val user = User(
+                        id,
+                        _auth.currentUser?.displayName,
+                        _auth.currentUser?.email,
+                        "newbie",
+                        0,
+                    )
+                    _firestore.collection(id).document().set(user)
+                }
+            }
+
         }
     }
 
