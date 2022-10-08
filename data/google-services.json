@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "project_number": "23959104952",
+    "project_id": "kulture-88ea7",
+    "storage_bucket": "kulture-88ea7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23959104952:android:ea431c25def9142fd5734d",
+        "android_client_info": {
+          "package_name": "com.example.domain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23959104952-svobjn8i4qtdf6043j41c576uam9babm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.domain",
+            "certificate_hash": "dca60a60806f690436266ed22e9413aaf48a3b51"
+          }
+        },
+        {
+          "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiSR3doLq9BtCES7lSKCbJDbjQGWy8t6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23959104952:android:fb0b944f208d20cdd5734d",
+        "android_client_info": {
+          "package_name": "com.example.kudata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23959104952-bsknf05o9dli2vsjfk4mnjpe2sd9icg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kudata",
+            "certificate_hash": "dca60a60806f690436266ed22e9413aaf48a3b51"
+          }
+        },
+        {
+          "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiSR3doLq9BtCES7lSKCbJDbjQGWy8t6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23959104952:android:55b3e529b3a01d05d5734d",
+        "android_client_info": {
+          "package_name": "com.kuroutine.kulture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23959104952-7pcrksdigtgvembj0iipoe774ocm2iag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kuroutine.kulture",
+            "certificate_hash": "dca60a60806f690436266ed22e9413aaf48a3b51"
+          }
+        },
+        {
+          "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiSR3doLq9BtCES7lSKCbJDbjQGWy8t6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23959104952-0fkkn2vn4921vdibiaus95r120iugldb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
