@@ -4,12 +4,14 @@ import android.R.attr.data
 import android.content.Intent
 import android.util.Log
 import com.example.kudata.repository.LoginRepository
+import com.example.kudata.repository.UserRepository
 import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
 
 class LoginUsecaseImpl @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val userRepository: UserRepository
 ) : LoginUsecase {
     // google
     override suspend fun getGoogleSignInIntent() : Intent = loginRepository.getGoogleSignInIntent()
