@@ -9,19 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.login.LoginUsecase
 import com.example.domain.usecase.user.UserUsecase
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUsecase: LoginUsecase,
-    private val userUsercas: UserUsecase
+    private val userUsercas: UserUsecase,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData<FirebaseUser?>().apply { value = null }
     val currentUser: LiveData<FirebaseUser?> = _currentUser

@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 
 interface LoginRepository {
+    suspend fun getUser(): FirebaseUser?
     // google
     suspend fun getGoogleSignInIntent(): Intent
     suspend fun googleLogin(data: Intent, callback: (FirebaseUser?) -> Unit)

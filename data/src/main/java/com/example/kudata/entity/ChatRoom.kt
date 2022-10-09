@@ -1,6 +1,6 @@
 package com.example.kudata.entity
 
 data class ChatRoom(
-    val users: Map<String, Boolean>,
-    val contents: Map<String, ChatContent>
+    val users: Map<String, Boolean>? = null,
+    val contents: List<ChatContent>? = null
 )
