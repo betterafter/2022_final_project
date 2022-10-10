@@ -24,6 +24,11 @@ class GoogleLoginDatasourceImpl @Inject constructor(
 ) : GoogleLoginDatasource {
     private val firebaseAuth = Firebase.auth
 
+    override suspend fun getGoogleUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
+
     override suspend fun getGoogleSignInIntent(): Intent {
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.default_web_client_id))

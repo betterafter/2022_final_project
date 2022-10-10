@@ -18,6 +18,14 @@ class LoginRepositoryImpl @Inject constructor(
     private val googleLoginDatasource: GoogleLoginDatasource,
     private val facebookLoginDatasource: FacebookLoginDatasource
 ) : LoginRepository {
+    override suspend fun getUser(): FirebaseUser? {
+        if (googleLoginDatasource.getGoogleUser() != null)
+            return googleLoginDatasource.getGoogleUser()
+        if (facebookLoginDatasource.getFacebookUser() != null)
+            return facebookLoginDatasource.getFacebookUser()
+        return null
+    }
+
     // google
     override suspend fun getGoogleSignInIntent(): Intent = googleLoginDatasource.getGoogleSignInIntent()
 

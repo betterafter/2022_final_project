@@ -32,8 +32,10 @@
             android:name="com.kuroutine.kulture.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
-
         </activity>
+        <activity
+            android:name="com.kuroutine.kulture.chat.ChatActivity"
+            android:exported="true"/>
 
     </application>
 

@@ -6,7 +6,8 @@ import com.facebook.login.LoginResult
 import com.google.firebase.auth.FirebaseUser
 
 interface FacebookLoginDatasource {
-    suspend fun login(callback : ((LoginResult)->Unit))
+    suspend fun getFacebookUser(): FirebaseUser?
+    suspend fun login(callback: ((LoginResult) -> Unit))
     fun handleFacebookAccessToken(accessToken: AccessToken, callback: (FirebaseUser?) -> Unit)
     suspend fun callbackManagerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 }

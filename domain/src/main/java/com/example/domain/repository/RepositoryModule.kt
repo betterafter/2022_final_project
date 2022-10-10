@@ -1,8 +1,10 @@
 package com.example.domain.repository
 
+import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.LoginRepository
 import com.example.kudata.repository.PapagoRepository
 import com.example.kudata.repository.UserRepository
+import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasourceImpl
 import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
@@ -38,4 +40,11 @@ class RepositoryModule {
         userDatasourceImpl: UserDatasourceImpl
     ) : UserRepository
             = UserRepositoryImpl(userDatasourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(
+        chatDataSourceImpl: ChatDataSourceImpl
+    ) : ChatRepository
+            = ChatRepositoryUmpl(chatDataSourceImpl)
 }

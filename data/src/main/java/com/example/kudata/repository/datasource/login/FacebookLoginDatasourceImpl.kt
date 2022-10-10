@@ -19,6 +19,10 @@ class FacebookLoginDatasourceImpl : FacebookLoginDatasource {
     private val loginManager = LoginManager.getInstance()
     private val firebaseAuth = Firebase.auth
 
+    override suspend fun getFacebookUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
     override suspend fun login(callback : ((LoginResult)->Unit)) {
         loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onCancel() {

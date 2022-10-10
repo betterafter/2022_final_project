@@ -1,8 +1,11 @@
 package com.example.domain.usecase
 
+import com.example.domain.repository.ChatRepositoryUmpl
 import com.example.domain.repository.LoginRepositoryImpl
 import com.example.domain.repository.PapagoRepositoryImpl
 import com.example.domain.repository.UserRepositoryImpl
+import com.example.domain.usecase.chat.ChatUsecase
+import com.example.domain.usecase.chat.ChatUsecaseImpl
 import com.example.domain.usecase.login.LoginUsecase
 import com.example.domain.usecase.login.LoginUsecaseImpl
 import com.example.domain.usecase.papago.PapagoUsecase
@@ -40,4 +43,12 @@ class UsecaseModule {
         userRepositoryImpl: UserRepositoryImpl
     ) : UserUsecase
             = UserUsecaseImpl(userRepositoryImpl)
+
+    @Provides
+    @Singleton
+    fun provideChatUsecase(
+        loginRepositoryImpl: LoginRepositoryImpl,
+        chatRepositoryUmpl: ChatRepositoryUmpl
+    ) : ChatUsecase
+            = ChatUsecaseImpl(loginRepositoryImpl, chatRepositoryUmpl)
 }
