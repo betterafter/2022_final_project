@@ -1,6 +1,7 @@
 package com.example.domain.usecase.chat
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.Chat
@@ -19,8 +20,10 @@ class ChatUsecaseImpl @Inject constructor(
         return loginRepository.getUser()
     }
 
-    override suspend fun initRoom(uid: String) {
-        chatRepository.initRoom(uid)
+    override suspend fun initRoom(uid: String, initialCallback: (() -> Unit)) {
+        chatRepository.initRoom(uid) {
+            initialCallback()
+        }
     }
 
     override suspend fun enterRoom() {
@@ -39,6 +42,7 @@ class ChatUsecaseImpl @Inject constructor(
     override suspend fun getMessages(callback: (List<Chat>) -> Unit) {
         chatRepository.getRealtimeMessage {
             val list = DtoTranslator.chatTranslator(it)
+            Log.d("[keykat]", "dto list : $list")
             callback(list)
         }
     }

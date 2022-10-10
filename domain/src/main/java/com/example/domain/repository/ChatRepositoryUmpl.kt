@@ -12,8 +12,10 @@ class ChatRepositoryUmpl @Inject constructor(
 ) : ChatRepository {
 
     // 채팅방 초기화. 사용자의 uid 기준으로 채팅방 생성
-    override suspend fun initRoom(uid2: String) {
-        chatDataSource.initChatRoom(uid2)
+    override suspend fun initRoom(uid2: String, initialCallback: (() -> Unit)) {
+        chatDataSource.initChatRoom(uid2) {
+            initialCallback()
+        }
     }
 
     override suspend fun enterRoom() {
