@@ -19,7 +19,7 @@ class ChatDataSourceImpl : ChatDataSource {
 
     var roomId: String? = null
 
-    override suspend fun initChatRoom(uid2: String) {
+    override suspend fun initChatRoom(uid2: String, initialCallback: (() -> Unit)) {
         firebaseAuth.currentUser?.let {
             val room = ChatRoom(
                 mapOf(it.uid to true, uid2 to true),
@@ -31,6 +31,7 @@ class ChatDataSourceImpl : ChatDataSource {
                     Log.d("[keykat]", "id!!: $id")
                     db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
                 }
+                initialCallback()
             }
         }
     }
@@ -73,7 +74,6 @@ class ChatDataSourceImpl : ChatDataSource {
 
     override suspend fun sendMessage(message: String, timeStamp: String) {
         firebaseAuth.currentUser?.let {
-            Log.d("[keykat]", "$message, $timeStamp")
             val content = ChatContent(it.uid, message, timeStamp)
             roomId?.let { id ->
                 db.reference.child(CHAT_ROOM_KEY).child(id).child(CHAT_ROOM_CONTENT_KEY).push().setValue(content)
@@ -81,7 +81,8 @@ class ChatDataSourceImpl : ChatDataSource {
         }
     }
 
-    override suspend fun getRealtimeMessage(updatedMessageCallback: ((List<ChatContent>) -> Unit))  {
+    override suspend fun getRealtimeMessage(updatedMessageCallback: ((List<ChatContent>) -> Unit)) {
+        Log.d("[keykat]", "getREaltimeMessage: $roomId")
         roomId?.let { id ->
             db.reference.child(CHAT_ROOM_KEY).child(id).child(CHAT_ROOM_CONTENT_KEY)
                 .addValueEventListener(object : ValueEventListener {

@@ -26,22 +26,29 @@ class ChatActivity : AppCompatActivity() {
                 lifecycleOwner = this@ChatActivity
             }
 
-        initListener()
         initAdapter()
         initObserver()
 
         init()
+        initListener()
     }
 
     private fun init() {
-        chatViewModel.initChatRoom("8xjNJvtgpwfo2oiC2Di9nx4Wyrk1")
-        chatViewModel.getMessages()
+        chatViewModel.initChatRoom("8xjNJvtgpwfo2oiC2Di9nx4Wyrk1") {
+            chatViewModel.getMessages {
+                chatViewModel.chatList.value?.let {
+                    binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                }
+            }
+        }
+
         chatViewModel.getCurrentUser()
     }
 
     private fun initListener() {
         binding.ivPrivatechatSendbutton.setOnClickListener {
             chatViewModel.sendMessage(binding.etPrivatechatMessagebox.text.toString())
+            binding.etPrivatechatMessagebox.text.clear()
         }
     }
 
@@ -67,8 +74,9 @@ class ChatActivity : AppCompatActivity() {
         }
 
         chatViewModel.chatList.observe(this) {
+            Log.d("[keykat]", "chatList: ${it.toString()}")
             it?.forEach {
-                Log.d("[keykat]", "${it.message}")
+                Log.d("[keykat]", "msg: ${it.message}")
             }
             it?.let { list ->
                 (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).submitList(list)
