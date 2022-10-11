@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_msgreceived_receivedmsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="This is received message"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:background="@drawable/message_received_background"/>
+
+        <ImageView
+            android:id="@+id/iv_msgreceived_sound"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toRightOf="@id/tv_msgreceived_receivedmsg"
+            app:srcCompat="@drawable/ic_baseline_volume_up_24"
+            app:tint="#A5A4A4" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
