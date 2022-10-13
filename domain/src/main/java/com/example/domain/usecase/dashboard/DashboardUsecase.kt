@@ -1,14 +1,14 @@
-package com.example.kudata.repository
+package com.example.domain.usecase.dashboard
 
 import com.example.kudata.entity.DashboardQuestionContent
 
-interface DashboardRepository {
+interface DashboardUsecase {
     suspend fun postQuestion(
         uid: String,
         title: String,
         text: String,
         timestamp: String,
-        imageList: List<String>,
+        imageList: List<String>
     )
 
     suspend fun postAnswer(
@@ -16,8 +16,10 @@ interface DashboardRepository {
         title: String,
         text: String,
         timestamp: String,
-        imageList: List<String>,
+        imageList: List<String>
     )
 
-     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
+    suspend fun getAllQuestions(): List<DashboardQuestionContent>?
+
+    suspend fun getUserQuestions(uid: String?): List<DashboardQuestionContent>?
 }

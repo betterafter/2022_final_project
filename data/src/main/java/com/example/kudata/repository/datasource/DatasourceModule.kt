@@ -3,6 +3,8 @@ package com.example.kudata.repository.datasource
 import android.content.Context
 import com.example.kudata.repository.datasource.chat.ChatDataSource
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
+import com.example.kudata.repository.datasource.dashboard.DashboardDatasource
+import com.example.kudata.repository.datasource.dashboard.DashboardDatasourceImpl
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasource
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasource
@@ -46,4 +48,9 @@ class RepositoryModule {
     @Singleton
     fun provideChatDatasource() : ChatDataSource
             = ChatDataSourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideDashboardDatasource() : DashboardDatasource
+            = DashboardDatasourceImpl()
 }
