@@ -12,7 +12,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_posting_photo"
+        app:layout_constraintBottom_toTopOf="@+id/imgbtn_activity_posting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24"
@@ -35,22 +35,28 @@
     <Button
         android:id="@+id/btn_posting_finish"
         android:layout_width="62dp"
-        android:layout_height="48dp"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/btn_background"
         android:text="완료"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview_pst"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_posting_photo"
-        android:layout_width="66dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="28dp"
+    <ImageButton
+        android:id="@+id/imgbtn_activity_posting"
+        android:layout_width="119dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="100dp"
+        android:layout_marginEnd="33dp"
+        android:backgroundTint="#FBFBFB"
         android:paddingBottom="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/recyclerview_pst"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
@@ -67,7 +73,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/et_posting_details"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_posting_photo" />
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_activity_posting" />
 
     <EditText
         android:id="@+id/et_posting_details"
@@ -77,12 +83,26 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="57dp"
         android:ems="10"
-        android:gravity="top"
+        android:gravity="top|left"
         android:hint="상세내용"
-        android:inputType="textPersonName"
+        android:inputType="text|textMultiLine"
+        android:scrollbars="vertical"
+        android:lines="20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_posting_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_pst"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="557dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgbtn_activity_posting"
+        app:layout_constraintTop_toBottomOf="@+id/btn_posting_finish" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
