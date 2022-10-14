@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id("dagger.hilt.android.plugin")
     id 'com.google.gms.google-services'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -75,9 +76,13 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.4.1')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-storage:20.0.2'
 
     // google
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    //glide라이브러리 추가
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
 
 kapt {

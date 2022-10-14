@@ -11,7 +11,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
-        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -30,8 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    compileSdk 33
-    namespace 'com.example.domain'
 }
 
 dependencies {
@@ -44,20 +43,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.42")
-    kapt("com.google.dagger:hilt-android-compiler:2.42")
-
-    // firesbase
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.8'
-    implementation "androidx.startup:startup-runtime:1.2.0-alpha01"
-
-    // facebook
-    implementation 'com.facebook.android:facebook-login:latest.release'
-
-    // data module
-    implementation(project(":data"))
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 }
 
 kapt {
