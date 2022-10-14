@@ -1,19 +1,17 @@
 package com.example.kudata.repository.datasource.user
 
-import android.util.Log
 import com.example.kudata.entity.User
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 class UserDatasourceImpl : UserDatasource {
     private val _auth = Firebase.auth
-    private val _firestore = FirebaseFirestore.getInstance()
+    private val _fireStore = FirebaseFirestore.getInstance()
 
     override suspend fun initUserInfo() {
         _auth.currentUser?.uid?.let { id ->
-            _firestore.collection(id).get().addOnSuccessListener {
+            _fireStore.collection(id).get().addOnSuccessListener {
                 if (it.isEmpty) {
                     val user = User(
                         id,
@@ -22,7 +20,7 @@ class UserDatasourceImpl : UserDatasource {
                         "newbie",
                         0,
                     )
-                    _firestore.collection(id).document().set(user)
+                    _fireStore.collection(id).document().set(user)
                 }
             }
 
@@ -39,7 +37,7 @@ class UserDatasourceImpl : UserDatasource {
     ) {
         _auth.currentUser?.uid?.let { it ->
             //var userInfo = _firestore.collection(it).document()
-            _firestore.collection(it).document().update(
+            _fireStore.collection(it).document().update(
                 mapOf(
                     "userName" to userName?.run { _auth.currentUser?.displayName },
                     "userEmail" to userEmail.run { _auth.currentUser?.email },
@@ -52,7 +50,7 @@ class UserDatasourceImpl : UserDatasource {
 
     suspend fun getUserInfo() {
         _auth.currentUser?.uid?.let { it ->
-            _firestore.collection(it).document().get()
+            _fireStore.collection(it).document().get()
         }
     }
 

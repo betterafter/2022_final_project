@@ -7,3 +7,5 @@ val PAPAGO_SECRET: String = "8quhITR6jA"
 val CHAT_ROOM_KEY: String = "rooms"
 val CHAT_ROOM_CONTENT_KEY: String = "content"
 
+val DASHBOARD_KEY: String = "dashboards"
+
