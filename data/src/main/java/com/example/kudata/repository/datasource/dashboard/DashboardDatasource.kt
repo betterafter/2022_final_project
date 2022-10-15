@@ -7,7 +7,6 @@ interface DashboardDatasource {
     suspend fun postQuestion(
         title: String,
         text: String,
-        timestamp: String,
         imageList: List<Uri>,
     )
 

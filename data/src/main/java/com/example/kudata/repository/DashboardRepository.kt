@@ -7,7 +7,6 @@ interface DashboardRepository {
     suspend fun postQuestion(
         title: String,
         text: String,
-        timestamp: String,
         imageList: List<Uri>
     )
 

@@ -6,6 +6,6 @@ data class DashboardAnswerContent(
     val title: String? = "",
     val text: String? = "",
     val timestamp: String = "",
-    val imageList: List<String>,
-    val commentList: List<String>
+    val imageList: List<String>? = null,
+    val commentList: List<String>? = null
 )

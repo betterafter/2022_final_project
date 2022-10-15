@@ -12,10 +12,9 @@ class DashboardRepositoryImpl @Inject constructor(
     override suspend fun postQuestion(
         title: String,
         text: String,
-        timestamp: String,
         imageList: List<Uri>
     ) {
-        dashboardDatasource.postQuestion(title, text, timestamp, imageList)
+        dashboardDatasource.postQuestion(title, text, imageList)
     }
 
     override suspend fun postAnswer(

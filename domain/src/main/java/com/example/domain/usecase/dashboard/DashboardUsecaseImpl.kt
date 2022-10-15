@@ -18,8 +18,7 @@ class DashboardUsecaseImpl @Inject constructor(
         text: String,
         imageList: List<Uri>
     ) {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        dashboardRepository.postQuestion(title, text, timestamp, imageList)
+        dashboardRepository.postQuestion(title, text, imageList)
     }
 
     override suspend fun postAnswer(
