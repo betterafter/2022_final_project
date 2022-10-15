@@ -9,3 +9,5 @@ val CHAT_ROOM_CONTENT_KEY: String = "content"
 
 val DASHBOARD_KEY: String = "dashboards"
 
+val IMAGE_STORE_KEY: String = "images"
+

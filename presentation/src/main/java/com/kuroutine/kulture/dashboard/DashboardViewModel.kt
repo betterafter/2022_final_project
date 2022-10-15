@@ -22,7 +22,7 @@ class DashboardViewModel @Inject constructor(
     fun postQuestion() {
         viewModelScope.launch {
             dashboardUsecase.postQuestion(
-                "123", "hello", "sdlkfjsdklfsajfk", "ksljfkds", listOf()
+                "123", "hello", listOf()
             )
         }
     }

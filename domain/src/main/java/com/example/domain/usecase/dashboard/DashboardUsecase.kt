@@ -1,14 +1,13 @@
 package com.example.domain.usecase.dashboard
 
+import android.net.Uri
 import com.example.kudata.entity.DashboardQuestionContent
 
 interface DashboardUsecase {
     suspend fun postQuestion(
-        uid: String,
         title: String,
         text: String,
-        timestamp: String,
-        imageList: List<String>
+        imageList: List<Uri>
     )
 
     suspend fun postAnswer(

@@ -1,20 +1,25 @@
 package com.example.domain.usecase.dashboard
 
+import android.annotation.SuppressLint
+import android.net.Uri
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.repository.DashboardRepository
 import javax.inject.Inject
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class DashboardUsecaseImpl @Inject constructor(
     private val dashboardRepository: DashboardRepository
 ) : DashboardUsecase {
+    @SuppressLint("SimpleDateFormat")
     override suspend fun postQuestion(
-        uid: String,
         title: String,
         text: String,
-        timestamp: String,
-        imageList: List<String>
+        imageList: List<Uri>
     ) {
-        dashboardRepository.postQuestion(uid, title, text, timestamp, imageList)
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        dashboardRepository.postQuestion(title, text, timestamp, imageList)
     }
 
     override suspend fun postAnswer(

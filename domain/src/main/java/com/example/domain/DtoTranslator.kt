@@ -1,7 +1,9 @@
 package com.example.domain
 
 import com.example.domain.dto.Chat
+import com.example.domain.dto.PostDashboardQuestionModel
 import com.example.kudata.entity.ChatContent
+import com.example.kudata.entity.DashboardQuestionContent
 
 object DtoTranslator {
     fun chatTranslator(chatList: List<ChatContent>) : List<Chat> {

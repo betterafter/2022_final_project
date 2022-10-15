@@ -1,5 +1,6 @@
 package com.example.domain.repository
 
+import android.net.Uri
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.repository.DashboardRepository
 import com.example.kudata.repository.datasource.dashboard.DashboardDatasource
@@ -9,13 +10,12 @@ class DashboardRepositoryImpl @Inject constructor(
     private val dashboardDatasource: DashboardDatasource
 ) : DashboardRepository {
     override suspend fun postQuestion(
-        uid: String,
         title: String,
         text: String,
         timestamp: String,
-        imageList: List<String>
+        imageList: List<Uri>
     ) {
-        dashboardDatasource.postQuestion(uid, title, text, timestamp, imageList)
+        dashboardDatasource.postQuestion(title, text, timestamp, imageList)
     }
 
     override suspend fun postAnswer(

@@ -1,8 +1,14 @@
 package com.example.kudata.repository.datasource.dashboard
 
+import android.app.Activity
+import android.net.Uri
+import android.widget.EditText
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kudata.entity.DashboardAnswerContent
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.utils.DASHBOARD_KEY
+import com.example.kudata.utils.IMAGE_STORE_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -10,23 +16,36 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DashboardDatasourceImpl : DashboardDatasource {
     private val _auth = Firebase.auth
     private val db = FirebaseDatabase.getInstance()
+    private val storage = FirebaseStorage.getInstance()
 
     override suspend fun postQuestion(
-        uid: String,
         title: String,
         text: String,
         timestamp: String,
-        imageList: List<String>,
+        imageList: List<Uri>,
     ) {
-        val content = DashboardQuestionContent(
-            uid + timestamp, uid, title, text, timestamp, imageList, listOf(), listOf()
-        )
+        var list = mutableListOf<String>()
+        imageList.forEach {
+            contentUpload(title, timestamp, it) { name ->
+                list.add(name)
+            }
+        }
 
-        db.reference.child(DASHBOARD_KEY).push().setValue(content)
+        val uid = _auth.currentUser?.uid
+        uid?.let {
+            val content = DashboardQuestionContent(
+                uid + timestamp, uid, title, text, timestamp, list, listOf(), listOf()
+            )
+
+            db.reference.child(DASHBOARD_KEY).push().setValue(content)
+        }
     }
 
     override suspend fun postAnswer(
@@ -70,6 +89,24 @@ class DashboardDatasourceImpl : DashboardDatasource {
             }
         } else {
 
+        }
+    }
+
+    private fun contentUpload(
+        uid: String,
+        timestamp: String,
+        uri: Uri,
+        onUploadSuccess: (String) -> Unit,
+    ) {
+        val imageFileName = "IMAGE_${uid}_${timestamp}_.png"
+        val storageRef = storage.reference.child(IMAGE_STORE_KEY)
+
+        val task = storageRef.putFile(uri).continueWithTask {
+            return@continueWithTask storageRef.downloadUrl
+        }
+
+        task.addOnSuccessListener {
+            onUploadSuccess(imageFileName)
         }
     }
 }
