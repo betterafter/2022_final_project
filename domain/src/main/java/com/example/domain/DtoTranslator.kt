@@ -1,15 +1,13 @@
 package com.example.domain
 
-import com.example.domain.dto.Chat
-import com.example.domain.dto.PostDashboardQuestionModel
+import com.example.domain.dto.ChatModel
 import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.DashboardQuestionContent
 
 object DtoTranslator {
-    fun chatTranslator(chatList: List<ChatContent>) : List<Chat> {
-        val list = mutableListOf<Chat>()
+    fun chatTranslator(chatList: List<ChatContent>) : List<ChatModel> {
+        val list = mutableListOf<ChatModel>()
         chatList.forEach {
-            list.add(Chat(it.uid, it.message, it.timestamp))
+            list.add(ChatModel(it.uid, it.message, it.timestamp))
         }
 
         return list

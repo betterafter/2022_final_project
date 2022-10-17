@@ -39,46 +39,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/mobile_navigation" />
 
-        <Button
-            android:id="@+id/btn_main_translate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
-            android:onClick="@{() -> viewModel.getTranslateResult(tietMainKorean.getText().toString())}"
-            android:text="번역!!"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_main_korean" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_main_korean"
-            android:layout_width="324dp"
-            android:layout_height="148dp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_main_translate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment_activity_main">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_main_korean"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="번역할 내용을 입력해주세요" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/tv_main_english"
-            android:layout_width="319dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="20dp"
-            android:text="@{viewModel.papagoTranslatedText}"
-            app:layout_constraintBottom_toTopOf="@+id/nav_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_main_translate" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -11,6 +11,7 @@ import com.example.kudata.entity.DashboardAnswerContent
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.utils.DASHBOARD_KEY
 import com.example.kudata.utils.IMAGE_STORE_KEY
+import com.example.kudata.utils.QuestionState
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -48,14 +49,17 @@ class DashboardDatasourceImpl : DashboardDatasource {
         val uid = _auth.currentUser?.uid
         uid?.let {
             val content = DashboardQuestionContent(
-                uid + timestamp,
-                uid,
-                title,
-                text,
-                timestamp,
-                listOf(),
-                list,
-                listOf(),
+                id = uid + timestamp,
+                uid = uid,
+                title = title,
+                text = text,
+                timestamp = timestamp,
+                likeCount = "0",
+                location = "",
+                questionState = QuestionState.NEW.value,
+                answerList = listOf(),
+                imageList =  list,
+                commentList = listOf(),
             )
 
             db.reference.child(DASHBOARD_KEY).push().setValue(content)
