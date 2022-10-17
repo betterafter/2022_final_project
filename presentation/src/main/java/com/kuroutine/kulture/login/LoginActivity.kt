@@ -2,7 +2,6 @@ package com.kuroutine.kulture.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +11,7 @@ import com.example.kuroutine.databinding.ActivityLoginBinding
 import com.facebook.login.LoginManager
 import com.kuroutine.kulture.GOOGLE_SIGNIN_RESULT_CODE
 import com.kuroutine.kulture.MainActivity
-import com.kuroutine.kulture.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -46,7 +43,10 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.currentUser.observe(this) { user ->
             if (user != null) {
                 // TODO: 이동 로직 만들 것
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
             }
         }
     }
