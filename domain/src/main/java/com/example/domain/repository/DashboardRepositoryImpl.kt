@@ -14,7 +14,16 @@ class DashboardRepositoryImpl @Inject constructor(
         text: String,
         imageList: List<Uri>
     ) {
-        dashboardDatasource.postQuestion(title, text, imageList)
+        dashboardDatasource.postQuestion(title, text, imageList, null)
+    }
+
+    override suspend fun postQuestion(
+        title: String,
+        text: String,
+        imageList: List<Uri>,
+        callback: () -> Unit
+    ) {
+        dashboardDatasource.postQuestion(title, text, imageList, callback)
     }
 
     override suspend fun postAnswer(
@@ -29,5 +38,9 @@ class DashboardRepositoryImpl @Inject constructor(
 
     override suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>? {
         return dashboardDatasource.getQuestions(uid)
+    }
+
+    override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
+        dashboardDatasource.getQuestionsInRealtime(callback)
     }
 }

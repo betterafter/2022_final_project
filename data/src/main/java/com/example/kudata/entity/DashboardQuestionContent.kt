@@ -3,6 +3,7 @@ package com.example.kudata.entity
 data class DashboardQuestionContent(
     val id: String = "",
     val uid: String = "",
+    var userName: String = "",
     val title: String = "",
     val text: String = "",
     val timestamp: String = "",

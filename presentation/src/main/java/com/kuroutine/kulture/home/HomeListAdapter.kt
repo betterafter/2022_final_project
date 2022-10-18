@@ -11,14 +11,15 @@ import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemHomeBinding
 
-class HomeListAdapter() : ListAdapter<DashboardQuestionModel, HomeListAdapter.ViewHolder>(DiffUtils()) {
+class HomeListAdapter : ListAdapter<DashboardQuestionModel, HomeListAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemHomeBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DashboardQuestionModel) {
-            binding.tvHomeUserid.text = data.uid
-            Glide.with(binding.root.context).load(data.imageList.first())
+            binding.tvHomeUserid.text = data.userName
+            binding.tvHomeQuestion.text = data.title
+            Glide.with(binding.root.context).load(data.imageList?.first())
                 .override(500, 500)
                 .into(binding.ivHomeThumbnail)
             // TODO: 나머지도 데이터 연결할 것

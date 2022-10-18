@@ -81,7 +81,9 @@ class PostingActivity : AppCompatActivity() {
             postingViewModel.postQuestion(
                 titleTextView.text.toString(),
                 contentTextView.text.toString()
-            )
+            ) {
+                this.finish()
+            }
         }
     }
 
