@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,23 +16,15 @@ class HomeViewModel @Inject constructor(
     private val dashboardUsecase: DashboardUsecase
 ) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
-
     private val _questionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
         value = null
     }
     val questionList: LiveData<List<DashboardQuestionModel>?> = _questionList
 
-    fun postQuestion() {
-        viewModelScope.launch {
-            dashboardUsecase.postQuestion(
-                "123", "hello", listOf()
-            )
-        }
+    private val _searchedQuestionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
+        value = null
     }
+    val searchedQuestionList: LiveData<List<DashboardQuestionModel>?> = _searchedQuestionList
 
     fun getQuestions() {
         viewModelScope.launch {
@@ -39,5 +32,16 @@ class HomeViewModel @Inject constructor(
                 _questionList.value = it
             }
         }
+    }
+
+    fun updateSearchedList(title: String) {
+        val list: MutableList<DashboardQuestionModel> = mutableListOf()
+        _questionList.value?.forEach { model ->
+            if (model.title.contains(title)) {
+                list.add(model)
+            }
+        }
+        _searchedQuestionList.value = list.toList()
+        Log.d("[keykat]", "${_searchedQuestionList.value}")
     }
 }
