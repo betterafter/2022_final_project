@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
-import com.kuroutine.kulture.chat.PrivateChatAdapter
+import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
+import com.kuroutine.kulture.chat.ChatActivity
 import com.kuroutine.kulture.posting.PostingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
         binding.rvHomeQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter()
+            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity)
         }
     }
 
@@ -72,7 +73,7 @@ class HomeFragment : Fragment() {
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
-        binding.etHomeSearch.addTextChangedListener(object: TextWatcher{
+        binding.etHomeSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -93,6 +94,12 @@ class HomeFragment : Fragment() {
             val intent = Intent(this.context, PostingActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun moveToChatActivity(uid: String) {
+        val intent = Intent(this.context, ChatActivity::class.java)
+        intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
