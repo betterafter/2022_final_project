@@ -15,6 +15,9 @@ import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.kuroutine.kulture.chat.PrivateChatAdapter
 import com.kuroutine.kulture.posting.PostingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -50,7 +53,9 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        homeViewModel.getQuestions()
+        CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.getQuestions()
+        }
     }
 
     private fun init() {
