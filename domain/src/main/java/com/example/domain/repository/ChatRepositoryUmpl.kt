@@ -1,7 +1,5 @@
 package com.example.domain.repository
 
-import com.example.domain.DtoTranslator
-import com.example.domain.dto.Chat
 import com.example.kudata.entity.ChatContent
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.datasource.chat.ChatDataSource

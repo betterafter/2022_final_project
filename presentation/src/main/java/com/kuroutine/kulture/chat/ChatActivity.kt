@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
@@ -36,7 +35,7 @@ class ChatActivity : AppCompatActivity() {
     private fun init() {
         chatViewModel.initChatRoom("8xjNJvtgpwfo2oiC2Di9nx4Wyrk1") {
             chatViewModel.getMessages {
-                chatViewModel.chatList.value?.let {
+                chatViewModel.chatModelList.value?.let {
                     binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
                 }
             }
@@ -65,7 +64,7 @@ class ChatActivity : AppCompatActivity() {
             user?.let {
                 val adapter = binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter
                 adapter.getUser(user.uid)
-                chatViewModel.chatList.value?.let {
+                chatViewModel.chatModelList.value?.let {
                     adapter.submitList(it)
                 } ?: run {
                     adapter.submitList(listOf())
@@ -73,7 +72,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        chatViewModel.chatList.observe(this) {
+        chatViewModel.chatModelList.observe(this) {
             Log.d("[keykat]", "chatList: ${it.toString()}")
             it?.forEach {
                 Log.d("[keykat]", "msg: ${it.message}")

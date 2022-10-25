@@ -1,6 +1,6 @@
 package com.example.domain.usecase.chat
 
-import com.example.domain.dto.Chat
+import com.example.domain.dto.ChatModel
 import com.google.firebase.auth.FirebaseUser
 
 interface ChatUsecase {
@@ -8,5 +8,5 @@ interface ChatUsecase {
     suspend fun initRoom(uid: String, initialCallback: (() -> Unit))
     suspend fun enterRoom()
     suspend fun sendMessage(message: String)
-    suspend fun getMessages(callback: (List<Chat>) -> Unit)
+    suspend fun getMessages(callback: (List<ChatModel>) -> Unit)
 }

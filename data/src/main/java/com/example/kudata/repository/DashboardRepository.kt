@@ -10,6 +10,13 @@ interface DashboardRepository {
         imageList: List<Uri>
     )
 
+    suspend fun postQuestion(
+        title: String,
+        text: String,
+        imageList: List<Uri>,
+        callback: () -> Unit
+    )
+
     suspend fun postAnswer(
         uid: String,
         title: String,
@@ -19,4 +26,6 @@ interface DashboardRepository {
     )
 
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
+
+    suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit))
 }

@@ -8,6 +8,7 @@ interface DashboardDatasource {
         title: String,
         text: String,
         imageList: List<Uri>,
+        callback: (() -> Unit)?
     )
 
     suspend fun postAnswer(
@@ -20,5 +21,5 @@ interface DashboardDatasource {
 
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
 
-    suspend fun getQuestionsInRealtime(uid: String?, callback: ((List<DashboardQuestionContent>?) -> Unit))
+    suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit))
 }

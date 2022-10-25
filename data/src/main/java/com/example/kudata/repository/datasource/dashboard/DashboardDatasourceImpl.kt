@@ -7,10 +7,12 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.DashboardAnswerContent
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.utils.DASHBOARD_KEY
 import com.example.kudata.utils.IMAGE_STORE_KEY
+import com.example.kudata.utils.QuestionState
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,6 +23,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
@@ -36,29 +40,45 @@ class DashboardDatasourceImpl : DashboardDatasource {
         title: String,
         text: String,
         imageList: List<Uri>,
+        callback: (() -> Unit)?
     ) {
-        val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-        val list = mutableListOf<String>()
-        imageList.forEach {
-            contentUpload(title, it) { name ->
-                list.add(name)
+        _auth.currentUser?.let {
+            val uid = it.uid
+            val userName = it.displayName ?: kotlin.run { "" }
+
+            CoroutineScope(Dispatchers.IO).async {
+                val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+                val list = mutableListOf<String>()
+
+                imageList.map {
+                    async(Dispatchers.IO) {
+                        contentUpload(title, it) { name ->
+                            list.add(name)
+                        }
+                    }
+                }.awaitAll()
+
+                val content = DashboardQuestionContent(
+                    id = uid + timestamp,
+                    uid = uid,
+                    userName = userName,
+                    title = title,
+                    text = text,
+                    timestamp = timestamp,
+                    likeCount = "0",
+                    location = "",
+                    questionState = QuestionState.NEW.value,
+                    answerList = listOf(),
+                    imageList = list,
+                    commentList = listOf(),
+                )
+
+                db.reference.child(DASHBOARD_KEY).push().setValue(content).await()
+                if (callback != null) {
+                    Log.d("[keykat]", "post done.")
+                    callback()
+                }
             }
-        }
-
-        val uid = _auth.currentUser?.uid
-        uid?.let {
-            val content = DashboardQuestionContent(
-                uid + timestamp,
-                uid,
-                title,
-                text,
-                timestamp,
-                listOf(),
-                list,
-                listOf(),
-            )
-
-            db.reference.child(DASHBOARD_KEY).push().setValue(content)
         }
     }
 
@@ -86,22 +106,32 @@ class DashboardDatasourceImpl : DashboardDatasource {
         return list
     }
 
-    override suspend fun getQuestionsInRealtime(uid: String?, callback: ((List<DashboardQuestionContent>?) -> Unit)) {
-        if (uid != null) {
+    override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
+        if (_auth.currentUser != null) {
+            val userName = _auth.currentUser?.displayName ?: kotlin.run { "" }
+
             val ref = db.reference.child(DASHBOARD_KEY)
-            if (ref.key?.contains(uid) == true) {
-                ref.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        TODO("Not yet implemented")
+            Log.d("[keykat]", "ref:::$ref, ref.key:::${ref.key}, ref.children: ${ref.orderByChild("dashboards/")}")
+
+            ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d("[keykat]", "data changed")
+                    val list = mutableListOf<DashboardQuestionContent>()
+                    snapshot.children.forEach {
+                        it.getValue(DashboardQuestionContent::class.java)?.let { content ->
+                            content.userName = userName
+                            list.add(content)
+                        }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
+                    callback(list)
+                }
 
-                })
-            }
-        } else {
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("[keykat]", "canceled update dashboard: $error")
+                }
+
+            })
 
         }
     }
@@ -119,11 +149,15 @@ class DashboardDatasourceImpl : DashboardDatasource {
         val task = storageRef.putFile(uri).continueWithTask {
             return@continueWithTask storageRef.downloadUrl
         }
+        task.await()
 
         task.addOnSuccessListener {
-            Log.d("[keykat]", "image uploaded")
+            Log.d("[keykat]", "image uploaded: ${task.result}")
+            onUploadSuccess(task.result.toString())
         }
 
-        onUploadSuccess(imageFileName)
+        task.addOnFailureListener {
+            onUploadSuccess("")
+        }
     }
 }

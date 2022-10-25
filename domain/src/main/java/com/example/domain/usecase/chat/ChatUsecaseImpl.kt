@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.domain.DtoTranslator
-import com.example.domain.dto.Chat
+import com.example.domain.dto.ChatModel
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.LoginRepository
 import com.google.firebase.auth.FirebaseUser
@@ -39,7 +39,7 @@ class ChatUsecaseImpl @Inject constructor(
         chatRepository.sendMessage(message, timestamp)
     }
 
-    override suspend fun getMessages(callback: (List<Chat>) -> Unit) {
+    override suspend fun getMessages(callback: (List<ChatModel>) -> Unit) {
         chatRepository.getRealtimeMessage {
             val list = DtoTranslator.chatTranslator(it)
             Log.d("[keykat]", "dto list : $list")

@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostingViewModel @Inject constructor(
     private val dashboardUsecase: DashboardUsecase
-): ViewModel() {
+) : ViewModel() {
     private val _imageList = MutableLiveData<List<Uri>>().apply {
         value = listOf()
     }
@@ -34,10 +34,10 @@ class PostingViewModel @Inject constructor(
         return _imageList.value!!.size
     }
 
-    fun postQuestion(title: String, content: String) {
+    fun postQuestion(title: String, content: String, callback: () -> Unit) {
         viewModelScope.launch {
             dashboardUsecase.postQuestion(
-                title = title, text = content, imageList = _imageList.value ?: listOf()
+                title = title, text = content, imageList = _imageList.value ?: listOf(), callback = { callback() }
             )
         }
     }
