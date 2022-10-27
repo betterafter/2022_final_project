@@ -37,37 +37,44 @@ class HomeViewModel @Inject constructor(
 
     // 사용자에 맞는 언어로 실시간 변환
     suspend fun getQuestions() {
-        withContext(viewModelScope.coroutineContext) {
-            userUsecase.getUser {
-                _language.value = it.language
+        if (_language.value == null) {
+            withContext(viewModelScope.coroutineContext) {
+                userUsecase.getUser {
+                    _language.value = it.language
+                }
             }
         }
 
         viewModelScope.launch {
             dashboardUsecase.getQuestionsInRealtime {
                 _questionList.value = it
-                val text = questionList.value?.get(0)?.title
                 viewModelScope.launch {
-                    val src = papagoUsecase.getLangCode(text!!) ?: "ko"
-                    updateTranslatedQuestionList(src)
+                    updateTranslatedQuestionList()
                 }
             }
         }
     }
 
-    private suspend fun updateTranslatedQuestionList(langCode: String) {
+    private suspend fun updateTranslatedQuestionList() {
         val list = mutableListOf<DashboardQuestionModel>()
         _questionList.value?.forEach { model ->
 
-            val newTitle = papagoUsecase.getText(model.title, langCode, _language.value ?: "ko")
-            val newText = papagoUsecase.getText(model.text, langCode, _language.value ?: "ko")
-            val newLocation = papagoUsecase.getText(model.location, langCode, _language.value ?: "ko")
+            val text = model.title
+            val langCode = papagoUsecase.getLangCode(text) ?: "ko"
+            // 소스 언어와 타켓 언어가 같으면 에러 발생 -> 그냥 원본 값 넣는다
+            if (langCode == _language.value) {
+                list.add(model)
+            } else {
+                val newTitle = papagoUsecase.getText(model.title, langCode, _language.value ?: "ko")
+                val newText = papagoUsecase.getText(model.text, langCode, _language.value ?: "ko")
+                val newLocation = papagoUsecase.getText(model.location, langCode, _language.value ?: "ko")
 
-            val newModel = model.copy(
-                title = newTitle ?: "", text = newText ?: "", location = newLocation ?: ""
-            )
+                val newModel = model.copy(
+                    title = newTitle ?: "", text = newText ?: "", location = newLocation ?: ""
+                )
 
-            list.add(newModel)
+                list.add(newModel)
+            }
         }
 
         _questionList.value = list

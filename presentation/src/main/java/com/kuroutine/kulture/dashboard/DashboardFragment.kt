@@ -31,7 +31,6 @@ class DashboardFragment : Fragment() {
             lifecycleOwner = this@DashboardFragment
         }
 
-        dashboardViewModel.postQuestion()
         return binding.root
     }
 

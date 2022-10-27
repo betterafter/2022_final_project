@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
+import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,15 +29,21 @@ class ChatActivity : AppCompatActivity() {
         initAdapter()
         initObserver()
 
-        init()
         initListener()
     }
 
-    private fun init() {
-        chatViewModel.initChatRoom("8xjNJvtgpwfo2oiC2Di9nx4Wyrk1") {
-            chatViewModel.getMessages {
-                chatViewModel.chatModelList.value?.let {
-                    binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+    override fun onStart() {
+        super.onStart()
+        init(intent.getStringExtra(EXTRA_KEY_MOVETOCHAT))
+    }
+
+    private fun init(uid: String?) {
+        if (uid != null) {
+            chatViewModel.initChatRoom(uid) {
+                chatViewModel.getMessages {
+                    chatViewModel.chatModelList.value?.let {
+                        binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                    }
                 }
             }
         }
