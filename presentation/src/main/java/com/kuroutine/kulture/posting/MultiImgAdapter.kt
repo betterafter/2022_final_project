@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.kuroutine.R
 
-class MultiImgAdapter(private val items: ArrayList<Uri>, val context:Context) :
+class MultiImgAdapter(private var items: List<Uri>, val context:Context) :
     RecyclerView.Adapter<MultiImgAdapter.ViewHolder>(){
+
+    fun submitList(list: List<Uri>) {
+        items = list
+    }
 
     override fun getItemCount(): Int = items.size
 

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.dto.Chat
+import com.example.domain.dto.ChatModel
 import com.example.kuroutine.R
 import com.kuroutine.kulture.data.ChatViewType
 
@@ -19,7 +19,7 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_left)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_left)
 
-        fun bind(data: Chat) {
+        fun bind(data: ChatModel) {
             tvMessage.text = data.message
             tvTimeStamp.text = data.timestamp.toString()
         }
@@ -29,7 +29,7 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_right)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
-        fun bind(data: Chat) {
+        fun bind(data: ChatModel) {
             tvMessage.text = data.message
             tvTimeStamp.text = data.timestamp.toString()
         }
@@ -80,7 +80,7 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         myUId = uid
     }
 
-    fun submitList(nList: List<Chat>) {
+    fun submitList(nList: List<ChatModel>) {
         diffUtil.submitList(nList)
     }
 
@@ -88,12 +88,12 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return diffUtil.currentList.size
     }
 
-    class DiffUtils: DiffUtil.ItemCallback<Chat>() {
-        override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
+    class DiffUtils: DiffUtil.ItemCallback<ChatModel>() {
+        override fun areItemsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
             return oldItem.message == newItem.message && oldItem.timestamp == newItem.timestamp
         }
 
-        override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {
+        override fun areContentsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
             return oldItem == newItem
         }
 

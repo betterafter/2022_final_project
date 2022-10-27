@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.dto.Chat
+import com.example.domain.dto.ChatModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ class ChatViewModel @Inject constructor(
     private val _currentUser = MutableLiveData<FirebaseUser?>().apply { value = null }
     val currentUser: LiveData<FirebaseUser?> = _currentUser
 
-    private val _chatList = MutableLiveData<List<Chat>?>().apply { value = null }
-    val chatList: LiveData<List<Chat>?> = _chatList
+    private val _chatModelList = MutableLiveData<List<ChatModel>?>().apply { value = null }
+    val chatModelList: LiveData<List<ChatModel>?> = _chatModelList
 
     fun getCurrentUser() {
         viewModelScope.launch {
@@ -46,9 +46,9 @@ class ChatViewModel @Inject constructor(
     fun getMessages(animationCallback: (() -> Unit)) {
         viewModelScope.launch {
             chatUsecase.getMessages {
-                _chatList.value = it
+                _chatModelList.value = it
                 animationCallback()
-                Log.d("[keykat]", "list: ${_chatList.value.toString()}")
+                Log.d("[keykat]", "list: ${_chatModelList.value.toString()}")
             }
         }
     }

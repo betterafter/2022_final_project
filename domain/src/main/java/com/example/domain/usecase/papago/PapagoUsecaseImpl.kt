@@ -15,4 +15,6 @@ class PapagoUsecaseImpl @Inject constructor(
     override suspend fun getTarLangType(text: String, source: String, target: String): String? =
         papagoRepository.getPapagoResult(text = text, source = source, target = target)?.tarLangType
 
+    override suspend fun getLangCode(query: String): String?
+    = papagoRepository.getDetectLang(query = query)
 }

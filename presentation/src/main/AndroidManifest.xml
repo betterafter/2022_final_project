@@ -15,22 +15,21 @@
         android:required="false" />
 
     <application
+        tools:replace="android:name"
         android:name="com.kuroutine.kulture.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Kuroutine"
-        tools:replace="android:name">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name="com.kuroutine.kulture.posting.Posting"
-            android:exported="false">
+            android:name="com.kuroutine.kulture.posting.PostingActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -44,17 +43,20 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.kuroutine.kulture.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name" >
+
+        </activity>
         <activity
             android:name="com.kuroutine.kulture.chat.ChatActivity"
-            android:exported="true" />
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

@@ -2,18 +2,23 @@ package com.example.kudata.repository.datasource.user
 
 import android.util.Log
 import com.example.kudata.entity.User
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.tasks.await
 
 class UserDatasourceImpl : UserDatasource {
     private val _auth = Firebase.auth
-    private val _firestore = FirebaseFirestore.getInstance()
+    private val _fireStore = FirebaseFirestore.getInstance()
 
+    // 데이터베이스 체크해서 기존에 가입한 사람이면 넘김. 그렇지 않으면 초기화
     override suspend fun initUserInfo() {
         _auth.currentUser?.uid?.let { id ->
-            _firestore.collection(id).get().addOnSuccessListener {
+            _fireStore.collection(id).get().addOnSuccessListener {
                 if (it.isEmpty) {
                     val user = User(
                         id,
@@ -21,11 +26,11 @@ class UserDatasourceImpl : UserDatasource {
                         _auth.currentUser?.email,
                         "newbie",
                         0,
+                        language = "en"
                     )
-                    _firestore.collection(id).document().set(user)
+                    _fireStore.collection(id).document("/user").set(user)
                 }
             }
-
         }
     }
 
@@ -39,7 +44,7 @@ class UserDatasourceImpl : UserDatasource {
     ) {
         _auth.currentUser?.uid?.let { it ->
             //var userInfo = _firestore.collection(it).document()
-            _firestore.collection(it).document().update(
+            _fireStore.collection(it).document().update(
                 mapOf(
                     "userName" to userName?.run { _auth.currentUser?.displayName },
                     "userEmail" to userEmail.run { _auth.currentUser?.email },
@@ -50,9 +55,22 @@ class UserDatasourceImpl : UserDatasource {
         }
     }
 
-    suspend fun getUserInfo() {
+    override suspend fun getUserInfo(callback: (User) -> Unit) {
         _auth.currentUser?.uid?.let { it ->
-            _firestore.collection(it).document().get()
+            _fireStore.collection(it).document("/user").get().addOnCompleteListener {
+                it.result.data?.let { data ->
+                    val user = User(
+                        uid = data["uid"] as String?,
+                        userName = data["userName"] as String?,
+                        userEmail = data["userEmail"] as String?,
+                        userRank = data["userRank"] as String?,
+                        userXp = (data["userXp"] ?: 0) as Long,
+                        language = (data["language"] ?: "ko") as String
+                    )
+
+                    callback(user)
+                }
+            }
         }
     }
 
