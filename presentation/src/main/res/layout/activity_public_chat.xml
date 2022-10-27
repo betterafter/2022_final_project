@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/iv_publicchat_back"
@@ -21,9 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="공개질문"
+        android:text="공개 질문"
         android:textColor="@color/green"
-        android:textSize="24sp"
+        android:fontFamily="@font/angel"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -90,7 +92,7 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="90"
             android:background="@drawable/message_box_background"
-            android:hint="Type a message"
+            android:hint="Type a message.."
             android:paddingLeft="10dp" />
 
         <ImageView

@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/trad8">
 
     <ImageView
         android:id="@+id/iv_mypage_applogo"
         android:layout_width="189dp"
         android:layout_height="80dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="45dp"
         app:layout_constraintBottom_toTopOf="@+id/iv_mypage_levelicon"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="⊙ 내공 : "
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv_mypage_level"
         app:layout_constraintTop_toBottomOf="@+id/tv_mypage_level" />
 
@@ -71,7 +73,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:text="★ 레벨 : "
+        android:text="● 레벨 : "
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv_mypage_username"
         app:layout_constraintTop_toBottomOf="@+id/tv_mypage_username" />
 
@@ -89,8 +92,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="284dp"
-        android:text="관심질문"
-        android:textSize="18sp"
+        android:text="★관심질문"
+        android:fontFamily="@font/okbi"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#202020"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,8 +105,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
-        android:text="언어선택"
-        android:textSize="18sp"
+        android:text=" 언어선택"
+        android:fontFamily="@font/okbi"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#202020"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_mypage_interestedquestions"
         app:layout_constraintTop_toBottomOf="@+id/tv_mypage_interestedquestions"
@@ -111,8 +120,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="프로필 공개여부"
-        android:textSize="18sp"
+        android:text=" 프로필 공개여부"
+        android:textSize="28sp"
+        android:textColor="#202020"
+        android:fontFamily="@font/okbi"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_mypage_languageselection"
         app:layout_constraintTop_toBottomOf="@+id/tv_mypage_languageselection"
