@@ -8,6 +8,7 @@ val GOOGLE_SIGNIN_RESULT_CODE: Int = 17765
 val PICK_IMG_FROM_ALBUM = 0
 
 val EXTRA_KEY_MOVETOCHAT = "moveToChat"
+val EXTRA_QKEY_MOVETOCHAT = "qMoveToChat"
 
 @SuppressLint("SimpleDateFormat")
 fun SimpleDateFormat.now(): String =

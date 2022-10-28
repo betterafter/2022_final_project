@@ -88,6 +88,5 @@ class HomeViewModel @Inject constructor(
             }
         }
         _searchedQuestionList.value = list.toList()
-        Log.d("[keykat]", "${_searchedQuestionList.value}")
     }
 }

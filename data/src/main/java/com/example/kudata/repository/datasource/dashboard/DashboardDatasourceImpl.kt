@@ -111,11 +111,8 @@ class DashboardDatasourceImpl : DashboardDatasource {
             val userName = _auth.currentUser?.displayName ?: kotlin.run { "" }
 
             val ref = db.reference.child(DASHBOARD_KEY)
-            Log.d("[keykat]", "ref:::$ref, ref.key:::${ref.key}, ref.children: ${ref.orderByChild("dashboards/")}")
-
             ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.d("[keykat]", "data changed")
                     val list = mutableListOf<DashboardQuestionContent>()
                     snapshot.children.forEach {
                         it.getValue(DashboardQuestionContent::class.java)?.let { content ->
@@ -152,7 +149,6 @@ class DashboardDatasourceImpl : DashboardDatasource {
         task.await()
 
         task.addOnSuccessListener {
-            Log.d("[keykat]", "image uploaded: ${task.result}")
             onUploadSuccess(task.result.toString())
         }
 

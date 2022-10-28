@@ -41,13 +41,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUserDatasource() : UserDatasource
-            = UserDatasourceImpl()
+    fun provideChatDatasource() : ChatDataSource
+            = ChatDataSourceImpl()
 
     @Provides
     @Singleton
-    fun provideChatDatasource() : ChatDataSource
-            = ChatDataSourceImpl()
+    fun provideUserDatasource() : UserDatasource
+            = UserDatasourceImpl()
 
     @Provides
     @Singleton
