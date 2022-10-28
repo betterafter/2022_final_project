@@ -26,7 +26,6 @@ class PostingViewModel @Inject constructor(
 
     fun addImageList(uri: Uri) {
         _imageList.value = _imageList.value?.plus(uri)
-        Log.d("[keykat]", "list: ${_imageList.value.toString()}")
     }
 
     fun imageListSize(): Int {

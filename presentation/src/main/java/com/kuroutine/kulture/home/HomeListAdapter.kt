@@ -11,12 +11,12 @@ import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemHomeBinding
 
 class HomeListAdapter(
-    val moveToChatActivity: (String) -> Unit
+    val moveToChatActivity: (String, String) -> Unit
 ) : ListAdapter<DashboardQuestionModel, HomeListAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemHomeBinding,
-        private val callback: (String) -> Unit
+        private val callback: (String, String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DashboardQuestionModel) {
             binding.tvHomeUserid.text = data.userName
@@ -27,7 +27,7 @@ class HomeListAdapter(
             // TODO: 나머지도 데이터 연결할 것
 
             binding.cvHomeItem.setOnClickListener {
-                callback(data.uid)
+                callback(data.id, data.uid)
             }
         }
     }

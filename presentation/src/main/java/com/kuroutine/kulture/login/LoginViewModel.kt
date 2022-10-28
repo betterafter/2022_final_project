@@ -41,7 +41,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             loginUsecase.googleLogin(data) {
                 _currentUser.value = it
-                Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
                 viewModelScope.launch { userUsercas.initUser() }
             }
         }
@@ -57,7 +56,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             loginUsecase.loginWithFacebook(callback = {
                 _currentUser.value = it
-                Log.d("[keykat]", "current user: ${_currentUser.value?.email}")
                 viewModelScope.launch { userUsercas.initUser() }
             })
         }

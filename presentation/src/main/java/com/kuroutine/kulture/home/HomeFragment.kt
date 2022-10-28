@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
+import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
 import com.kuroutine.kulture.posting.PostingActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +70,6 @@ class HomeFragment : Fragment() {
 
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
-            Log.d("[keykat]", "question List::: $it")
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
@@ -96,9 +96,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun moveToChatActivity(uid: String) {
+    private fun moveToChatActivity(qid: String, uid: String) {
         val intent = Intent(this.context, ChatActivity::class.java)
         intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
+        intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
         startActivity(intent)
     }
 

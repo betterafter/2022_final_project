@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
+import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,15 +35,20 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        init(intent.getStringExtra(EXTRA_KEY_MOVETOCHAT))
+        val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
+        val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
+        init(qid, uid)
     }
 
-    private fun init(uid: String?) {
-        if (uid != null) {
-            chatViewModel.initChatRoom(uid) {
+    private fun init(qid: String?, uid: String?) {
+        if (qid != null && uid != null) {
+            Log.d("[keykat]","uid: $uid")
+            chatViewModel.initChatRoom(qid, uid) {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
-                        binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                        if (it.isNotEmpty()) {
+                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                        }
                     }
                 }
             }

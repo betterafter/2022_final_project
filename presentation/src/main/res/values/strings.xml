@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">kulture</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">질문</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_mypage">마이페이지</string>
+    <string name="title_chat">채팅</string>
 
     <!-- facebook -->
     <string name="facebook_app_id">899834274312181</string>

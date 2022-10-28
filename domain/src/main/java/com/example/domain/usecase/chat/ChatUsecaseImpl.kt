@@ -1,10 +1,10 @@
 package com.example.domain.usecase.chat
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.ChatModel
+import com.example.domain.dto.ChatRoomModel
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.LoginRepository
 import com.google.firebase.auth.FirebaseUser
@@ -20,8 +20,8 @@ class ChatUsecaseImpl @Inject constructor(
         return loginRepository.getUser()
     }
 
-    override suspend fun initRoom(uid: String, initialCallback: (() -> Unit)) {
-        chatRepository.initRoom(uid) {
+    override suspend fun initRoom(qid: String, uid: String, initialCallback: (() -> Unit)) {
+        chatRepository.initRoom(qid, uid) {
             initialCallback()
         }
     }
@@ -32,18 +32,20 @@ class ChatUsecaseImpl @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun sendMessage(message: String) {
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ISO_DATE
-        val timestamp = current.format(formatter)
-
+        val timestamp = System.currentTimeMillis()
         chatRepository.sendMessage(message, timestamp)
     }
 
     override suspend fun getMessages(callback: (List<ChatModel>) -> Unit) {
         chatRepository.getRealtimeMessage {
             val list = DtoTranslator.chatTranslator(it)
-            Log.d("[keykat]", "dto list : $list")
             callback(list)
+        }
+    }
+
+    override suspend fun getChatRooms(callback: (List<ChatRoomModel>) -> Unit) {
+        chatRepository.getChatRooms {
+            callback(DtoTranslator.chatRoomsTranslator(it))
         }
     }
 }

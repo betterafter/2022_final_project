@@ -29,9 +29,9 @@ class ChatViewModel @Inject constructor(
     }
 
     // 방에 맨 처음 입장할 때 실행.
-    fun initChatRoom(compUid: String, initialCallback: (() -> Unit)) {
+    fun initChatRoom(qid: String, compUid: String, initialCallback: (() -> Unit)) {
         viewModelScope.launch {
-            chatUsecase.initRoom(compUid) {
+            chatUsecase.initRoom(qid, compUid) {
                 initialCallback()
             }
         }
@@ -45,7 +45,7 @@ class ChatViewModel @Inject constructor(
 
     fun getMessages(animationCallback: (() -> Unit)) {
         viewModelScope.launch {
-            chatUsecase.getMessages {
+            chatUsecase.getMessages { it ->
                 _chatModelList.value = it
                 animationCallback()
                 Log.d("[keykat]", "list: ${_chatModelList.value.toString()}")

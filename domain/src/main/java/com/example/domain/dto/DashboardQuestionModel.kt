@@ -3,6 +3,7 @@ package com.example.domain.dto
 import com.example.kudata.entity.DashboardAnswerContent
 
 data class DashboardQuestionModel(
+    val id: String = "",
     val uid: String = "",
     var userName: String = "",
     var title: String = "",

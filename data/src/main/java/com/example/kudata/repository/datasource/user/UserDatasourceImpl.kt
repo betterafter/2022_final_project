@@ -1,19 +1,15 @@
 package com.example.kudata.repository.datasource.user
 
-import android.util.Log
 import com.example.kudata.entity.User
+import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.tasks.await
 
 class UserDatasourceImpl : UserDatasource {
     private val _auth = Firebase.auth
     private val _fireStore = FirebaseFirestore.getInstance()
+    private val chatDataSource = ChatDataSourceImpl()
 
     // 데이터베이스 체크해서 기존에 가입한 사람이면 넘김. 그렇지 않으면 초기화
     override suspend fun initUserInfo() {
@@ -26,7 +22,7 @@ class UserDatasourceImpl : UserDatasource {
                         _auth.currentUser?.email,
                         "newbie",
                         0,
-                        language = "en"
+                        language = "en",
                     )
                     _fireStore.collection(id).document("/user").set(user)
                 }
@@ -65,7 +61,7 @@ class UserDatasourceImpl : UserDatasource {
                         userEmail = data["userEmail"] as String?,
                         userRank = data["userRank"] as String?,
                         userXp = (data["userXp"] ?: 0) as Long,
-                        language = (data["language"] ?: "ko") as String
+                        language = (data["language"] ?: "ko") as String,
                     )
 
                     callback(user)
