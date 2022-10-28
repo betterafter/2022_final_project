@@ -108,8 +108,6 @@ class DashboardDatasourceImpl : DashboardDatasource {
 
     override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
         if (_auth.currentUser != null) {
-            val userName = _auth.currentUser?.displayName ?: kotlin.run { "" }
-
             val ref = db.reference.child(DASHBOARD_KEY)
             ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
