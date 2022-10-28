@@ -22,7 +22,7 @@
         android:title="@string/title_notifications" />
 
     <item
-        android:id="@+id/navigation_mypage"
+        android:id="@+id/navigation_myPage"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_mypage" />
 
