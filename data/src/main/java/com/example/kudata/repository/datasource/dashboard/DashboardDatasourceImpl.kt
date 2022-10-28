@@ -116,7 +116,6 @@ class DashboardDatasourceImpl : DashboardDatasource {
                     val list = mutableListOf<DashboardQuestionContent>()
                     snapshot.children.forEach {
                         it.getValue(DashboardQuestionContent::class.java)?.let { content ->
-                            content.userName = userName
                             list.add(content)
                         }
                     }
