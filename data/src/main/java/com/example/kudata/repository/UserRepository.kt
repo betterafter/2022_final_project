@@ -14,7 +14,8 @@ interface UserRepository {
         userName: String?,
         userEmail: String?,
         userRank: String?,
-        userXp: Int?
+        userXp: Int?,
+        language: String?
     )
     //fun updateUserRef(firebaseUser: FirebaseUser)
 }

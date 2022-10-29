@@ -32,9 +32,9 @@ class ChatDataSourceImpl : ChatDataSource {
             checkIfExistPersonalChatRoom(qid, uid2) { id ->
                 if (id == null) {
                     db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
-                    checkIfExistPersonalChatRoom(qid, uid2) {
-                        initialCallback()
-                    }
+//                    checkIfExistPersonalChatRoom(qid, uid2) {
+//                        initialCallback()
+//                    }
                 }
                 initialCallback()
             }
@@ -71,15 +71,15 @@ class ChatDataSourceImpl : ChatDataSource {
     ) {
         try {
             firebaseAuth.currentUser?.let { user ->
-                Log.d("[keykat]", "user::::::$user")
-                db.reference.child(CHAT_ROOM_KEY).orderByChild("qid/$qid")
+                db.reference.child(CHAT_ROOM_KEY).orderByChild("/qid").equalTo(qid)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             snapshot.children.forEach { data ->
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
                                 Log.d("[keykat]", "uid: ${user.uid}, uid2: $uid2, qid: ${chatRoom!!.qid}")
-                                chatRoom?.let { room ->
+                                chatRoom.let { room ->
                                     room.users?.let { map ->
+                                        Log.d("[keykat]", "map :::: $map")
                                         if (map.containsKey(user.uid) && map.containsKey(uid2) && map.size <= 2) {
                                             roomId = data.key
                                             getChatRoomIdCallback(data.key)

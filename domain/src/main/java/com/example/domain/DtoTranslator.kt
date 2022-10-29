@@ -11,6 +11,28 @@ import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
 
 object DtoTranslator {
+    val languageMap = mapOf(
+        ("ko" to "한국어"),
+        ("ja" to "일본어"),
+        ("zh-CN" to "중국어 (간체)"),
+        ("zh-TW" to "중국어 (번체)"),
+        ("hi" to "힌디어"),
+        ("en" to "영어"),
+        ("es" to "스페인어"),
+        ("fr" to "프랑스어"),
+        ("de" to "독일어"),
+        ("pt" to "포르투칼어"),
+        ("vi" to "베트남어"),
+        ("id" to "인도네시아어"),
+        ("fa" to "페르시아어"),
+        ("ar" to "아랍어"),
+        ("mm" to "미얀마어"),
+        ("th" to "태국어"),
+        ("ru" to "러시아어"),
+        ("it" to "이탈리아어"),
+    )
+
+
     fun userTranslator(user: User): UserModel {
         return UserModel(
             uid = user.uid,
@@ -19,6 +41,7 @@ object DtoTranslator {
             userRank = user.userRank,
             userXp = user.userXp,
             language = user.language,
+            languageText = languageMap[user.language] ?: "존재하지 않는 언어"
         )
     }
 

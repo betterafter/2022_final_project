@@ -25,8 +25,9 @@ class UserRepositoryImpl @Inject constructor(
         userName: String?,
         userEmail: String?,
         userRank: String?,
-        userXp: Int?
+        userXp: Int?,
+        language: String?
     ) {
-        userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp)
+        userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp, language)
     }
 }

@@ -18,6 +18,17 @@ class UserUsecaseImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateLanguage(lang: String) {
+        userRepository.updateUserInfo(
+            userUid = null,
+            userName = null,
+            userEmail = null,
+            userRank = null,
+            userXp = null,
+            language = lang
+        )
+    }
+
     suspend fun achieveXp(xp: Int) {
 
     }

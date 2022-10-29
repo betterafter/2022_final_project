@@ -1,6 +1,5 @@
 package com.kuroutine.kulture.mypage
 
-import BottomSheetAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
-import com.example.kuroutine.databinding.FragmentHomeBinding
-import com.example.kuroutine.databinding.FragmentMypageBinding
 import com.example.kuroutine.databinding.LayoutBottomsheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.kuroutine.kulture.home.HomeViewModel
 
 class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFragment() {
     private lateinit var bottomSheetViewModel: BottomSheetViewModel
@@ -29,9 +25,9 @@ class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFr
             lifecycleOwner = this@BottomSheet
         }
         val root: View = binding.root
-
+        bottomSheetViewModel.setLanguageList()
         bottomSheetViewModel.languageList.observe(this) {
-            it?.toMutableList()?.let { it1 -> adapter.setItem(it1) }
+            adapter.submitList(it)
         }
 
         return root
@@ -43,6 +39,5 @@ class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFr
         rv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
-
     }
 }
