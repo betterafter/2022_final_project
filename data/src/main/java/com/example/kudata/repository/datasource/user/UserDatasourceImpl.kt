@@ -1,5 +1,6 @@
 package com.example.kudata.repository.datasource.user
 
+import android.util.Log
 import com.example.kudata.entity.User
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.google.firebase.auth.ktx.auth
@@ -36,18 +37,18 @@ class UserDatasourceImpl : UserDatasource {
         userName: String?,
         userEmail: String?,
         userRank: String?,
-        userXp: Int?
+        userXp: Int?,
+        language: String?
     ) {
         _auth.currentUser?.uid?.let { it ->
-            //var userInfo = _firestore.collection(it).document()
-            _fireStore.collection(it).document().update(
-                mapOf(
-                    "userName" to userName?.run { _auth.currentUser?.displayName },
-                    "userEmail" to userEmail.run { _auth.currentUser?.email },
-                    "userRank" to userRank.run { "newbie" },
-                    "userXp" to userXp.run { 0 }
-                )
-            )
+            val map = mutableMapOf<String, Any>()
+            userName?.let { map["userName"] = it }
+            userEmail?.let { map["userEmail"] = it }
+            userRank?.let { map["userRank"] = it }
+            userXp?.let { map["userXp"] = it }
+            language?.let { map["language"] = it }
+
+            _fireStore.collection(it).document("/user").update(map)
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.databinding.FragmentMypageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +42,6 @@ class MyPageFragment : Fragment() {
     private fun init() {
         myPageViewModel.getUser()
         createBottomSheetDialog()
-        myPageViewModel.setLanguageList()
     }
 
     private fun initListener() {
@@ -51,11 +51,16 @@ class MyPageFragment : Fragment() {
     }
 
     private fun createBottomSheetDialog() {
-        val adapter = BottomSheetAdapter()
+        val adapter = BottomSheetAdapter(selectCallback = ::selectCallback)
         bottomSheetDialog = BottomSheet(adapter)
     }
 
     private fun showBottomSheet() {
         bottomSheetDialog.show(parentFragmentManager, "TAG")
+    }
+
+    private fun selectCallback(model: LanguageModel) {
+        myPageViewModel.updateUserLanguage(model)
+        bottomSheetDialog.dismiss()
     }
 }

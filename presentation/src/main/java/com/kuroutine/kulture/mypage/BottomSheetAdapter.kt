@@ -8,13 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.databinding.ItemLanguageBinding
 
-class BottomSheetAdapter : ListAdapter<LanguageModel, BottomSheetAdapter.ViewHolder>(DiffUtils()) {
+class BottomSheetAdapter(
+    private val selectCallback: (LanguageModel) -> Unit
+) : ListAdapter<LanguageModel, BottomSheetAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemLanguageBinding,
+        private val callback: (LanguageModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: LanguageModel) {
             binding.tvItemLanguage.text = data.text
+            binding.tvItemLanguage.setOnClickListener {
+                callback(data)
+            }
         }
     }
 
@@ -40,6 +46,7 @@ class BottomSheetAdapter : ListAdapter<LanguageModel, BottomSheetAdapter.ViewHol
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemLanguageBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            selectCallback
         )
     }
 }

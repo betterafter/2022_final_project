@@ -113,9 +113,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_weight="9"
+                android:layout_weight="3"
                 android:fontFamily="@font/okbi"
                 android:text=" 언어선택"
+                android:textColor="#202020"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_mypage_languageresult"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:fontFamily="@font/okbi"
+                android:text="@{viewModel.currentUser.languageText}"
                 android:textColor="#202020"
                 android:textSize="28sp"
                 android:textStyle="bold" />

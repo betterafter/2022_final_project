@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.LayoutBottomsheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -38,6 +39,5 @@ class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFr
         rv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
-
     }
 }
