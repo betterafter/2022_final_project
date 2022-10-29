@@ -14,5 +14,6 @@ data class DashboardQuestionModel(
     var questionState: String = "",
     val answerList: List<DashboardAnswerContent>? = null,
     val imageList: List<String>? = null,
-    val commentList: List<String>? = null
+    val commentList: List<String>? = null,
+    var translatedState: Boolean = false,
 )

@@ -48,7 +48,6 @@ class ChatViewModel @Inject constructor(
             chatUsecase.getMessages { it ->
                 _chatModelList.value = it
                 animationCallback()
-                Log.d("[keykat]", "list: ${_chatModelList.value.toString()}")
             }
         }
     }

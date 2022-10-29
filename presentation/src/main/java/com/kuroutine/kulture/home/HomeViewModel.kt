@@ -37,16 +37,14 @@ class HomeViewModel @Inject constructor(
 
     // 사용자에 맞는 언어로 실시간 변환
     suspend fun getQuestions() {
-        if (_language.value == null) {
-            withContext(viewModelScope.coroutineContext) {
-                userUsecase.getUser {
-                    _language.value = it.language
-                }
-            }
+        val list = _questionList.value
+
+        withContext(viewModelScope.coroutineContext) {
+            getLanguage()
         }
 
         viewModelScope.launch {
-            dashboardUsecase.getQuestionsInRealtime {
+            dashboardUsecase.getQuestionsInRealtime(list) {
                 _questionList.value = it
                 viewModelScope.launch {
                     updateTranslatedQuestionList()
@@ -55,25 +53,40 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateTranslatedQuestionList() {
+    suspend fun getLanguage() {
+        userUsecase.getUser {
+            if (_language.value != it.language) {
+                resetTranslateState()
+                _language.value = it.language
+            }
+        }
+    }
+
+    suspend fun updateTranslatedQuestionList() {
         val list = mutableListOf<DashboardQuestionModel>()
         _questionList.value?.forEach { model ->
-
             val text = model.title
-            val langCode = papagoUsecase.getLangCode(text) ?: "ko"
-            // 소스 언어와 타켓 언어가 같으면 에러 발생 -> 그냥 원본 값 넣는다
-            if (langCode == _language.value) {
-                list.add(model)
+            if (!model.translatedState) {
+                val langCode = papagoUsecase.getLangCode(text) ?: "ko"
+                // 소스 언어와 타켓 언어가 같으면 에러 발생 -> 그냥 원본 값 넣는다
+                if (langCode == _language.value) {
+                    list.add(model)
+                } else {
+                    val newTitle = papagoUsecase.getText(model.title, langCode, _language.value ?: "ko")
+                    val newText = papagoUsecase.getText(model.text, langCode, _language.value ?: "ko")
+                    val newLocation = papagoUsecase.getText(model.location, langCode, _language.value ?: "ko")
+
+                    val newModel = model.copy(
+                        title = newTitle ?: "",
+                        text = newText ?: "",
+                        location = newLocation ?: "",
+                        translatedState = true
+                    )
+
+                    list.add(newModel)
+                }
             } else {
-                val newTitle = papagoUsecase.getText(model.title, langCode, _language.value ?: "ko")
-                val newText = papagoUsecase.getText(model.text, langCode, _language.value ?: "ko")
-                val newLocation = papagoUsecase.getText(model.location, langCode, _language.value ?: "ko")
-
-                val newModel = model.copy(
-                    title = newTitle ?: "", text = newText ?: "", location = newLocation ?: ""
-                )
-
-                list.add(newModel)
+                list.add(model)
             }
         }
 
@@ -88,5 +101,13 @@ class HomeViewModel @Inject constructor(
             }
         }
         _searchedQuestionList.value = list.toList()
+    }
+
+    fun resetTranslateState() {
+        viewModelScope.launch {
+            _questionList.value?.forEach {
+                it.translatedState = false
+            }
+        }
     }
 }
