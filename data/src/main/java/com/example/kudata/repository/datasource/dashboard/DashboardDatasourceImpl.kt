@@ -75,7 +75,6 @@ class DashboardDatasourceImpl : DashboardDatasource {
 
                 db.reference.child(DASHBOARD_KEY).push().setValue(content).await()
                 if (callback != null) {
-                    Log.d("[keykat]", "post done.")
                     callback()
                 }
             }

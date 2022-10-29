@@ -74,25 +74,34 @@ object DtoTranslator {
         return list
     }
 
-    fun dashboardQuestionTranslator(questionList: List<DashboardQuestionContent>): List<DashboardQuestionModel> {
+    fun dashboardQuestionTranslator(
+        questionList: List<DashboardQuestionContent>,
+        compList: List<DashboardQuestionModel>?,
+    ): List<DashboardQuestionModel> {
         val list = mutableListOf<DashboardQuestionModel>()
-        questionList.forEach {
-            list.add(
-                DashboardQuestionModel(
-                    it.id,
-                    it.uid,
-                    it.userName,
-                    it.title,
-                    it.text,
-                    it.timestamp,
-                    it.likeCount,
-                    it.location,
-                    it.questionState,
-                    it.answerList,
-                    it.imageList,
-                    it.commentList,
+        questionList.forEachIndexed { idx, it ->
+            if (compList != null && compList.size > idx &&
+                compList[idx].uid == it.uid && compList[idx].timestamp == it.timestamp) {
+                list.add(compList[idx])
+            } else {
+                list.add(
+                    DashboardQuestionModel(
+                        it.id,
+                        it.uid,
+                        it.userName,
+                        it.title,
+                        it.text,
+                        it.timestamp,
+                        it.likeCount,
+                        it.location,
+                        it.questionState,
+                        it.answerList,
+                        it.imageList,
+                        it.commentList,
+                        false
+                    )
                 )
-            )
+            }
         }
 
         return list

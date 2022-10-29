@@ -31,6 +31,10 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,14 +53,17 @@ class HomeFragment : Fragment() {
         initListener()
         initObserver()
 
+        CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.getQuestions()
+        }
+
         return root
     }
 
     override fun onResume() {
         super.onResume()
-
         CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getQuestions()
+            homeViewModel.getLanguage()
         }
     }
 
@@ -71,6 +78,12 @@ class HomeFragment : Fragment() {
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
+        }
+
+        homeViewModel.language.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                homeViewModel.updateTranslatedQuestionList()
+            }
         }
 
         binding.etHomeSearch.addTextChangedListener(object : TextWatcher {

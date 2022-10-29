@@ -51,10 +51,13 @@ class DashboardUsecaseImpl @Inject constructor(
         return dashboardRepository.getQuestions(uid)
     }
 
-    override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionModel>?) -> Unit)) {
+    override suspend fun getQuestionsInRealtime(
+        compList: List<DashboardQuestionModel>?,
+        callback: ((List<DashboardQuestionModel>?) -> Unit)
+    ) {
         dashboardRepository.getQuestionsInRealtime {
             it?.let {
-                val list = DtoTranslator.dashboardQuestionTranslator(it)
+                val list = DtoTranslator.dashboardQuestionTranslator(it, compList)
                 callback(list)
             }
         }

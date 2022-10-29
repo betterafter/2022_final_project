@@ -18,7 +18,6 @@ class ChatRoomAdapter(
         private val callback: (String, String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ChatRoomModel) {
-            Log.d("[keykat]", "${data.contents?.last()?.message}")
             binding.tvItemChatroomContent.text = data.contents?.last()?.message
             binding.cvChatroomItem.setOnClickListener {
                 data.users?.forEach {
