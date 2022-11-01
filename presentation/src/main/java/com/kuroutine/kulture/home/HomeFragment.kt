@@ -53,10 +53,6 @@ class HomeFragment : Fragment() {
         initListener()
         initObserver()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getQuestions()
-        }
-
         return root
     }
 
@@ -65,24 +61,30 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.getQuestions()
+        }
     }
 
     private fun init() {
         binding.rvHomeQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity)
+            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
         }
     }
 
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
+            Log.d("[keykat]", "submit!!!!!")
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
         homeViewModel.language.observe(viewLifecycleOwner) {
+            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
             CoroutineScope(Dispatchers.Main).launch {
-                homeViewModel.updateTranslatedQuestionList()
+                // homeViewModel.updateTranslatedQuestionList()
             }
         }
 
