@@ -70,7 +70,7 @@ class HomeViewModel @Inject constructor(
                 val langCode = papagoUsecase.getLangCode(text) ?: "ko"
                 // 소스 언어와 타켓 언어가 같으면 에러 발생 -> 그냥 원본 값 넣는다
                 if (langCode == _language.value) {
-                    list.add(model)
+                    list.add(model.copy(translatedState = true))
                 } else {
                     val newTitle = papagoUsecase.getText(model.title, langCode, _language.value ?: "ko")
                     val newText = papagoUsecase.getText(model.text, langCode, _language.value ?: "ko")
@@ -86,7 +86,7 @@ class HomeViewModel @Inject constructor(
                     list.add(newModel)
                 }
             } else {
-                list.add(model)
+                list.add(model.copy(translatedState = true))
             }
         }
 

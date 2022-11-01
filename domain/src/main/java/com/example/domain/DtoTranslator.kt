@@ -79,11 +79,20 @@ object DtoTranslator {
         compList: List<DashboardQuestionModel>?,
     ): List<DashboardQuestionModel> {
         val list = mutableListOf<DashboardQuestionModel>()
-        questionList.forEachIndexed { idx, it ->
-            if (compList != null && compList.size > idx &&
-                compList[idx].uid == it.uid && compList[idx].timestamp == it.timestamp) {
-                list.add(compList[idx])
-            } else {
+        questionList.forEachIndexed { index, it ->
+            var isChk = false
+            //Log.d("[keykat]", "compList:::: $compList")
+            compList?.let { model ->
+                for (idx in compList.indices) {
+                    if (compList[idx].uid == it.uid && compList[idx].timestamp == it.timestamp && compList[idx].translatedState) {
+                        isChk = true
+                        list.add(compList[idx])
+                        break
+                    }
+                }
+            }
+
+            if (!isChk) {
                 list.add(
                     DashboardQuestionModel(
                         it.id,
@@ -104,6 +113,6 @@ object DtoTranslator {
             }
         }
 
-        return list
+        return list.toList()
     }
 }

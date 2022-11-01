@@ -53,10 +53,6 @@ class HomeFragment : Fragment() {
         initListener()
         initObserver()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getQuestions()
-        }
-
         return root
     }
 
@@ -64,6 +60,10 @@ class HomeFragment : Fragment() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.getQuestions()
         }
     }
 
