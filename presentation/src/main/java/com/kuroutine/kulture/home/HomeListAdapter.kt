@@ -34,6 +34,7 @@ class HomeListAdapter(
 
             Glide.with(binding.root.context).load(data.imageList?.first())
                 .override(500, 500)
+                .circleCrop()
                 .into(binding.ivHomeThumbnail)
 
             // TODO: 나머지도 데이터 연결할 것
