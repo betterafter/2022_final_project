@@ -71,18 +71,20 @@ class HomeFragment : Fragment() {
         binding.rvHomeQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity)
+            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
         }
     }
 
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
+            Log.d("[keykat]", "submit!!!!!")
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
         homeViewModel.language.observe(viewLifecycleOwner) {
+            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
             CoroutineScope(Dispatchers.Main).launch {
-                homeViewModel.updateTranslatedQuestionList()
+                // homeViewModel.updateTranslatedQuestionList()
             }
         }
 

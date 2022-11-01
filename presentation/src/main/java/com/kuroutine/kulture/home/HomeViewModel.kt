@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
             dashboardUsecase.getQuestionsInRealtime(list) {
                 _questionList.value = it
                 viewModelScope.launch {
-                    updateTranslatedQuestionList()
+                    // updateTranslatedQuestionList()
                 }
             }
         }
@@ -60,6 +60,14 @@ class HomeViewModel @Inject constructor(
                 _language.value = it.language
             }
         }
+    }
+
+    suspend fun checkLanguage(data: String): String {
+        return papagoUsecase.getLangCode(data) ?: "ko"
+    }
+
+    suspend fun getTranslatedText(data: String, code: String): String? {
+        return papagoUsecase.getText(data, code, _language.value ?: "ko")
     }
 
     suspend fun updateTranslatedQuestionList() {
@@ -88,9 +96,8 @@ class HomeViewModel @Inject constructor(
             } else {
                 list.add(model.copy(translatedState = true))
             }
+            _questionList.value = list
         }
-
-        _questionList.value = list
     }
 
     fun updateSearchedList(title: String) {
