@@ -28,21 +28,23 @@
 
                 <ImageView
                     android:id="@+id/iv_home_thumbnail"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.476"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.266"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
                     android:id="@+id/tv_home_state_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="28dp"
                     android:background="@drawable/bg_radius"
                     android:backgroundTint="@color/main_color"
                     android:gravity="center"
@@ -53,7 +55,6 @@
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/iv_home_thumbnail"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/iv_home_thumbnail" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -89,23 +90,23 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_home_location"
                     app:layout_constraintTop_toBottomOf="@+id/tv_home_location"
-                    app:layout_constraintVertical_bias="1.0"
+                    app:layout_constraintVertical_bias="0.424"
                     app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
                 <TextView
                     android:id="@+id/tv_home_question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="10dp"
-                    android:maxLines="2"
+                    android:layout_marginTop="16dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/overpass"
+                    android:maxLines="2"
                     android:textColor="@color/background_black"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.101"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="what is your favorite food?" />
