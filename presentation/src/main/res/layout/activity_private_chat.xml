@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-            app:tint="@color/green" />
+            app:tint="@color/main_color" />
 
         <TextView
             android:id="@+id/tv_privatechat_name"
@@ -31,7 +31,7 @@
             android:layout_marginTop="36dp"
             android:text="1:1 질문"
             android:fontFamily="@font/angel"
-            android:textColor="@color/green"
+            android:textColor="@color/main_color"
             android:textSize="42sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_privatechat_back"
             app:srcCompat="@drawable/ic_baseline_insert_photo_24"
-            app:tint="@color/orange" />
+            app:tint="@color/light_main_color" />
 
         <TextView
             android:id="@+id/tv_privatechat_title"

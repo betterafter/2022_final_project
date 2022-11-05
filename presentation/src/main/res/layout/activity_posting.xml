@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-        app:tint="@color/green" />
+        app:tint="@color/main_color" />
 
     <Button
         android:id="@+id/btn_posting_finish"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:text="질문 작성"
-        android:textColor="@color/green"
+        android:textColor="@color/main_color"
         android:textSize="36sp"
         android:fontFamily="@font/angel"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_posting_back"
         app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
-        app:tint="@color/orange" />
+        app:tint="@color/light_main_color" />
 
     <EditText
         android:id="@+id/et_posting_title"

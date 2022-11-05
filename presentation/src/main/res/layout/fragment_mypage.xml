@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_account_circle_24"
-            app:tint="@color/orange" />
+            app:tint="@color/light_main_color" />
 
         <TextView
             android:id="@+id/tv_mypage_username"

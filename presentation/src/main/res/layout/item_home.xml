@@ -3,113 +3,154 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
+    android:layout_marginVertical="7dp"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cv_home_item"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="120dp">
+        android:layout_height="match_parent"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="30dp">
 
-        <ImageView
-            android:id="@+id/iv_home_thumbnail"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="10"
+            android:orientation="horizontal">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/tv_home_userid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="이름"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_home_thumbnail"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/iv_home_thumbnail"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/tv_home_state_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_radius"
-            android:backgroundTint="@color/green"
-            android:gravity="center"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="5dp"
-            android:text="질문 중"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_userid"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.934"
-            app:layout_constraintStart_toEndOf="@+id/tv_home_userid"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_userid"
-            app:layout_constraintVertical_bias="0.0" />
+                <TextView
+                    android:id="@+id/tv_home_state_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_radius"
+                    android:backgroundTint="@color/main_color"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="5dp"
+                    android:text="질문 중"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_home_thumbnail"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/iv_home_thumbnail" />
 
-        <TextView
-            android:id="@+id/tv_home_question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="7"
-            android:text="질문질문질문"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_home_userid"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_userid" />
-
-        <ImageView
-            android:id="@+id/btn_home_like"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/tv_home_question"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_question"
-            app:srcCompat="@drawable/ic_heart_512" />
-
-        <TextView
-            android:id="@+id/tv_home_like_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:textSize="10sp"
-            android:text="32"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_home_like"
-            app:layout_constraintStart_toEndOf="@+id/btn_home_like"
-            app:layout_constraintTop_toTopOf="@+id/btn_home_like" />
-
-        <TextView
-            android:id="@+id/tv_home_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="8"
-            android:text="위치 위치 위치 에서"
-            android:layout_marginEnd="5dp"
-            android:gravity="end"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_like_num"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_home_like_num"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_like_num" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_home_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="8"
+                android:paddingEnd="10dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/white" />
+                <TextView
+                    android:id="@+id/tv_home_userid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/background_black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView"
+                    tools:text="이름" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_home_location"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_home_location"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+                <TextView
+                    android:id="@+id/tv_home_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/overpass"
+                    android:textColor="@color/background_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.101"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="what is your favorite food?" />
+
+                <ImageView
+                    android:id="@+id/btn_home_like"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_home_userid"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_userid"
+                    app:layout_constraintTop_toTopOf="@+id/tv_home_userid"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/ic_heart_512" />
+
+                <TextView
+                    android:id="@+id/tv_home_like_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="32"
+                    android:textColor="@color/background_black"
+                    android:textSize="9sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_home_like"
+                    app:layout_constraintStart_toEndOf="@+id/btn_home_like"
+                    app:layout_constraintTop_toTopOf="@+id/btn_home_like" />
+
+                <TextView
+                    android:id="@+id/tv_home_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="8"
+                    android:gravity="start"
+                    android:text="한국, 서울에서"
+                    android:textColor="#373737"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_home_question"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_home_question"
+                    tools:text="위치 위치 위치 에서" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>
