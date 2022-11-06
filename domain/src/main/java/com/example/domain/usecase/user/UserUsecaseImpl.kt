@@ -1,5 +1,6 @@
 package com.example.domain.usecase.user
 
+import android.net.Uri
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.UserModel
 import com.example.kudata.repository.UserRepository
@@ -25,7 +26,8 @@ class UserUsecaseImpl @Inject constructor(
             userEmail = null,
             userRank = null,
             userXp = null,
-            language = lang
+            language = lang,
+            profile = null
         )
     }
 
@@ -33,8 +35,16 @@ class UserUsecaseImpl @Inject constructor(
 
     }
 
-    suspend fun setUserProfileImage() {
-
+    override suspend fun setUserProfileImage(uri: Uri) {
+        userRepository.updateUserInfo(
+            userUid = null,
+            userName = null,
+            userEmail = null,
+            userRank = null,
+            userXp = null,
+            language = null,
+            profile = uri
+        )
     }
 
     suspend fun setUserName() {

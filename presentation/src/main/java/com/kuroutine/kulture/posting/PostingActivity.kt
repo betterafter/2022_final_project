@@ -1,8 +1,10 @@
 package com.kuroutine.kulture.posting
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.util.Log
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kuroutine.R
@@ -62,19 +65,22 @@ class PostingActivity : AppCompatActivity() {
     @SuppressLint("IntentReset")
     fun initListener() {
         imgbtn1.setOnClickListener {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ), 1
-            )
+            val permission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if(permission == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ), 1
+                )
+            } else {
+                val photoPickerIntent = Intent(Intent.ACTION_PICK)
+                photoPickerIntent.type = "image/*"
+                photoPickerIntent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                //여러장의 이미지를 앨범에서 가져올수 있게해줌.
 
-            val photoPickerIntent = Intent(Intent.ACTION_PICK)
-            photoPickerIntent.type = "image/*"
-            photoPickerIntent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            //여러장의 이미지를 앨범에서 가져올수 있게해줌.
-
-            startActivityForResult(photoPickerIntent, PICK_IMG_FROM_ALBUM)
+                startActivityForResult(photoPickerIntent, PICK_IMG_FROM_ALBUM)
+            }
         }
 
         submitButton.setOnClickListener {

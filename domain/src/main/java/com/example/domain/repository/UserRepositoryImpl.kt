@@ -1,5 +1,6 @@
 package com.example.domain.repository
 
+import android.net.Uri
 import com.example.kudata.entity.User
 import com.example.kudata.repository.UserRepository
 import com.example.kudata.repository.datasource.user.UserDatasource
@@ -26,8 +27,9 @@ class UserRepositoryImpl @Inject constructor(
         userEmail: String?,
         userRank: String?,
         userXp: Int?,
-        language: String?
+        language: String?,
+        profile: Uri?,
     ) {
-        userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp, language)
+        userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp, language, profile)
     }
 }

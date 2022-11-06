@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.mypage
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,6 +31,13 @@ class MyPageViewModel @Inject constructor(
     fun updateUserLanguage(model: LanguageModel) {
         viewModelScope.launch {
             userUsecase.updateLanguage(model.code)
+            getUser()
+        }
+    }
+
+    fun updateUserProfile(uri: Uri) {
+        viewModelScope.launch {
+            userUsecase.setUserProfileImage(uri)
             getUser()
         }
     }
