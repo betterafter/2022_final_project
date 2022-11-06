@@ -119,9 +119,9 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="28dp"
             android:layout_marginBottom="28dp"
-            android:src="@drawable/icon_edit"
             android:tint="@color/white"
-            app:backgroundTint="@color/main_color"
+            app:tint="@color/white"
+            android:src="@drawable/ic_posting_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

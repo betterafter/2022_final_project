@@ -15,6 +15,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingHorizontal="10dp"
+            app:singleSelection="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintStart_toStartOf="parent"
+            app:checkedButton="@id/btn_posting_private"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_posting_private"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1:1 질문" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_posting_public"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공개 질문" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
@@ -129,7 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/main_color"
             android:ems="10"
             android:hint="제목"
@@ -139,7 +168,7 @@
             android:textSelectHandle="@color/main_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
 
         <EditText
             android:id="@+id/et_posting_details"
@@ -152,7 +181,7 @@
             android:gravity="top|left"
             android:hint="상세내용"
             android:inputType="text|textMultiLine"
-            android:lines="20"
+            android:lines="10"
             android:scrollbars="vertical"
             android:textColorHighlight="@color/main_color"
             android:textCursorDrawable="@drawable/bg_edittext_cursor"
