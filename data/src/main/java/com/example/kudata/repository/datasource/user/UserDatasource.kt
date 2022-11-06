@@ -1,5 +1,6 @@
 package com.example.kudata.repository.datasource.user
 
+import android.net.Uri
 import com.example.kudata.entity.User
 
 interface UserDatasource {
@@ -11,6 +12,7 @@ interface UserDatasource {
         userEmail: String?,
         userRank: String?,
         userXp: Int?,
-        language: String?
+        language: String?,
+        profile: Uri?
     )
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.login.LoginUsecase
 import com.example.domain.usecase.user.UserUsecase
+import com.example.kuroutine.R
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,9 +40,12 @@ class LoginViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            var profile = R.drawable.ic_profile_fill
             loginUsecase.googleLogin(data) {
                 _currentUser.value = it
-                viewModelScope.launch { userUsercas.initUser() }
+                viewModelScope.launch { userUsercas.initUser(
+
+                ) }
             }
         }
     }

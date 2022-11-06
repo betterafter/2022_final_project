@@ -77,7 +77,6 @@ class HomeFragment : Fragment() {
 
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
-            Log.d("[keykat]", "submit!!!!!")
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 

@@ -1,30 +1,42 @@
 package com.example.kudata.repository.datasource.user
 
+import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Log
 import com.example.kudata.entity.User
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
+import com.example.kudata.utils.PROFILE_IMAGE_STORE_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UserDatasourceImpl : UserDatasource {
     private val _auth = Firebase.auth
     private val _fireStore = FirebaseFirestore.getInstance()
     private val chatDataSource = ChatDataSourceImpl()
+    private val storage = FirebaseStorage.getInstance()
 
     // 데이터베이스 체크해서 기존에 가입한 사람이면 넘김. 그렇지 않으면 초기화
     override suspend fun initUserInfo() {
         _auth.currentUser?.uid?.let { id ->
             _fireStore.collection(id).get().addOnSuccessListener {
+                val user = User(
+                    id,
+                    _auth.currentUser?.displayName,
+                    _auth.currentUser?.email,
+                    "newbie",
+                    0,
+                    language = "en",
+                    profile = "",
+                )
                 if (it.isEmpty) {
-                    val user = User(
-                        id,
-                        _auth.currentUser?.displayName,
-                        _auth.currentUser?.email,
-                        "newbie",
-                        0,
-                        language = "en",
-                    )
                     _fireStore.collection(id).document("/user").set(user)
                 }
             }
@@ -38,8 +50,20 @@ class UserDatasourceImpl : UserDatasource {
         userEmail: String?,
         userRank: String?,
         userXp: Int?,
-        language: String?
+        language: String?,
+        profile: Uri?,
     ) {
+        var profileString = ""
+        profile?.let {
+            withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+                _auth.currentUser?.uid?.let { it1 ->
+                    contentUpload(it1, profile) { name ->
+                        profileString = name
+                    }
+                }
+            }
+        }
+
         _auth.currentUser?.uid?.let { it ->
             val map = mutableMapOf<String, Any>()
             userName?.let { map["userName"] = it }
@@ -47,6 +71,7 @@ class UserDatasourceImpl : UserDatasource {
             userRank?.let { map["userRank"] = it }
             userXp?.let { map["userXp"] = it }
             language?.let { map["language"] = it }
+            profile?.let { map["profile"] = profileString }
 
             _fireStore.collection(it).document("/user").update(map)
         }
@@ -63,6 +88,7 @@ class UserDatasourceImpl : UserDatasource {
                         userRank = data["userRank"] as String?,
                         userXp = (data["userXp"] ?: 0) as Long,
                         language = (data["language"] ?: "ko") as String,
+                        profile = (data["profile"] ?: "") as String
                     )
 
                     callback(user)
@@ -73,5 +99,33 @@ class UserDatasourceImpl : UserDatasource {
 
     private suspend fun updateRank() {
 
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private suspend fun contentUpload(
+        uid: String,
+        uri: Uri,
+        onUploadSuccess: (String) -> Unit,
+    ) {
+        try {
+            val timestamp = SimpleDateFormat("yyyyMMddHHmmssSSSS").format(Date())
+            val imageFileName = "IMAGE_${uid}_${timestamp}.png"
+            val storageRef = storage.reference.child(PROFILE_IMAGE_STORE_KEY).child(imageFileName)
+
+            val task = storageRef.putFile(uri).continueWithTask {
+                return@continueWithTask storageRef.downloadUrl
+            }
+            task.await()
+
+            task.addOnSuccessListener {
+                onUploadSuccess(task.result.toString())
+            }
+
+            task.addOnFailureListener {
+                onUploadSuccess("")
+            }
+        } catch (e: Exception) {
+            Log.d("[keykat]", "e: $e")
+        }
     }
 }

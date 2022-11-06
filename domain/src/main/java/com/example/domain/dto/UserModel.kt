@@ -7,5 +7,6 @@ data class UserModel(
     val userRank: String?,
     val userXp: Long,
     val language: String,
-    val languageText: String
+    val languageText: String,
+    val profile: String,
 )

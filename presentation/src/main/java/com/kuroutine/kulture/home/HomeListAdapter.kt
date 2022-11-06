@@ -35,7 +35,6 @@ class HomeListAdapter(
             binding.tvHomeQuestion.text = data.text
 
             Glide.with(binding.root.context).load(data.imageList?.first())
-                .override(100, 100)
                 //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
                 .circleCrop()
                 .into(binding.ivHomeThumbnail)

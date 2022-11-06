@@ -41,7 +41,8 @@ object DtoTranslator {
             userRank = user.userRank,
             userXp = user.userXp,
             language = user.language,
-            languageText = languageMap[user.language] ?: "존재하지 않는 언어"
+            languageText = languageMap[user.language] ?: "존재하지 않는 언어",
+            profile = user.profile
         )
     }
 

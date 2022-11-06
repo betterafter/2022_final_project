@@ -80,66 +80,83 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_pst"
-            android:layout_width="250dp"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@+id/imgbtn_activity_posting"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:weightSum="10"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/imgbtn_activity_posting"
-            app:layout_constraintTop_toTopOf="@+id/imgbtn_activity_posting"
-            app:layout_constraintVertical_bias="0.66"
-            tools:listitem="@layout/multi_img_item" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_activity_posting"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="#FFFFFF"
-            android:paddingBottom="4dp"
-            android:scaleType="centerCrop"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
-            app:tint="@color/main_color" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <ImageButton
+                android:id="@+id/imgbtn_activity_posting"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="3"
+                android:backgroundTint="#FFFFFF"
+                android:paddingBottom="4dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
+                app:tint="@color/main_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_pst"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="@+id/imgbtn_activity_posting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.171"
+                app:layout_constraintStart_toEndOf="@+id/imgbtn_activity_posting"
+                app:layout_constraintTop_toTopOf="@+id/imgbtn_activity_posting"
+                app:layout_constraintVertical_bias="0.6"
+                tools:listitem="@layout/multi_img_item" />
+
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_posting_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/main_color"
             android:ems="10"
             android:hint="제목"
-            android:backgroundTint="@color/main_color"
+            android:inputType="textPersonName"
             android:textColorHighlight="@color/main_color"
             android:textCursorDrawable="@drawable/bg_edittext_cursor"
             android:textSelectHandle="@color/main_color"
-            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgbtn_activity_posting" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
         <EditText
             android:id="@+id/et_posting_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/main_color"
             android:ems="10"
             android:gravity="top|left"
             android:hint="상세내용"
             android:inputType="text|textMultiLine"
-            android:backgroundTint="@color/main_color"
+            android:lines="20"
+            android:scrollbars="vertical"
             android:textColorHighlight="@color/main_color"
             android:textCursorDrawable="@drawable/bg_edittext_cursor"
             android:textSelectHandle="@color/main_color"
-            android:lines="20"
-            android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_posting_title" />

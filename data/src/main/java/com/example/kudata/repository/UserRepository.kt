@@ -1,5 +1,6 @@
 package com.example.kudata.repository
 
+import android.net.Uri
 import com.example.kudata.entity.User
 import com.google.firebase.auth.FirebaseUser
 
@@ -15,7 +16,8 @@ interface UserRepository {
         userEmail: String?,
         userRank: String?,
         userXp: Int?,
-        language: String?
+        language: String?,
+        profile: Uri?
     )
     //fun updateUserRef(firebaseUser: FirebaseUser)
 }
