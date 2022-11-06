@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-        app:tint="@color/green" />
+        app:tint="@color/main_color" />
 
     <TextView
         android:id="@+id/tv_publicchat_name"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="공개 질문"
-        android:textColor="@color/green"
+        android:textColor="@color/main_color"
         android:fontFamily="@font/angel"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_publicchat_back"
         app:srcCompat="@drawable/ic_baseline_insert_photo_24"
-        app:tint="@color/orange" />
+        app:tint="@color/light_main_color" />
 
     <TextView
         android:id="@+id/tv_publicchat_title"

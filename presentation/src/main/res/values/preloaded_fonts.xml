@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/aladin</item>
+        <item>@font/alegreya_sans_sc_thin</item>
         <item>@font/amiko_semibold</item>
+        <item>@font/archivo_medium</item>
+        <item>@font/arimo</item>
+        <item>@font/bad_script</item>
         <item>@font/overpass</item>
     </array>
 </resources>

@@ -2,11 +2,13 @@ package com.kuroutine.kulture.home
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemHomeBinding
@@ -33,7 +35,9 @@ class HomeListAdapter(
             binding.tvHomeQuestion.text = data.text
 
             Glide.with(binding.root.context).load(data.imageList?.first())
-                .override(500, 500)
+                .override(100, 100)
+                //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                .circleCrop()
                 .into(binding.ivHomeThumbnail)
 
             // TODO: 나머지도 데이터 연결할 것
