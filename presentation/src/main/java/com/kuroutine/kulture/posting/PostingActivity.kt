@@ -27,7 +27,7 @@ import java.util.Date
 class PostingActivity : AppCompatActivity() {
     lateinit var imgbtn1: ImageButton
     lateinit var recyclerView: RecyclerView
-    lateinit var submitButton: Button
+    lateinit var submitButton: ImageButton
     lateinit var titleTextView: TextView
     lateinit var contentTextView: TextView
 
