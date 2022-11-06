@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_mypage_userpic"
-            android:layout_width="106dp"
-            android:layout_height="96dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="88dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
