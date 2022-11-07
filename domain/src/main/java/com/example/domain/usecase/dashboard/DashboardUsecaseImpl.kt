@@ -2,6 +2,7 @@ package com.example.domain.usecase.dashboard
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.Log
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kudata.entity.DashboardQuestionContent
@@ -55,24 +56,19 @@ class DashboardUsecaseImpl @Inject constructor(
 
     override suspend fun getQuestionsInRealtime(
         compList: List<DashboardQuestionModel>?,
-        callback: ((List<DashboardQuestionModel>?) -> Unit)
+        compList2: List<DashboardQuestionModel>?,
+        callback: ((List<DashboardQuestionModel>?) -> Unit),
+        callback2: ((List<DashboardQuestionModel>?) -> Unit)
     ) {
-        dashboardRepository.getQuestionsInRealtime {
-            it?.let {
+        dashboardRepository.getQuestionsInRealtime { list1, list2 ->
+            list1?.let {
                 val list = DtoTranslator.dashboardQuestionTranslator(it, compList)
                 callback(list)
             }
-        }
-    }
 
-    override suspend fun getPublicQuestionsInRealtime(
-        compList: List<DashboardQuestionModel>?,
-        callback: ((List<DashboardQuestionModel>?) -> Unit)
-    ) {
-        dashboardRepository.getPublicQuestionsInRealtime {
-            it?.let {
-                val list = DtoTranslator.dashboardQuestionTranslator(it, compList)
-                callback(list)
+            list2?.let {
+                val list = DtoTranslator.dashboardQuestionTranslator(it, compList2)
+                callback2(list)
             }
         }
     }

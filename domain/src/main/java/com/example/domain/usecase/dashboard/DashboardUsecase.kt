@@ -34,11 +34,8 @@ interface DashboardUsecase {
 
     suspend fun getQuestionsInRealtime(
         compList: List<DashboardQuestionModel>?,
-        callback: ((List<DashboardQuestionModel>?) -> Unit)
-    )
-
-    suspend fun getPublicQuestionsInRealtime(
-        compList: List<DashboardQuestionModel>?,
-        callback: ((List<DashboardQuestionModel>?) -> Unit)
+        compList2: List<DashboardQuestionModel>?,
+        callback: ((List<DashboardQuestionModel>?) -> Unit),
+        callback2: ((List<DashboardQuestionModel>?) -> Unit)
     )
 }

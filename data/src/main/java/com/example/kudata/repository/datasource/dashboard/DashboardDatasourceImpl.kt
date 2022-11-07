@@ -107,47 +107,25 @@ class DashboardDatasourceImpl : DashboardDatasource {
         return list
     }
 
-    override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
+    override suspend fun getQuestionsInRealtime(
+        callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit)) {
         if (_auth.currentUser != null) {
             val ref = db.reference.child(DASHBOARD_KEY)
             ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val list = mutableListOf<DashboardQuestionContent>()
+                    val publicList = mutableListOf<DashboardQuestionContent>()
                     snapshot.children.forEach {
                         it.getValue(DashboardQuestionContent::class.java)?.let { content ->
                             if (content.private) {
                                 list.add(content)
+                            } else {
+                                publicList.add(content)
                             }
                         }
                     }
 
-                    callback(list)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("[keykat]", "canceled update dashboard: $error")
-                }
-
-            })
-
-        }
-    }
-
-    override suspend fun getPublicQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
-        if (_auth.currentUser != null) {
-            val ref = db.reference.child(DASHBOARD_KEY)
-            ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val list = mutableListOf<DashboardQuestionContent>()
-                    snapshot.children.forEach {
-                        it.getValue(DashboardQuestionContent::class.java)?.let { content ->
-                            if (!content.private) {
-                                list.add(content)
-                            }
-                        }
-                    }
-
-                    callback(list)
+                    callback(list, publicList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

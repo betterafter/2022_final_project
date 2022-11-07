@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
+import com.example.kuroutine.databinding.FragmentHomePrivateDashboardBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -20,14 +23,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomePrivateDashboardFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
-
-    private lateinit var fragments: ArrayList<Fragment>
-    private lateinit var homePrivateDashboardFragment: HomePrivateDashboardFragment
-    private lateinit var homePublicDashboardFragment: HomePublicDashboardFragment
+    private var _binding: FragmentHomePrivateDashboardBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -35,8 +34,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        initFragment()
     }
 
     override fun onCreateView(
@@ -47,14 +44,13 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+        _binding = FragmentHomePrivateDashboardBinding.inflate(inflater, container, false).apply {
             viewModel = homeViewModel
-            lifecycleOwner = this@HomeFragment
+            lifecycleOwner = this@HomePrivateDashboardFragment
         }
         val root: View = binding.root
 
         init()
-        initListener()
         initObserver()
 
         return root
@@ -62,50 +58,27 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getLanguage()
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getQuestions()
-        }
     }
 
     private fun init() {
-        binding.vpHomeDashboard.apply {
-            adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
+        binding.rvHomeQuestion.apply {
+            layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
         }
     }
 
-    private fun initFragment() {
-        fragments = ArrayList()
-        homePrivateDashboardFragment = HomePrivateDashboardFragment()
-        homePublicDashboardFragment = HomePublicDashboardFragment()
-        fragments.add(homePrivateDashboardFragment)
-        fragments.add(homePublicDashboardFragment)
-    }
-
     private fun initObserver() {
-        binding.etHomeSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        homeViewModel.questionList.observe(viewLifecycleOwner) {
+            Log.d("[keykat]", "observe!!!!!!!!!!!!!!!!!!!!!!!!!!!${homeViewModel.questionList.value}")
+            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
+        }
 
+        homeViewModel.language.observe(viewLifecycleOwner) {
+            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
+            CoroutineScope(Dispatchers.Main).launch {
+                // homeViewModel.updateTranslatedQuestionList()
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                homeViewModel.updateSearchedList(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                homePrivateDashboardFragment.getAdapter().submitList(homeViewModel.searchedQuestionList.value)
-            }
-
-        })
-    }
-
-    private fun initListener() {
-        binding.btnHomePost.setOnClickListener {
-            val intent = Intent(this.context, PostingActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -120,4 +93,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun getAdapter(): HomeListAdapter = binding.rvHomeQuestion.adapter as HomeListAdapter
 }

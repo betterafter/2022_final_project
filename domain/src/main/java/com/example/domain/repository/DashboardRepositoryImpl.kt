@@ -42,11 +42,9 @@ class DashboardRepositoryImpl @Inject constructor(
         return dashboardDatasource.getQuestions(uid)
     }
 
-    override suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
+    override suspend fun getQuestionsInRealtime(
+        callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit)
+    ) {
         dashboardDatasource.getQuestionsInRealtime(callback)
-    }
-
-    override suspend fun getPublicQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
-        dashboardDatasource.getPublicQuestionsInRealtime(callback)
     }
 }

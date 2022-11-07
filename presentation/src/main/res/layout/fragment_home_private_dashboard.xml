@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kuroutine.kulture.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_home_type"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_radius_5"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:text="완료"
+            android:textColor="@color/background_black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_home_question_type"
+            app:layout_constraintEnd_toStartOf="@+id/btn_home_question_type"
+            app:layout_constraintTop_toTopOf="@+id/btn_home_question_type"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btn_home_question_type"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_radius_5_stroke"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:text="1:1 질문"
+            android:textColor="@color/main_color"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.448"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_home_question_type"
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/item_home" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
