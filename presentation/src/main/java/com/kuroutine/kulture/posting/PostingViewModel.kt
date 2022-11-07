@@ -33,10 +33,14 @@ class PostingViewModel @Inject constructor(
         return _imageList.value!!.size
     }
 
-    fun postQuestion(title: String, content: String, callback: () -> Unit) {
+    fun postQuestion(title: String, content: String, isPrivate: Boolean, callback: () -> Unit) {
         viewModelScope.launch {
             dashboardUsecase.postQuestion(
-                title = title, text = content, imageList = _imageList.value ?: listOf(), callback = { callback() }
+                title = title,
+                text = content,
+                isPrivate = isPrivate,
+                imageList = _imageList.value ?: listOf(),
+                callback = { callback() }
             )
         }
     }

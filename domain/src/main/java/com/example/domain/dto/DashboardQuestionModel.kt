@@ -12,6 +12,7 @@ data class DashboardQuestionModel(
     val likeCount: String = "",
     var location: String = "",
     var questionState: String = "",
+    var isPrivate: Boolean = true,
     val answerList: List<DashboardAnswerContent>? = null,
     val imageList: List<String>? = null,
     val commentList: List<String>? = null,

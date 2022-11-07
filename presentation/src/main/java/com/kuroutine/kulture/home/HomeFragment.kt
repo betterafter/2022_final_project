@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getQuestions()
+            homeViewModel.getPublicQuestions()
         }
     }
 

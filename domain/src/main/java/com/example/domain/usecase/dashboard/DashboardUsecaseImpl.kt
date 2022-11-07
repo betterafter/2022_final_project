@@ -18,19 +18,21 @@ class DashboardUsecaseImpl @Inject constructor(
     override suspend fun postQuestion(
         title: String,
         text: String,
+        isPrivate: Boolean,
         imageList: List<Uri>
     ) {
-        dashboardRepository.postQuestion(title, text, imageList)
+        dashboardRepository.postQuestion(title, text, isPrivate, imageList)
     }
 
     @SuppressLint("SimpleDateFormat")
     override suspend fun postQuestion(
         title: String,
         text: String,
+        isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit
     ) {
-        dashboardRepository.postQuestion(title, text, imageList, callback)
+        dashboardRepository.postQuestion(title, text, isPrivate, imageList, callback)
     }
 
     override suspend fun postAnswer(
@@ -56,6 +58,18 @@ class DashboardUsecaseImpl @Inject constructor(
         callback: ((List<DashboardQuestionModel>?) -> Unit)
     ) {
         dashboardRepository.getQuestionsInRealtime {
+            it?.let {
+                val list = DtoTranslator.dashboardQuestionTranslator(it, compList)
+                callback(list)
+            }
+        }
+    }
+
+    override suspend fun getPublicQuestionsInRealtime(
+        compList: List<DashboardQuestionModel>?,
+        callback: ((List<DashboardQuestionModel>?) -> Unit)
+    ) {
+        dashboardRepository.getPublicQuestionsInRealtime {
             it?.let {
                 val list = DtoTranslator.dashboardQuestionTranslator(it, compList)
                 callback(list)

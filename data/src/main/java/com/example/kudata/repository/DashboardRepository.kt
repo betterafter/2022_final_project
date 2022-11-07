@@ -7,12 +7,14 @@ interface DashboardRepository {
     suspend fun postQuestion(
         title: String,
         text: String,
+        isPrivate: Boolean,
         imageList: List<Uri>
     )
 
     suspend fun postQuestion(
         title: String,
         text: String,
+        isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit
     )
@@ -28,4 +30,6 @@ interface DashboardRepository {
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
 
     suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit))
+
+    suspend fun getPublicQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit))
 }

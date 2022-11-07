@@ -10,6 +10,7 @@ data class DashboardQuestionContent(
     val likeCount: String = "",
     val location: String = "",
     val questionState: String = "",
+    val private: Boolean = true,
     val answerList: List<DashboardAnswerContent>? = null,
     val imageList: List<String>? = null,
     val commentList: List<String>? = null

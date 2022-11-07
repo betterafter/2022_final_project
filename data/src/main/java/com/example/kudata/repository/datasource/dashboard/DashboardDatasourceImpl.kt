@@ -39,6 +39,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
     override suspend fun postQuestion(
         title: String,
         text: String,
+        isPrivate: Boolean,
         imageList: List<Uri>,
         callback: (() -> Unit)?
     ) {
@@ -67,6 +68,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
                     timestamp = timestamp,
                     likeCount = "0",
                     location = "",
+                    private = isPrivate,
                     questionState = QuestionState.NEW.value,
                     answerList = listOf(),
                     imageList = list,
@@ -113,7 +115,35 @@ class DashboardDatasourceImpl : DashboardDatasource {
                     val list = mutableListOf<DashboardQuestionContent>()
                     snapshot.children.forEach {
                         it.getValue(DashboardQuestionContent::class.java)?.let { content ->
-                            list.add(content)
+                            if (content.private) {
+                                list.add(content)
+                            }
+                        }
+                    }
+
+                    callback(list)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("[keykat]", "canceled update dashboard: $error")
+                }
+
+            })
+
+        }
+    }
+
+    override suspend fun getPublicQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?) -> Unit)) {
+        if (_auth.currentUser != null) {
+            val ref = db.reference.child(DASHBOARD_KEY)
+            ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val list = mutableListOf<DashboardQuestionContent>()
+                    snapshot.children.forEach {
+                        it.getValue(DashboardQuestionContent::class.java)?.let { content ->
+                            if (!content.private) {
+                                list.add(content)
+                            }
                         }
                     }
 

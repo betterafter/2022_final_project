@@ -105,6 +105,7 @@ object DtoTranslator {
                         it.likeCount,
                         it.location,
                         it.questionState,
+                        it.private,
                         it.answerList,
                         it.imageList,
                         it.commentList,

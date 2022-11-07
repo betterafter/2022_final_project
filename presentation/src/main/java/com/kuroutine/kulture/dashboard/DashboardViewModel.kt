@@ -18,16 +18,4 @@ class DashboardViewModel @Inject constructor(
         value = "This is dashboard Fragment"
     }
     val text: LiveData<String> = _text
-
-    fun postQuestion() {
-        viewModelScope.launch {
-            dashboardUsecase.postQuestion(
-                "123", "hello", listOf()
-            )
-        }
-    }
-
-    fun getQuestions() {
-
-    }
 }

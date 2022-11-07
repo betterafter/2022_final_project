@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kuroutine.R
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,6 +34,7 @@ class PostingActivity : AppCompatActivity() {
     lateinit var submitButton: ImageButton
     lateinit var titleTextView: TextView
     lateinit var contentTextView: TextView
+    lateinit var toggleButtonGroup: MaterialButtonToggleGroup
 
     private val postingViewModel by viewModels<PostingViewModel>()
     lateinit var adapter: MultiImgAdapter
@@ -47,6 +49,7 @@ class PostingActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.btn_posting_finish)
         titleTextView = findViewById(R.id.et_posting_title)
         contentTextView = findViewById(R.id.et_posting_details)
+        toggleButtonGroup = findViewById(R.id.tbg_posting_post_type)
 
         postingViewModel.imageList.value?.let {
             adapter = MultiImgAdapter(it, this)
@@ -86,7 +89,8 @@ class PostingActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             postingViewModel.postQuestion(
                 titleTextView.text.toString(),
-                contentTextView.text.toString()
+                contentTextView.text.toString(),
+                toggleButtonGroup.checkedButtonId == R.id.btn_posting_private
             ) {
                 this.finish()
             }
