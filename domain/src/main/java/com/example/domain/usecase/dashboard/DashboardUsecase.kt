@@ -8,6 +8,7 @@ interface DashboardUsecase {
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>
     )
@@ -15,6 +16,7 @@ interface DashboardUsecase {
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit

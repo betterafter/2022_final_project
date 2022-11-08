@@ -39,6 +39,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
     override suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>,
         callback: (() -> Unit)?
@@ -67,7 +68,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
                     text = text,
                     timestamp = timestamp,
                     likeCount = "0",
-                    location = "",
+                    location = location,
                     private = isPrivate,
                     questionState = QuestionState.NEW.value,
                     answerList = listOf(),

@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.home
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
@@ -27,6 +28,7 @@ class HomeListAdapter(
         private val viewModel: HomeViewModel,
         private val callback: (String, String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
             if (!data.translatedState) {
                 data.text = translate(data.title, data)
@@ -34,6 +36,11 @@ class HomeListAdapter(
 
             binding.tvHomeUserid.text = data.userName
             binding.tvHomeQuestion.text = data.text
+            if (data.location == "") {
+                binding.tvHomeLocation.text = "위치 비공개"
+            } else {
+                binding.tvHomeLocation.text = data.location + "에서"
+            }
 
             data.imageList?.first()?.let {
                 Glide.with(binding.root.context).load(data.imageList?.first())

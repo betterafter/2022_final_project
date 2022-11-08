@@ -7,6 +7,7 @@ interface DashboardRepository {
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>
     )
@@ -14,6 +15,7 @@ interface DashboardRepository {
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit

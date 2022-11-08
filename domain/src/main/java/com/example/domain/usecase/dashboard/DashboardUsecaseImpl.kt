@@ -19,21 +19,23 @@ class DashboardUsecaseImpl @Inject constructor(
     override suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>
     ) {
-        dashboardRepository.postQuestion(title, text, isPrivate, imageList)
+        dashboardRepository.postQuestion(title, text, location, isPrivate, imageList)
     }
 
     @SuppressLint("SimpleDateFormat")
     override suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit
     ) {
-        dashboardRepository.postQuestion(title, text, isPrivate, imageList, callback)
+        dashboardRepository.postQuestion(title, text, location, isPrivate, imageList, callback)
     }
 
     override suspend fun postAnswer(

@@ -11,7 +11,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -38,8 +40,8 @@ class PostingActivity : AppCompatActivity() {
     lateinit var titleTextView: TextView
     lateinit var contentTextView: TextView
     lateinit var toggleButtonGroup: MaterialButtonToggleGroup
-    lateinit var locationButton: ImageButton
-    lateinit var locationTextView: TextView
+    lateinit var locationButton: ImageView
+    lateinit var locationTextView: EditText
 
     private lateinit var bottomSheetDialog: com.kuroutine.kulture.posting.BottomSheet
 
@@ -100,6 +102,7 @@ class PostingActivity : AppCompatActivity() {
             postingViewModel.postQuestion(
                 titleTextView.text.toString(),
                 contentTextView.text.toString(),
+                locationTextView.text.toString(),
                 toggleButtonGroup.checkedButtonId == R.id.btn_posting_private
             ) {
                 this.finish()
@@ -144,7 +147,7 @@ class PostingActivity : AppCompatActivity() {
     }
 
     private fun selectCallback(model: String) {
-        locationTextView.text = model
+        locationTextView.setText(model)
         bottomSheetDialog.dismiss()
     }
 

@@ -12,20 +12,22 @@ class DashboardRepositoryImpl @Inject constructor(
     override suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>
     ) {
-        dashboardDatasource.postQuestion(title, text, isPrivate, imageList, null)
+        dashboardDatasource.postQuestion(title, text, location, isPrivate, imageList, null)
     }
 
     override suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
         isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit
     ) {
-        dashboardDatasource.postQuestion(title, text, isPrivate, imageList, callback)
+        dashboardDatasource.postQuestion(title, text, location, isPrivate, imageList, callback)
     }
 
     override suspend fun postAnswer(
