@@ -35,10 +35,17 @@ class HomeListAdapter(
             binding.tvHomeUserid.text = data.userName
             binding.tvHomeQuestion.text = data.text
 
-            Glide.with(binding.root.context).load(data.imageList?.first())
-                //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
-                .circleCrop()
-                .into(binding.ivHomeThumbnail)
+            data.imageList?.first()?.let {
+                Glide.with(binding.root.context).load(data.imageList?.first())
+                    //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                    .circleCrop()
+                    .into(binding.ivHomeThumbnail)
+            } ?: run {
+                Glide.with(binding.root.context).load(R.drawable.ic_noimage)
+                    //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                    .circleCrop()
+                    .into(binding.ivHomeThumbnail)
+            }
 
             viewModel.getUserProfile(data.uid) {
                 if (it == "") {
