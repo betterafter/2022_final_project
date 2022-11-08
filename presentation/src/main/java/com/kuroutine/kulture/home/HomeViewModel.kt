@@ -57,7 +57,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             dashboardUsecase.getQuestionsInRealtime(list, list2, callback = { list1 ->
                 _questionList.value = list1
-                Log.d("[keykat]", "list1::::$list1")
             }, callback2 = { list2 ->
                 _publicQuestionList.value = list2
             })

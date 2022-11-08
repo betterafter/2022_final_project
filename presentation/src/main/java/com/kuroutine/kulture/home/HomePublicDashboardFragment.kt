@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
@@ -26,7 +27,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomePublicDashboardFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
     private var _binding: FragmentHomePublicDashboardBinding? = null
 
     // This property is only valid between onCreateView and
@@ -42,9 +45,6 @@ class HomePublicDashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomePublicDashboardBinding.inflate(inflater, container, false).apply {
             viewModel = homeViewModel
             lifecycleOwner = this@HomePublicDashboardFragment
@@ -71,12 +71,11 @@ class HomePublicDashboardFragment : Fragment() {
 
     private fun initObserver() {
         homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
-            Log.d("[keykat]", "${homeViewModel.publicQuestionList.value}")
             (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
         homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
+            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicQuestionList.value)
             CoroutineScope(Dispatchers.Main).launch {
                 // homeViewModel.updateTranslatedQuestionList()
             }

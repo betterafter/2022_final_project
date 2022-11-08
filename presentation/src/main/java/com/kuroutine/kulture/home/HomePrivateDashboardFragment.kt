@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
@@ -25,7 +26,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomePrivateDashboardFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
     private var _binding: FragmentHomePrivateDashboardBinding? = null
 
     // This property is only valid between onCreateView and
@@ -41,9 +44,6 @@ class HomePrivateDashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomePrivateDashboardBinding.inflate(inflater, container, false).apply {
             viewModel = homeViewModel
             lifecycleOwner = this@HomePrivateDashboardFragment
