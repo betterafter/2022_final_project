@@ -53,7 +53,9 @@
             android:layout_height="wrap_content"
             android:background="@color/main_color"
             android:paddingVertical="15dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
                 android:id="@+id/btn_posting_finish"
@@ -173,9 +175,9 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/main_color"
                 android:ems="10"
-                android:hint="title"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:hint="title"
                 android:includeFontPadding="false"
                 android:inputType="textPersonName"
                 android:textColorHighlight="@color/main_color"
@@ -189,6 +191,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,9 +205,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/main_color"
+                android:ems="10"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:ems="10"
                 android:gravity="top|left"
                 android:hint="content"
                 android:inputType="text|textMultiLine"
@@ -221,25 +224,55 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageButton
-            android:id="@+id/ib_posting_location"
-            android:layout_width="53dp"
-            android:layout_height="46dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="68dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tv_posting_location"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_posting_location"
-            app:layout_constraintEnd_toStartOf="@+id/ib_posting_location"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ib_posting_location" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <ImageView
+                android:id="@+id/ib_posting_location"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_location_black"
+                app:tint="@color/main_color" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_posting_location"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ib_posting_location"
+                tools:layout_editor_absoluteY="583dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_posting_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/main_color"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="location"
+                    android:includeFontPadding="false"
+                    android:inputType="textPersonName"
+                    android:textColorHighlight="@color/main_color"
+                    android:textCursorDrawable="@drawable/bg_edittext_cursor"
+                    android:textSelectHandle="@color/main_color" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
