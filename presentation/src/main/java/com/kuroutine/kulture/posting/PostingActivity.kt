@@ -5,27 +5,30 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.kuroutine.kulture.mypage.BottomSheetAdapter
 import com.kuroutine.kulture.PICK_IMG_FROM_ALBUM
-import com.kuroutine.kulture.chat.ChatViewModel
+import com.kuroutine.kulture.mypage.BottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
+
 
 @AndroidEntryPoint
 class PostingActivity : AppCompatActivity() {
@@ -35,6 +38,10 @@ class PostingActivity : AppCompatActivity() {
     lateinit var titleTextView: TextView
     lateinit var contentTextView: TextView
     lateinit var toggleButtonGroup: MaterialButtonToggleGroup
+    lateinit var locationButton: ImageButton
+    lateinit var locationTextView: TextView
+
+    private lateinit var bottomSheetDialog: com.kuroutine.kulture.posting.BottomSheet
 
     private val postingViewModel by viewModels<PostingViewModel>()
     lateinit var adapter: MultiImgAdapter
@@ -50,6 +57,8 @@ class PostingActivity : AppCompatActivity() {
         titleTextView = findViewById(R.id.et_posting_title)
         contentTextView = findViewById(R.id.et_posting_details)
         toggleButtonGroup = findViewById(R.id.tbg_posting_post_type)
+        locationButton = findViewById(R.id.ib_posting_location)
+        locationTextView = findViewById(R.id.tv_posting_location)
 
         postingViewModel.imageList.value?.let {
             adapter = MultiImgAdapter(it, this)
@@ -63,6 +72,7 @@ class PostingActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         initListener()
+        createBottomSheetDialog()
     }
 
     @SuppressLint("IntentReset")
@@ -95,6 +105,47 @@ class PostingActivity : AppCompatActivity() {
                 this.finish()
             }
         }
+
+        locationButton.setOnClickListener {
+            val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            if (permissionCheck == PackageManager.PERMISSION_DENIED) { //위치 권한 확인
+                //위치 권한 요청
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            } else {
+                val gpsTracker = GpsTracker(this@PostingActivity)
+
+                val latitude: Double = gpsTracker.getLatitude()
+                val longitude: Double = gpsTracker.getLongitude()
+
+                val geocoder = Geocoder(this, Locale.getDefault())
+                try {
+                    val addresses: List<Address>? = geocoder.getFromLocation(
+                        latitude,
+                        longitude,
+                        7
+                    )
+                    bottomSheetDialog.getLocations(addresses)
+                    showBottomSheet()
+                    Log.d("[keykat]", "address: ${addresses}")
+                } catch (e: Exception) {
+                    Log.d("[keykat]", "$e")
+                }
+            }
+        }
+    }
+
+    private fun createBottomSheetDialog() {
+        val adapter = BottomSheetAdapter(selectCallback = ::selectCallback)
+        bottomSheetDialog = BottomSheet(adapter)
+    }
+
+    private fun showBottomSheet() {
+        bottomSheetDialog.show(this.supportFragmentManager, "TAG")
+    }
+
+    private fun selectCallback(model: String) {
+        locationTextView.text = model
+        bottomSheetDialog.dismiss()
     }
 
     //startActivityForResult가 deprecated되는 것은 추후 수정이 필요함.

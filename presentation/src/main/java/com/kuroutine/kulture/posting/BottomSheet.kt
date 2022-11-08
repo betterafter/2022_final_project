@@ -1,34 +1,30 @@
-package com.kuroutine.kulture.mypage
+package com.kuroutine.kulture.posting
 
+import android.location.Address
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
-import com.example.kuroutine.databinding.LayoutBottomsheetLanguageBinding
+import com.example.kuroutine.databinding.LayoutBottomsheetLocationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFragment() {
-    private lateinit var bottomSheetViewModel: BottomSheetViewModel
-    private lateinit var binding: LayoutBottomsheetLanguageBinding
+    private val postingViewModel by viewModels<PostingViewModel>(
+        ownerProducer = { requireActivity() }
+    )
+    private lateinit var binding: LayoutBottomsheetLocationBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bottomSheetViewModel =
-            ViewModelProvider(this).get(BottomSheetViewModel::class.java)
 
-        binding = LayoutBottomsheetLanguageBinding.inflate(inflater, container, false).apply {
-            viewModel = bottomSheetViewModel
+        binding = LayoutBottomsheetLocationBinding.inflate(inflater, container, false).apply {
+            viewModel = postingViewModel
             lifecycleOwner = this@BottomSheet
         }
         val root: View = binding.root
-        bottomSheetViewModel.setLanguageList()
-        bottomSheetViewModel.languageList.observe(this) {
-            adapter.submitList(it)
-        }
 
         return root
     }
@@ -39,5 +35,9 @@ class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFr
         rv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
+    }
+
+    fun getLocations(list: List<Address>?) {
+        adapter.submitList(list)
     }
 }

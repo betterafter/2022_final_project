@@ -221,6 +221,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ImageButton
+            android:id="@+id/ib_posting_location"
+            android:layout_width="53dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="68dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_posting_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_posting_location"
+            app:layout_constraintEnd_toStartOf="@+id/ib_posting_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ib_posting_location" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
