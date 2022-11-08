@@ -6,10 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.dto.UserModel
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.PapagoUsecase
 import com.example.domain.usecase.user.UserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -63,8 +66,16 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    suspend fun getUserProfile(uid: String, callback: (String) -> Unit) {
+        viewModelScope.launch {
+            userUsecase.getUser(uid) {
+                callback(it.profile)
+            }
+        }
+    }
+
     suspend fun getLanguage() {
-        userUsecase.getUser {
+        userUsecase.getUser(null) {
             if (_language.value != it.language) {
                 resetTranslateState()
                 _language.value = it.language

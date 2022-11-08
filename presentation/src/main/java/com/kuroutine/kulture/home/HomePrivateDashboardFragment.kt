@@ -70,14 +70,12 @@ class HomePrivateDashboardFragment : Fragment() {
 
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
-            Log.d("[keykat]", "observe!!!!!!!!!!!!!!!!!!!!!!!!!!!${homeViewModel.questionList.value}")
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
         }
 
         homeViewModel.language.observe(viewLifecycleOwner) {
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
             CoroutineScope(Dispatchers.Main).launch {
-                // homeViewModel.updateTranslatedQuestionList()
             }
         }
     }

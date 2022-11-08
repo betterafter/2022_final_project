@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
@@ -39,7 +40,19 @@ class HomeListAdapter(
                 .circleCrop()
                 .into(binding.ivHomeThumbnail)
 
-            // TODO: 나머지도 데이터 연결할 것
+            viewModel.getUserProfile(data.uid) {
+                if (it == "") {
+                    Glide.with(binding.root.context).load(R.drawable.ic_baseline_account_circle_24)
+                        .circleCrop()
+                        .into(binding.ivHomeUserThumbnail)
+                } else {
+                    Glide.with(binding.root.context).load(it)
+                        .circleCrop()
+                        .into(binding.ivHomeUserThumbnail)
+                }
+            }
+
+            binding.tvHomeLikeNum.text = data.likeCount
 
             binding.cvHomeItem.setOnClickListener {
                 callback(data.id, data.uid)

@@ -17,8 +17,8 @@ class UserRepositoryImpl @Inject constructor(
         userDatasource.initUserInfo()
     }
 
-    override suspend fun getUser(callback: (User) -> Unit) {
-        userDatasource.getUserInfo(callback)
+    override suspend fun getUser(uid: String?, callback: (User) -> Unit) {
+        userDatasource.getUserInfo(uid, callback)
     }
 
     override suspend fun updateUserInfo(
