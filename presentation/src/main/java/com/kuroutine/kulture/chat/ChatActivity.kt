@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
@@ -96,9 +97,9 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.chat.observe(this) {
             it?.let {
                 it.imageList?.first()?.let { url ->
-                    Glide.with(binding.root.context).load(url)
-                        //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
-                        .circleCrop()
+                    Glide.with(binding.root.context)
+                        .load(url)
+                        .transform(RoundedCorners(15))
                         .into(binding.ivPrivatechatPhoto)
                 } ?: run {
                     Glide.with(binding.root.context).load(R.drawable.ic_baseline_insert_photo_24)

@@ -52,42 +52,40 @@
 
         <ImageView
             android:id="@+id/iv_privatechat_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="4dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
         <TextView
             android:id="@+id/tv_privatechat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="28dp"
             android:ems="10"
             android:hint="제목"
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/tv_privatechat_details"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_privatechat_photo"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintVertical_bias="0.071" />
+            app:layout_constraintTop_toTopOf="@+id/iv_privatechat_photo" />
 
         <TextView
             android:id="@+id/tv_privatechat_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="104dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
-            android:gravity="top"
-            android:hint="상세내용"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/rv_privatechat_chatrv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_privatechat_title" />
+            app:layout_constraintHorizontal_bias="0.018"
+            app:layout_constraintStart_toEndOf="@+id/iv_privatechat_photo"
+            app:layout_constraintTop_toBottomOf="@+id/tv_privatechat_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_privatechat_chatrv"
