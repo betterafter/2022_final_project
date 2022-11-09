@@ -10,10 +10,42 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/tbg_posting_post_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="20dp"
+            app:checkedButton="@id/btn_posting_private"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_posting_private"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1:1 질문" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_posting_public"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공개 질문" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout3"
@@ -21,7 +53,9 @@
             android:layout_height="wrap_content"
             android:background="@color/main_color"
             android:paddingVertical="15dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
                 android:id="@+id/btn_posting_finish"
@@ -124,42 +158,121 @@
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_posting_title"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/main_color"
-            android:ems="10"
-            android:hint="제목"
-            android:inputType="textPersonName"
-            android:textColorHighlight="@color/main_color"
-            android:textCursorDrawable="@drawable/bg_edittext_cursor"
-            android:textSelectHandle="@color/main_color"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/tbg_posting_post_type">
 
-        <EditText
-            android:id="@+id/et_posting_details"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_posting_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/main_color"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="title"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:textColorHighlight="@color/main_color"
+                android:textCursorDrawable="@drawable/bg_edittext_cursor"
+                android:textSelectHandle="@color/main_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tbg_posting_post_type" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/main_color"
-            android:ems="10"
-            android:gravity="top|left"
-            android:hint="상세내용"
-            android:inputType="text|textMultiLine"
-            android:lines="20"
-            android:scrollbars="vertical"
-            android:textColorHighlight="@color/main_color"
-            android:textCursorDrawable="@drawable/bg_edittext_cursor"
-            android:textSelectHandle="@color/main_color"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            tools:layout_editor_absoluteX="169dp">
+
+            <EditText
+                android:id="@+id/et_posting_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/main_color"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="top|left"
+                android:hint="content"
+                android:inputType="text|textMultiLine"
+                android:lines="10"
+                android:scrollbars="vertical"
+                android:textColorHighlight="@color/main_color"
+                android:textCursorDrawable="@drawable/bg_edittext_cursor"
+                android:textSelectHandle="@color/main_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_posting_title" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_posting_title" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <ImageView
+                android:id="@+id/ib_posting_location"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_location_black"
+                app:tint="@color/main_color" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_posting_location"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ib_posting_location"
+                tools:layout_editor_absoluteY="583dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_posting_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/main_color"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="location"
+                    android:includeFontPadding="false"
+                    android:inputType="textPersonName"
+                    android:textColorHighlight="@color/main_color"
+                    android:textCursorDrawable="@drawable/bg_edittext_cursor"
+                    android:textSelectHandle="@color/main_color" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

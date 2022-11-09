@@ -27,7 +27,6 @@ class ChatDataSourceImpl : ChatDataSource {
                 users,
                 mapOf()
             )
-            Log.d("[keykat]", "room: $room")
 
             checkIfExistPersonalChatRoom(qid, uid2) { id ->
                 if (id == null) {
@@ -49,7 +48,6 @@ class ChatDataSourceImpl : ChatDataSource {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         it.getValue(ChatRoom::class.java)?.let { room ->
-                            Log.d("[keykat]", "room::: $room")
                             list.add(room)
                         }
                     }
@@ -76,10 +74,8 @@ class ChatDataSourceImpl : ChatDataSource {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             snapshot.children.forEach { data ->
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
-                                Log.d("[keykat]", "uid: ${user.uid}, uid2: $uid2, qid: ${chatRoom!!.qid}")
                                 chatRoom.let { room ->
-                                    room.users?.let { map ->
-                                        Log.d("[keykat]", "map :::: $map")
+                                    room?.users?.let { map ->
                                         if (map.containsKey(user.uid) && map.containsKey(uid2) && map.size <= 2) {
                                             roomId = data.key
                                             getChatRoomIdCallback(data.key)

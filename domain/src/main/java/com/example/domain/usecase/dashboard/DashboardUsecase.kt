@@ -8,12 +8,16 @@ interface DashboardUsecase {
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
+        isPrivate: Boolean,
         imageList: List<Uri>
     )
 
     suspend fun postQuestion(
         title: String,
         text: String,
+        location: String,
+        isPrivate: Boolean,
         imageList: List<Uri>,
         callback: () -> Unit
     )
@@ -32,6 +36,8 @@ interface DashboardUsecase {
 
     suspend fun getQuestionsInRealtime(
         compList: List<DashboardQuestionModel>?,
-        callback: ((List<DashboardQuestionModel>?) -> Unit)
+        compList2: List<DashboardQuestionModel>?,
+        callback: ((List<DashboardQuestionModel>?) -> Unit),
+        callback2: ((List<DashboardQuestionModel>?) -> Unit)
     )
 }

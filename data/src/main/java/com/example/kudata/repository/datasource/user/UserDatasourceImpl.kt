@@ -77,10 +77,10 @@ class UserDatasourceImpl : UserDatasource {
         }
     }
 
-    override suspend fun getUserInfo(callback: (User) -> Unit) {
-        _auth.currentUser?.uid?.let { it ->
-            _fireStore.collection(it).document("/user").get().addOnCompleteListener {
-                it.result.data?.let { data ->
+    override suspend fun getUserInfo(uid: String?, callback: (User) -> Unit) {
+        uid?.let {
+            _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+                snapShot.result.data?.let { data ->
                     val user = User(
                         uid = data["uid"] as String?,
                         userName = data["userName"] as String?,
@@ -92,6 +92,24 @@ class UserDatasourceImpl : UserDatasource {
                     )
 
                     callback(user)
+                }
+            }
+        } ?: run {
+            _auth.currentUser?.uid?.let { it ->
+                _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+                    snapShot.result.data?.let { data ->
+                        val user = User(
+                            uid = data["uid"] as String?,
+                            userName = data["userName"] as String?,
+                            userEmail = data["userEmail"] as String?,
+                            userRank = data["userRank"] as String?,
+                            userXp = (data["userXp"] ?: 0) as Long,
+                            language = (data["language"] ?: "ko") as String,
+                            profile = (data["profile"] ?: "") as String
+                        )
+
+                        callback(user)
+                    }
                 }
             }
         }

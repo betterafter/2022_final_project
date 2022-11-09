@@ -86,10 +86,6 @@ class ChatActivity : AppCompatActivity() {
         }
 
         chatViewModel.chatModelList.observe(this) {
-            Log.d("[keykat]", "chatList: ${it.toString()}")
-            it?.forEach {
-                Log.d("[keykat]", "msg: ${it.message}")
-            }
             it?.let { list ->
                 (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).submitList(list)
             }

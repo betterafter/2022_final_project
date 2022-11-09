@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
@@ -27,12 +26,18 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
 
+    private lateinit var fragments: ArrayList<Fragment>
+    private lateinit var homePrivateDashboardFragment: HomePrivateDashboardFragment
+    private lateinit var homePublicDashboardFragment: HomePublicDashboardFragment
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initFragment()
     }
 
     override fun onCreateView(
@@ -68,25 +73,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun init() {
-        binding.rvHomeQuestion.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
+        binding.vpHomeDashboard.apply {
+            adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
         }
     }
 
+    private fun initFragment() {
+        fragments = ArrayList()
+        homePrivateDashboardFragment = HomePrivateDashboardFragment()
+        homePublicDashboardFragment = HomePublicDashboardFragment()
+        fragments.add(homePrivateDashboardFragment)
+        fragments.add(homePublicDashboardFragment)
+    }
+
     private fun initObserver() {
-        homeViewModel.questionList.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
-        }
-
-        homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
-            CoroutineScope(Dispatchers.Main).launch {
-                // homeViewModel.updateTranslatedQuestionList()
-            }
-        }
-
         binding.etHomeSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.searchedQuestionList.value)
+                homePrivateDashboardFragment.getAdapter().submitList(homeViewModel.searchedQuestionList.value)
             }
 
         })

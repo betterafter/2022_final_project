@@ -1,6 +1,7 @@
 package com.example.domain.usecase.user
 
 import android.net.Uri
+import android.util.Log
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.UserModel
 import com.example.kudata.repository.UserRepository
@@ -13,8 +14,8 @@ class UserUsecaseImpl @Inject constructor(
         userRepository.initUserInfo()
     }
 
-    override suspend fun getUser(callback: (UserModel) -> Unit) {
-        userRepository.getUser {
+    override suspend fun getUser(uid: String?, callback: (UserModel) -> Unit) {
+        userRepository.getUser(uid) {
             callback(DtoTranslator.userTranslator(it))
         }
     }
