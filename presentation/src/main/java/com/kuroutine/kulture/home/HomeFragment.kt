@@ -110,13 +110,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun moveToChatActivity(qid: String, uid: String) {
-        val intent = Intent(this.context, ChatActivity::class.java)
-        intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
-        intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
-        startActivity(intent)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
