@@ -30,6 +30,8 @@ interface DashboardUsecase {
         imageList: List<String>
     )
 
+    suspend fun getQuestion(uid: String): DashboardQuestionModel?
+
     suspend fun getAllQuestions(): List<DashboardQuestionContent>?
 
     suspend fun getUserQuestions(uid: String?): List<DashboardQuestionContent>?

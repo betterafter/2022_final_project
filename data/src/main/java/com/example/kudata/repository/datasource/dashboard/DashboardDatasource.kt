@@ -21,6 +21,8 @@ interface DashboardDatasource {
         imageList: List<String>,
     )
 
+    suspend fun getQuestion(uid: String): DashboardQuestionContent?
+
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
 
     suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit))

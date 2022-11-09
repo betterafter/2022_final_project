@@ -94,6 +94,18 @@ class DashboardDatasourceImpl : DashboardDatasource {
 
     }
 
+    override suspend fun getQuestion(uid: String): DashboardQuestionContent? {
+        val ref = db.reference.child(DASHBOARD_KEY).get().await()
+        ref.children.forEach {
+            val q = it.getValue(DashboardQuestionContent::class.java)
+            if (q?.id == uid) {
+                return it.getValue(DashboardQuestionContent::class.java)
+            }
+        }
+
+        return null
+    }
+
     override suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>? {
         val list = mutableListOf<DashboardQuestionContent>()
         val ref = db.reference.child(DASHBOARD_KEY).get()

@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
@@ -42,7 +43,6 @@ class ChatActivity : AppCompatActivity() {
 
     private fun init(qid: String?, uid: String?) {
         if (qid != null && uid != null) {
-            Log.d("[keykat]","uid: $uid")
             chatViewModel.initChatRoom(qid, uid) {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
@@ -52,6 +52,8 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            chatViewModel.getQuestion(qid)
         }
 
         chatViewModel.getCurrentUser()
@@ -88,6 +90,25 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.chatModelList.observe(this) {
             it?.let { list ->
                 (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).submitList(list)
+            }
+        }
+
+        chatViewModel.chat.observe(this) {
+            it?.let {
+                it.imageList?.first()?.let { url ->
+                    Glide.with(binding.root.context).load(url)
+                        //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                        .circleCrop()
+                        .into(binding.ivPrivatechatPhoto)
+                } ?: run {
+                    Glide.with(binding.root.context).load(R.drawable.ic_baseline_insert_photo_24)
+                        //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                        .circleCrop()
+                        .into(binding.ivPrivatechatPhoto)
+                }
+
+                binding.tvPrivatechatTitle.text = it.title
+                binding.tvPrivatechatDetails.text = it.text
             }
         }
     }

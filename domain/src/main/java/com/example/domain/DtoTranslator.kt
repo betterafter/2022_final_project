@@ -75,6 +75,25 @@ object DtoTranslator {
         return list
     }
 
+    fun dashboardQuestionTranslator(question: DashboardQuestionContent): DashboardQuestionModel {
+        return DashboardQuestionModel(
+            id = question.id,
+            uid = question.uid,
+            userName = question.userName,
+            title = question.title,
+            text = question.text,
+            timestamp = question.timestamp,
+            likeCount = question.likeCount,
+            location = question.location,
+            questionState = question.questionState,
+            isPrivate = question.private,
+            answerList = question.answerList,
+            imageList = question.imageList,
+            commentList = question.commentList,
+            translatedState = false,
+        )
+    }
+
     fun dashboardQuestionTranslator(
         questionList: List<DashboardQuestionContent>,
         compList: List<DashboardQuestionModel>?,
