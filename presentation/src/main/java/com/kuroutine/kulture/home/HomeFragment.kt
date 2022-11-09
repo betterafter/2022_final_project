@@ -82,8 +82,8 @@ class HomeFragment : Fragment() {
         fragments = ArrayList()
         homePrivateDashboardFragment = HomePrivateDashboardFragment()
         homePublicDashboardFragment = HomePublicDashboardFragment()
-        fragments.add(homePrivateDashboardFragment)
         fragments.add(homePublicDashboardFragment)
+        fragments.add(homePrivateDashboardFragment)
     }
 
     private fun initObserver() {
