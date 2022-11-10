@@ -13,48 +13,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient">
-
-        <ImageView
-            android:id="@+id/iv_login_chattingicon"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/chatting_icon"
-            app:layout_constraintEnd_toEndOf="@+id/iv_login_applogo"
-            app:layout_constraintStart_toStartOf="@+id/iv_login_applogo"
-            app:layout_constraintTop_toBottomOf="@+id/iv_login_applogo" />
-
-        <ImageView
-            android:id="@+id/iv_login_applogo"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_below="@+id/iv_login_chattingicon"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="15dp"
-            app:srcCompat="@drawable/kulture_logo" />
+        android:background="@drawable/bg_gradient"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_login_applogo1"
+        app:layout_constraintTop_toBottomOf="@+id/iv_login_applogo1">
 
 
         <LinearLayout
             android:id="@+id/btn_login_facebook"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/iv_login_applogo"
+            android:layout_width="209dp"
+            android:layout_height="53dp"
+            android:layout_below="@+id/iv_login_applogo1"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginBottom="212dp"
             android:background="@drawable/facebook_background_round"
             android:onClick="facebookLogin"
             android:padding="10dp"
             android:weightSum="4"
-            app:layout_constraintEnd_toEndOf="@+id/iv_login_chattingicon"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/iv_login_chattingicon"
-            app:layout_constraintTop_toBottomOf="@+id/iv_login_chattingicon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
             app:srcCompat="@drawable/logo_facebook">
 
             <ImageView
@@ -71,19 +50,20 @@
                 android:layout_weight="3"
                 android:gravity="center"
                 android:text="Facebook으로 로그인"
-                android:textStyle="bold"
+                android:fontFamily="@font/tossregular"
                 android:textAlignment="center"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_login_google"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/iv_login_applogo"
+            android:layout_width="209dp"
+            android:layout_height="53dp"
+            android:layout_below="@+id/iv_login_applogo1"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/google_background_round"
             android:onClick="googleLogin"
             android:paddingHorizontal="10dp"
@@ -108,14 +88,48 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
+                android:fontFamily="@font/tossregular"
                 android:text="Google로 로그인"
-                android:textStyle="bold"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_login_applogo1"
+            android:layout_width="354dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginBottom="102dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login_facebook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/applogo5" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="318dp"
+            android:layout_marginBottom="83dp"
+            android:fontFamily="@font/tossbold"
+            android:text="KULTURE"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login_facebook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+
+
 
 
 
