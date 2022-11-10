@@ -21,9 +21,9 @@ class ChatRepositoryUmpl @Inject constructor(
 
     }
 
-    override suspend fun getChatRooms(callback: (List<ChatRoom>) -> Unit) {
-        chatDataSource.getUserChatRoomsAsync {
-            callback(it)
+    override suspend fun getChatRooms(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit) {
+        chatDataSource.getUserChatRoomsAsync { list1, list2 ->
+            callback(list1, list2)
         }
     }
 

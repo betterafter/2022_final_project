@@ -19,10 +19,15 @@ class ChatRoomViewModel @Inject constructor(
     private val _chatRoomModelList = MutableLiveData<List<ChatRoomModel>?>().apply { value = null }
     val chatRoomModelList: LiveData<List<ChatRoomModel>?> = _chatRoomModelList
 
+    private val _publicChatRoomModelList = MutableLiveData<List<ChatRoomModel>?>().apply { value = null }
+    val publicChatRoomModelList: LiveData<List<ChatRoomModel>?> = _publicChatRoomModelList
+
+
     fun getChatRooms() {
         viewModelScope.launch {
-            chatUsecase.getChatRooms {
-                _chatRoomModelList.value = it
+            chatUsecase.getChatRooms { list1, list2 ->
+                _chatRoomModelList.value = list1
+                _publicChatRoomModelList.value = list2
             }
         }
     }

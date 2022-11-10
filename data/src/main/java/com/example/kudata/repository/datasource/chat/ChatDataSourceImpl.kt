@@ -31,28 +31,30 @@ class ChatDataSourceImpl : ChatDataSource {
             checkIfExistPersonalChatRoom(qid, uid2) { id ->
                 if (id == null) {
                     db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
-//                    checkIfExistPersonalChatRoom(qid, uid2) {
-//                        initialCallback()
-//                    }
                 }
                 initialCallback()
             }
         }
     }
 
-    override suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>) -> Unit) {
+    override suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit) {
         val list = mutableListOf<ChatRoom>()
+        val publicList = mutableListOf<ChatRoom>()
         firebaseAuth.currentUser?.let {
-            val ev = db.reference.child(CHAT_ROOM_KEY).orderByChild("users/${it.uid}").equalTo(true)
+            val ev = db.reference.child(CHAT_ROOM_KEY).orderByChild("users/${it.uid}")
             ev.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         it.getValue(ChatRoom::class.java)?.let { room ->
-                            list.add(room)
+                            if (room.private) {
+                                list.add(room)
+                            } else {
+                                publicList.add(room)
+                            }
                         }
                     }
 
-                    callback(list)
+                    callback(list, publicList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
