@@ -49,7 +49,17 @@ class ChatActivity : AppCompatActivity() {
 
     private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
         if (qid != null && uid != null) {
-            chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
+            if (isPrivate) {
+                chatViewModel.initChatRoom(qid, uid, isPrivate = true) {
+                    chatViewModel.getMessages {
+                        chatViewModel.chatModelList.value?.let {
+                            if (it.isNotEmpty()) {
+                                binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                            }
+                        }
+                    }
+                }
+            } else {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {
