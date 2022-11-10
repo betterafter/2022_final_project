@@ -89,5 +89,15 @@ class HomePublicDashboardFragment : Fragment() {
         startActivity(intent)
     }
 
-    fun getAdapter(): HomeListAdapter = binding.rvHomePublicQuestion.adapter as HomeListAdapter
+    fun getAdapter(): HomeListAdapter? {
+        _binding?.let {
+            it.rvHomePublicQuestion.adapter?.let {
+                return binding.rvHomePublicQuestion.adapter as HomeListAdapter
+            } ?: run {
+                return null
+            }
+        } ?: run {
+            return null
+        }
+    }
 }
