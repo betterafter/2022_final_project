@@ -8,30 +8,60 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.ChatModel
+import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.kuroutine.kulture.data.ChatViewType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PrivateChatAdapter(
+    private val viewModel: ChatViewModel
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var myUId: String = ""
     private val diffUtil = AsyncListDiffer(this, DiffUtils())
 
-    class LeftViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class LeftViewHolder(
+        view: View,
+        private val viewModel: ChatViewModel
+    ) : RecyclerView.ViewHolder(view) {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_left)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_left)
 
-        fun bind(data: ChatModel) {
-            tvMessage.text = data.message
+        suspend fun bind(data: ChatModel) {
+            tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
+        }
+
+        suspend fun translate(target: String): String {
+            val langCode = viewModel.checkLanguage(target)
+            return if (langCode == viewModel.language.value) {
+                ""
+            } else {
+                viewModel.getTranslatedText(target, langCode) ?: target
+            }
         }
     }
 
-    class RightViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class RightViewHolder(
+        view: View,
+        private val viewModel: ChatViewModel
+    ) : RecyclerView.ViewHolder(view) {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_right)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
-        fun bind(data: ChatModel) {
-            tvMessage.text = data.message
+        suspend fun bind(data: ChatModel) {
+            tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
+        }
+
+        suspend fun translate(target: String): String {
+            val langCode = viewModel.checkLanguage(target)
+            return if (langCode == viewModel.language.value) {
+                ""
+            } else {
+                viewModel.getTranslatedText(target, langCode) ?: target
+            }
         }
     }
 
@@ -49,12 +79,12 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return when (viewType) {
             ChatViewType.RIGHT.value -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
-                RightViewHolder(view)
+                RightViewHolder(view, viewModel)
             }
 
             ChatViewType.LEFT.value -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
-                LeftViewHolder(view)
+                LeftViewHolder(view, viewModel)
             }
 
             else -> throw RuntimeException("viewType not found.")
@@ -65,11 +95,11 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val data = diffUtil.currentList[position]
         when (holder) {
             is LeftViewHolder -> {
-                holder.bind(data)
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
             }
 
             is RightViewHolder -> {
-                holder.bind(data)
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
             }
 
             else -> throw RuntimeException("viewType not found.")
@@ -88,7 +118,7 @@ class PrivateChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return diffUtil.currentList.size
     }
 
-    class DiffUtils: DiffUtil.ItemCallback<ChatModel>() {
+    class DiffUtils : DiffUtil.ItemCallback<ChatModel>() {
         override fun areItemsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
             return oldItem.message == newItem.message && oldItem.timestamp == newItem.timestamp
         }

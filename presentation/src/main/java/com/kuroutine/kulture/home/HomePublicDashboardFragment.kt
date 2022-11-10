@@ -89,10 +89,5 @@ class HomePublicDashboardFragment : Fragment() {
         startActivity(intent)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     fun getAdapter(): HomeListAdapter = binding.rvHomePublicQuestion.adapter as HomeListAdapter
 }

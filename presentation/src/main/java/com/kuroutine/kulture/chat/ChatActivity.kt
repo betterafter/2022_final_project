@@ -13,6 +13,9 @@ import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
@@ -58,6 +61,10 @@ class ChatActivity : AppCompatActivity() {
         }
 
         chatViewModel.getCurrentUser()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            chatViewModel.getLanguage()
+        }
     }
 
     private fun initListener() {
@@ -71,7 +78,7 @@ class ChatActivity : AppCompatActivity() {
         binding.rvPrivatechatChatrv.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPrivatechatChatrv.adapter = PrivateChatAdapter()
+            binding.rvPrivatechatChatrv.adapter = PrivateChatAdapter(chatViewModel)
         }
     }
 

@@ -37,7 +37,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initFragment()
+        homePrivateDashboardFragment = HomePrivateDashboardFragment()
+        homePublicDashboardFragment = HomePublicDashboardFragment()
     }
 
     override fun onCreateView(
@@ -54,6 +55,7 @@ class HomeFragment : Fragment() {
         }
         val root: View = binding.root
 
+        initFragment()
         init()
         initListener()
         initObserver()
@@ -63,6 +65,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
         }
@@ -80,8 +83,6 @@ class HomeFragment : Fragment() {
 
     private fun initFragment() {
         fragments = ArrayList()
-        homePrivateDashboardFragment = HomePrivateDashboardFragment()
-        homePublicDashboardFragment = HomePublicDashboardFragment()
         fragments.add(homePublicDashboardFragment)
         fragments.add(homePrivateDashboardFragment)
     }
@@ -97,7 +98,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                homePrivateDashboardFragment.getAdapter().submitList(homeViewModel.searchedQuestionList.value)
+                homePrivateDashboardFragment.getAdapter()?.submitList(homeViewModel.searchedQuestionList.value)
             }
 
         })

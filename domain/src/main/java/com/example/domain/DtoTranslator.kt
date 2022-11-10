@@ -1,5 +1,6 @@
 package com.example.domain
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
@@ -9,6 +10,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
+import java.text.SimpleDateFormat
 
 object DtoTranslator {
     val languageMap = mapOf(
@@ -62,15 +64,23 @@ object DtoTranslator {
         )
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun chatTranslator(chatMap: Map<String, ChatContent>): List<ChatModel> {
         val list = mutableListOf<ChatModel>()
         chatMap.forEach {
             val element = chatMap[it.key]
+
             list.add(ChatModel(uid = element!!.uid, message = element.message, timestamp = element.timestamp))
         }
 
         // 시간 순으로 정렬 (map이라 키값으로 자동 정렬됨)
         list.sortBy { it.timestamp as Long }
+
+        list.forEach {
+            val sdf = SimpleDateFormat("MM/dd hh:mm")
+            val getTime = sdf.format(it.timestamp)
+            it.timestamp = getTime
+        }
 
         return list
     }

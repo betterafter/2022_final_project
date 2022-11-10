@@ -87,10 +87,15 @@ class HomePrivateDashboardFragment : Fragment() {
         startActivity(intent)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun getAdapter(): HomeListAdapter? {
+        _binding?.let {
+            it.rvHomeQuestion.adapter?.let {
+                return binding.rvHomeQuestion.adapter as HomeListAdapter
+            } ?: run {
+                return null
+            }
+        } ?: run {
+            return null
+        }
     }
-
-    fun getAdapter(): HomeListAdapter = binding.rvHomeQuestion.adapter as HomeListAdapter
 }

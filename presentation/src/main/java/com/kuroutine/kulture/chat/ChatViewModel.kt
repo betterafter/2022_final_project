@@ -9,6 +9,8 @@ import com.example.domain.dto.ChatModel
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
+import com.example.domain.usecase.papago.PapagoUsecase
+import com.example.domain.usecase.user.UserUsecase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,8 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatUsecase: ChatUsecase,
-    private val dashboardUsecase: DashboardUsecase
+    private val dashboardUsecase: DashboardUsecase,
+    private val papagoUsecase: PapagoUsecase,
+    private val userUsecase: UserUsecase
 ) : ViewModel() {
+    private val _language = MutableLiveData<String?>().apply { value = null }
+    val language: LiveData<String?> = _language
+
     private val _currentUser = MutableLiveData<FirebaseUser?>().apply { value = null }
     val currentUser: LiveData<FirebaseUser?> = _currentUser
 
@@ -43,6 +50,18 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    suspend fun getLanguage() {
+        userUsecase.getUser(null) {
+            if (_language.value != it.language) {
+                _language.value = it.language
+            }
+        }
+    }
+
+    suspend fun checkLanguage(data: String): String {
+        return papagoUsecase.getLangCode(data) ?: "ko"
+    }
+
     fun getQuestion(qid: String) {
         viewModelScope.launch {
             _chat.value = dashboardUsecase.getQuestion(qid)
@@ -62,5 +81,9 @@ class ChatViewModel @Inject constructor(
                 animationCallback()
             }
         }
+    }
+
+    suspend fun getTranslatedText(data: String, code: String): String? {
+        return papagoUsecase.getText(data, code, _language.value ?: "ko")
     }
 }
