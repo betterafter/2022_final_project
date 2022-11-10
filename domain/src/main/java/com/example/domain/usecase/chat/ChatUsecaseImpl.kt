@@ -20,7 +20,7 @@ class ChatUsecaseImpl @Inject constructor(
         return loginRepository.getUser()
     }
 
-    override suspend fun initRoom(qid: String, uid: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+    override suspend fun initRoom(qid: String, uid: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
         chatRepository.initRoom(qid, uid, isPrivate) {
             initialCallback()
         }

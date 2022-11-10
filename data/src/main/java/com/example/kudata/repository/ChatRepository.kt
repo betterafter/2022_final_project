@@ -4,7 +4,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 
 interface ChatRepository {
-    suspend fun initRoom(qid: String, uid2: String, isPrivate: Boolean, initialCallback: (() -> Unit))
+    suspend fun initRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit))
     suspend fun enterRoom()
     suspend fun getChatRooms(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit)
     suspend fun sendMessage(message: String, timeStamp: Long)

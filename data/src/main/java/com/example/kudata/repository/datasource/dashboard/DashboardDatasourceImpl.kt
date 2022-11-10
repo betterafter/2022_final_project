@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.DashboardAnswerContent
 import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.utils.DASHBOARD_KEY
 import com.example.kudata.utils.IMAGE_STORE_KEY
 import com.example.kudata.utils.QuestionState
@@ -34,6 +35,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
     private val _auth = Firebase.auth
     private val db = FirebaseDatabase.getInstance()
     private val storage = FirebaseStorage.getInstance()
+    private val chatDataSource = ChatDataSourceImpl()
 
     @SuppressLint("SimpleDateFormat")
     override suspend fun postQuestion(
@@ -75,6 +77,14 @@ class DashboardDatasourceImpl : DashboardDatasource {
                     imageList = list,
                     commentList = listOf(),
                 )
+
+                // 공개 질문의 경우 포스팅하자마자 채팅방 바로 생성
+                if (!content.private) {
+                    chatDataSource.initPublicChatRoom(
+                        qid = content.id,
+                        isPrivate = content.private
+                    )
+                }
 
                 db.reference.child(DASHBOARD_KEY).push().setValue(content).await()
                 if (callback != null) {

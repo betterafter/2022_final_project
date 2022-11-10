@@ -37,6 +37,21 @@ class ChatDataSourceImpl : ChatDataSource {
         }
     }
 
+    // 공개 질문 올릴 때 채팅방 바로 생성
+    override suspend fun initPublicChatRoom(qid: String, isPrivate: Boolean) {
+        firebaseAuth.currentUser?.let {
+            val users = mapOf(it.uid to true)
+            val room = ChatRoom(
+                qid,
+                private = isPrivate,
+                users,
+                mapOf()
+            )
+
+            db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
+        }
+    }
+
     override suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit) {
         val list = mutableListOf<ChatRoom>()
         val publicList = mutableListOf<ChatRoom>()
@@ -76,9 +91,9 @@ class ChatDataSourceImpl : ChatDataSource {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             snapshot.children.forEach { data ->
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
-                                chatRoom.let { room ->
-                                    room?.users?.let { map ->
-                                        if (map.containsKey(user.uid) && map.containsKey(uid2) && map.size <= 2) {
+                                chatRoom?.let { room ->
+                                    room.users?.let { map ->
+                                        if (map.containsKey(user.uid) && map.containsKey(uid2) && chatRoom.private) {
                                             roomId = data.key
                                             getChatRoomIdCallback(data.key)
 
