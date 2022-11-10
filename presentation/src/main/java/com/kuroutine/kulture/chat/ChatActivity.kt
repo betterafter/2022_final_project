@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
+import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,12 +43,13 @@ class ChatActivity : AppCompatActivity() {
         super.onStart()
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
-        init(qid, uid)
+        val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+        init(qid, uid, isPrivate)
     }
 
-    private fun init(qid: String?, uid: String?) {
+    private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
         if (qid != null && uid != null) {
-            chatViewModel.initChatRoom(qid, uid) {
+            chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {

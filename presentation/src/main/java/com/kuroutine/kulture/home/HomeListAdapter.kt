@@ -19,14 +19,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeListAdapter(
-    val moveToChatActivity: (String, String) -> Unit,
+    val moveToChatActivity: (String, String, Boolean) -> Unit,
     val viewModel: HomeViewModel
 ) : ListAdapter<DashboardQuestionModel, HomeListAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemHomeBinding,
         private val viewModel: HomeViewModel,
-        private val callback: (String, String) -> Unit
+        private val callback: (String, String, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
@@ -69,7 +69,7 @@ class HomeListAdapter(
             binding.tvHomeLikeNum.text = data.likeCount
 
             binding.cvHomeItem.setOnClickListener {
-                callback(data.id, data.uid)
+                callback(data.id, data.uid, data.isPrivate)
             }
         }
 

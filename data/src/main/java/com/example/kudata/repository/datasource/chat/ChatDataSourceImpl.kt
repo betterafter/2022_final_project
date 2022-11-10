@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 
 class ChatDataSourceImpl : ChatDataSource {
     private val db = FirebaseDatabase.getInstance()
@@ -19,11 +18,12 @@ class ChatDataSourceImpl : ChatDataSource {
 
     var roomId: String? = null
 
-    override suspend fun initChatRoom(qid: String, uid2: String, initialCallback: (() -> Unit)) {
+    override suspend fun initChatRoom(qid: String, uid2: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
         firebaseAuth.currentUser?.let {
             val users = if (it.uid != uid2) mapOf(it.uid to true, uid2 to false) else mapOf(it.uid to true)
             val room = ChatRoom(
                 qid,
+                private = isPrivate,
                 users,
                 mapOf()
             )

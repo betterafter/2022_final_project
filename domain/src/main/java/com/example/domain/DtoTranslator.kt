@@ -1,7 +1,6 @@
 package com.example.domain
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
@@ -60,6 +59,7 @@ object DtoTranslator {
         return ChatRoomModel(
             qid = chatRoom.qid,
             users = chatRoom.users,
+            isPrivate = chatRoom.private,
             contents = chatRoom.content?.let { chatTranslator(it) }
         )
     }

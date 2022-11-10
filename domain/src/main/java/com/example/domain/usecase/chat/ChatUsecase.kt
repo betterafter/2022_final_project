@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 
 interface ChatUsecase {
     suspend fun getCurrentUser(): FirebaseUser?
-    suspend fun initRoom(qid: String, uid: String, initialCallback: (() -> Unit))
+    suspend fun initRoom(qid: String, uid: String, isPrivate: Boolean, initialCallback: (() -> Unit))
     suspend fun enterRoom()
     suspend fun getChatRooms(callback: (List<ChatRoomModel>) -> Unit)
     suspend fun sendMessage(message: String)

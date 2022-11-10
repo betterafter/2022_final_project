@@ -10,19 +10,19 @@ import com.example.domain.dto.ChatRoomModel
 import com.example.kuroutine.databinding.ItemChatroomBinding
 
 class ChatRoomAdapter(
-    val moveToChatActivity: (String, String) -> Unit
+    val moveToChatActivity: (String, String, Boolean) -> Unit
 ) : ListAdapter<ChatRoomModel, ChatRoomAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemChatroomBinding,
-        private val callback: (String, String) -> Unit
+        private val callback: (String, String, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ChatRoomModel) {
             binding.tvItemChatroomContent.text = data.contents?.last()?.message
             binding.cvChatroomItem.setOnClickListener {
                 data.users?.forEach {
                     if (it.value) {
-                        callback(data.qid, it.key)
+                        callback(data.qid, it.key, data.isPrivate)
                         return@forEach
                     }
                 }

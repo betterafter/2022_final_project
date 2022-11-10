@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.example.kuroutine.databinding.FragmentHomePrivateDashboardBinding
 import com.example.kuroutine.databinding.FragmentHomePublicDashboardBinding
+import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -82,10 +83,11 @@ class HomePublicDashboardFragment : Fragment() {
         }
     }
 
-    private fun moveToChatActivity(qid: String, uid: String) {
+    private fun moveToChatActivity(qid: String, uid: String, isPrivate: Boolean) {
         val intent = Intent(this.context, ChatActivity::class.java)
         intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
         intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
+        intent.putExtra(EXTRA_KEY_ISPRIVATE, isPrivate)
         startActivity(intent)
     }
 
