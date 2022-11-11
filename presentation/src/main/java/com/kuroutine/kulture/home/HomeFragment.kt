@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -79,6 +80,14 @@ class HomeFragment : Fragment() {
         binding.vpHomeDashboard.apply {
             adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
         }
+
+        TabLayoutMediator(binding.tlHomeChatType, binding.vpHomeDashboard) { tab, position ->
+            if (position == 1) {
+                tab.text = "공개 질문"
+            } else {
+                tab.text = "1:1 질문"
+            }
+        }.attach()
     }
 
     private fun initFragment() {
