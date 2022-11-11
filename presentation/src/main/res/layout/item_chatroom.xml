@@ -50,14 +50,18 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="8"
-                        tools:text="신기열" />
+                        tools:text="신기열"
+                        android:textColor="#2C2C2C"
+                        android:fontFamily="@font/tossbold"
+                        android:textSize="18dp"/>
 
                     <TextView
                         android:id="@+id/tv_item_chatroom_time"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/tossregular"
                         tools:text="오후 2:31"/>
 
                 </LinearLayout>
@@ -68,7 +72,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    tools:text="안녕하세요!" />
+                    tools:text="안녕하세요!"
+                    android:fontFamily="@font/tossregular"/>
             </LinearLayout>
 
         </LinearLayout>

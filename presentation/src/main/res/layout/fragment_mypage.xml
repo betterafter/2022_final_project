@@ -86,7 +86,7 @@
             android:fontFamily="@font/tossbold"
             android:text="@{viewModel.currentUser.userName}"
             android:textColor="#2B2B2B"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/linearLayout"
             app:layout_constraintleft_toRightOf="@id/iv_mypage_userpic"
