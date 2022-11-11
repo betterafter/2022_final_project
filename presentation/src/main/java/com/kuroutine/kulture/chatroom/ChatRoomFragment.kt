@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentChatroomBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {
@@ -66,6 +69,12 @@ class ChatRoomFragment : Fragment() {
         }.attach()
 
         chatRoomViewModel.getChatRooms()
+
+        chatRoomViewModel.getCurrentUser()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            chatRoomViewModel.getLanguage()
+        }
     }
 
     private fun initFragment() {

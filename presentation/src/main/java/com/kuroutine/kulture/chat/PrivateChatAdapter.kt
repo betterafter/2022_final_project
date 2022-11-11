@@ -31,6 +31,7 @@ class PrivateChatAdapter(
         suspend fun bind(data: ChatModel) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
+            data.translatedMessage = tvMessage.text.toString()
         }
 
         suspend fun translate(target: String): String {

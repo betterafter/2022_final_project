@@ -72,8 +72,14 @@ object DtoTranslator {
         val list = mutableListOf<ChatModel>()
         chatMap.forEach {
             val element = chatMap[it.key]
-
-            list.add(ChatModel(uid = element!!.uid, message = element.message, timestamp = element.timestamp))
+            list.add(
+                ChatModel(
+                    uid = element!!.uid,
+                    message = element.message,
+                    translatedMessage = "",
+                    timestamp = element.timestamp
+                )
+            )
         }
 
         // 시간 순으로 정렬 (map이라 키값으로 자동 정렬됨)

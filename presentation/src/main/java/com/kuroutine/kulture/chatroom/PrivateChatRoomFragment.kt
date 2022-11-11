@@ -16,6 +16,7 @@ import com.kuroutine.kulture.chat.ChatActivity
 import com.kuroutine.kulture.chat.ChatViewModel
 import com.kuroutine.kulture.home.HomeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class PrivateChatRoomFragment : Fragment() {
 
@@ -57,7 +58,8 @@ class PrivateChatRoomFragment : Fragment() {
         binding.rvPrivateChatroomList.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPrivateChatroomList.adapter = ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity)
+            binding.rvPrivateChatroomList.adapter =
+                ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
         }
     }
 

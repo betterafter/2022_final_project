@@ -15,6 +15,7 @@ import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
 import com.kuroutine.kulture.home.HomeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class PublicChatRoomFragment : Fragment() {
 
@@ -56,7 +57,8 @@ class PublicChatRoomFragment : Fragment() {
         binding.rvPublicChatroomList.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPublicChatroomList.adapter = ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity)
+            binding.rvPublicChatroomList.adapter =
+                ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
         }
     }
 
