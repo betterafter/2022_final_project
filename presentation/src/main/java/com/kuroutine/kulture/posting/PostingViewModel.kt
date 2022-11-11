@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostingViewModel @Inject constructor(
-    private val dashboardUsecase: DashboardUsecase
+    private val dashboardUsecase: DashboardUsecase,
+    private val chatUsecase: ChatUsecase
 ) : ViewModel() {
     private val _imageList = MutableLiveData<List<Uri>>().apply {
         value = listOf()

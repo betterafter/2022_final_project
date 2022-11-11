@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.example.kuroutine.databinding.FragmentHomePrivateDashboardBinding
-import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -25,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomePrivateDashboardFragment : Fragment() {
+class PublicBestFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels(
         ownerProducer = { requireParentFragment() }
@@ -47,57 +46,14 @@ class HomePrivateDashboardFragment : Fragment() {
     ): View? {
         _binding = FragmentHomePrivateDashboardBinding.inflate(inflater, container, false).apply {
             viewModel = homeViewModel
-            lifecycleOwner = this@HomePrivateDashboardFragment
+            lifecycleOwner = this@PublicBestFragment
         }
         val root: View = binding.root
-
-        init()
-        initObserver()
 
         return root
     }
 
     override fun onResume() {
         super.onResume()
-    }
-
-    private fun init() {
-        binding.rvHomeQuestion.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel, parentFragmentManager)
-        }
-    }
-
-    private fun initObserver() {
-        homeViewModel.questionList.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
-        }
-
-        homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
-            CoroutineScope(Dispatchers.Main).launch {
-            }
-        }
-    }
-
-    private fun moveToChatActivity(qid: String, uid: String, isPrivate: Boolean) {
-        val intent = Intent(this.context, ChatActivity::class.java)
-        intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
-        intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
-        intent.putExtra(EXTRA_KEY_ISPRIVATE, isPrivate)
-        startActivity(intent)
-    }
-
-    fun getAdapter(): HomeListAdapter? {
-        _binding?.let {
-            it.rvHomeQuestion.adapter?.let {
-                return binding.rvHomeQuestion.adapter as HomeListAdapter
-            } ?: run {
-                return null
-            }
-        } ?: run {
-            return null
-        }
     }
 }

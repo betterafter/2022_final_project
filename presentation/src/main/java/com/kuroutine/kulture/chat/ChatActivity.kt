@@ -6,11 +6,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
+import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
@@ -37,13 +44,23 @@ class ChatActivity : AppCompatActivity() {
         super.onStart()
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
-        init(qid, uid)
+        val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+        init(qid, uid, isPrivate)
     }
 
-    private fun init(qid: String?, uid: String?) {
+    private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
         if (qid != null && uid != null) {
-            Log.d("[keykat]","uid: $uid")
-            chatViewModel.initChatRoom(qid, uid) {
+            if (isPrivate) {
+                chatViewModel.initChatRoom(qid, uid, isPrivate = true) {
+                    chatViewModel.getMessages {
+                        chatViewModel.chatModelList.value?.let {
+                            if (it.isNotEmpty()) {
+                                binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                            }
+                        }
+                    }
+                }
+            } else {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {
@@ -52,9 +69,15 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            chatViewModel.getQuestion(qid)
         }
 
         chatViewModel.getCurrentUser()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            chatViewModel.getLanguage()
+        }
     }
 
     private fun initListener() {
@@ -68,7 +91,7 @@ class ChatActivity : AppCompatActivity() {
         binding.rvPrivatechatChatrv.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPrivatechatChatrv.adapter = PrivateChatAdapter()
+            binding.rvPrivatechatChatrv.adapter = PrivateChatAdapter(chatViewModel)
         }
     }
 
@@ -89,6 +112,39 @@ class ChatActivity : AppCompatActivity() {
             it?.let { list ->
                 (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).submitList(list)
             }
+        }
+
+        chatViewModel.chat.observe(this) {
+            it?.let {
+                it.imageList?.first()?.let { url ->
+                    Glide.with(binding.root.context)
+                        .load(url)
+                        .transform(RoundedCorners(15))
+                        .into(binding.ivPrivatechatPhoto)
+                } ?: run {
+                    Glide.with(binding.root.context).load(R.drawable.ic_baseline_insert_photo_24)
+                        //.transform(GranularRoundedCorners(30F, 0F, 0F, 30F))
+                        .circleCrop()
+                        .into(binding.ivPrivatechatPhoto)
+                }
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    it.translatedTitle = translate(it.title, it)
+                    it.translatedText = translate(it.text, it)
+                    binding.tvPrivatechatTitle.text = it.translatedTitle
+                    binding.tvPrivatechatDetails.text = it.translatedText
+                }
+            }
+        }
+    }
+
+    suspend fun translate(target: String, data: DashboardQuestionModel): String {
+        data.translatedState = true
+        val langCode = chatViewModel.checkLanguage(target)
+        return if (langCode == chatViewModel.language.value) {
+            ""
+        } else {
+            chatViewModel.getTranslatedText(target, langCode) ?: target
         }
     }
 }

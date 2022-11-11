@@ -48,6 +48,13 @@ class DashboardUsecaseImpl @Inject constructor(
 
     }
 
+    override suspend fun getQuestion(uid: String): DashboardQuestionModel? {
+        dashboardRepository.getQuestion(uid)?.let {
+            return DtoTranslator.dashboardQuestionTranslator(it)
+        }
+        return null
+    }
+
     override suspend fun getAllQuestions(): List<DashboardQuestionContent>? {
         return dashboardRepository.getQuestions(null)
     }

@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 
 class ChatDataSourceImpl : ChatDataSource {
     private val db = FirebaseDatabase.getInstance()
@@ -19,11 +18,12 @@ class ChatDataSourceImpl : ChatDataSource {
 
     var roomId: String? = null
 
-    override suspend fun initChatRoom(qid: String, uid2: String, initialCallback: (() -> Unit)) {
+    override suspend fun initChatRoom(qid: String, uid2: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
         firebaseAuth.currentUser?.let {
             val users = if (it.uid != uid2) mapOf(it.uid to true, uid2 to false) else mapOf(it.uid to true)
             val room = ChatRoom(
                 qid,
+                private = isPrivate,
                 users,
                 mapOf()
             )
@@ -31,28 +31,45 @@ class ChatDataSourceImpl : ChatDataSource {
             checkIfExistPersonalChatRoom(qid, uid2) { id ->
                 if (id == null) {
                     db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
-//                    checkIfExistPersonalChatRoom(qid, uid2) {
-//                        initialCallback()
-//                    }
                 }
                 initialCallback()
             }
         }
     }
 
-    override suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>) -> Unit) {
-        val list = mutableListOf<ChatRoom>()
+    // 공개 질문 올릴 때 채팅방 바로 생성
+    override suspend fun initPublicChatRoom(qid: String, isPrivate: Boolean) {
         firebaseAuth.currentUser?.let {
-            val ev = db.reference.child(CHAT_ROOM_KEY).orderByChild("users/${it.uid}").equalTo(true)
+            val users = mapOf(it.uid to true)
+            val room = ChatRoom(
+                qid,
+                private = isPrivate,
+                users,
+                mapOf()
+            )
+
+            db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
+        }
+    }
+
+    override suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit) {
+        val list = mutableListOf<ChatRoom>()
+        val publicList = mutableListOf<ChatRoom>()
+        firebaseAuth.currentUser?.let {
+            val ev = db.reference.child(CHAT_ROOM_KEY).orderByChild("users/${it.uid}")
             ev.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         it.getValue(ChatRoom::class.java)?.let { room ->
-                            list.add(room)
+                            if (room.private) {
+                                list.add(room)
+                            } else {
+                                publicList.add(room)
+                            }
                         }
                     }
 
-                    callback(list)
+                    callback(list, publicList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -74,9 +91,9 @@ class ChatDataSourceImpl : ChatDataSource {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             snapshot.children.forEach { data ->
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
-                                chatRoom.let { room ->
-                                    room?.users?.let { map ->
-                                        if (map.containsKey(user.uid) && map.containsKey(uid2) && map.size <= 2) {
+                                chatRoom?.let { room ->
+                                    room.users?.let { map ->
+                                        if (map.containsKey(user.uid) && map.containsKey(uid2) && chatRoom.private) {
                                             roomId = data.key
                                             getChatRoomIdCallback(data.key)
 

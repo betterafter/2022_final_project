@@ -8,24 +8,41 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.ChatRoomModel
 import com.example.kuroutine.databinding.ItemChatroomBinding
+import com.kuroutine.kulture.chat.ChatViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatRoomAdapter(
-    val moveToChatActivity: (String, String) -> Unit
+    val moveToChatActivity: (String, String, Boolean) -> Unit,
+    private val viewModel: ChatRoomViewModel
 ) : ListAdapter<ChatRoomModel, ChatRoomAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemChatroomBinding,
-        private val callback: (String, String) -> Unit
+        private val callback: (String, String, Boolean) -> Unit,
+        private val viewModel: ChatRoomViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ChatRoomModel) {
-            binding.tvItemChatroomContent.text = data.contents?.last()?.message
+        suspend fun bind(data: ChatRoomModel) {
+            data.contents?.last()?.message?.let {
+                binding.tvItemChatroomContent.text = translate(it)
+            }
             binding.cvChatroomItem.setOnClickListener {
                 data.users?.forEach {
                     if (it.value) {
-                        callback(data.qid, it.key)
+                        callback(data.qid, it.key, data.isPrivate)
                         return@forEach
                     }
                 }
+            }
+        }
+
+        suspend fun translate(target: String): String {
+            val langCode = viewModel.checkLanguage(target)
+            return if (langCode == viewModel.language.value) {
+                ""
+            } else {
+                viewModel.getTranslatedText(target, langCode) ?: target
             }
         }
     }
@@ -33,7 +50,8 @@ class ChatRoomAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemChatroomBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            moveToChatActivity
+            moveToChatActivity,
+            viewModel
         )
     }
 
@@ -54,6 +72,8 @@ class ChatRoomAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = currentList[position]
-        holder.bind(data)
+        CoroutineScope(Dispatchers.Main).launch {
+            holder.bind(data)
+        }
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.example.kuroutine.databinding.FragmentHomePrivateDashboardBinding
 import com.example.kuroutine.databinding.FragmentHomePublicDashboardBinding
+import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -65,7 +66,7 @@ class HomePublicDashboardFragment : Fragment() {
         binding.rvHomePublicQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
+            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel, parentFragmentManager)
         }
     }
 
@@ -82,17 +83,23 @@ class HomePublicDashboardFragment : Fragment() {
         }
     }
 
-    private fun moveToChatActivity(qid: String, uid: String) {
+    private fun moveToChatActivity(qid: String, uid: String, isPrivate: Boolean) {
         val intent = Intent(this.context, ChatActivity::class.java)
         intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
         intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
+        intent.putExtra(EXTRA_KEY_ISPRIVATE, isPrivate)
         startActivity(intent)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun getAdapter(): HomeListAdapter? {
+        _binding?.let {
+            it.rvHomePublicQuestion.adapter?.let {
+                return binding.rvHomePublicQuestion.adapter as HomeListAdapter
+            } ?: run {
+                return null
+            }
+        } ?: run {
+            return null
+        }
     }
-
-    fun getAdapter(): HomeListAdapter = binding.rvHomePublicQuestion.adapter as HomeListAdapter
 }

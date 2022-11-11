@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -37,7 +38,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initFragment()
+        homePrivateDashboardFragment = HomePrivateDashboardFragment()
+        homePublicDashboardFragment = HomePublicDashboardFragment()
     }
 
     override fun onCreateView(
@@ -54,6 +56,7 @@ class HomeFragment : Fragment() {
         }
         val root: View = binding.root
 
+        initFragment()
         init()
         initListener()
         initObserver()
@@ -63,6 +66,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
         }
@@ -73,17 +77,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun init() {
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.getCurrentUser()
+        }
+
         binding.vpHomeDashboard.apply {
             adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
         }
+
+        TabLayoutMediator(binding.tlHomeChatType, binding.vpHomeDashboard) { tab, position ->
+            if (position == 0) {
+                tab.text = "공개 질문"
+            } else {
+                tab.text = "1:1 질문"
+            }
+        }.attach()
     }
 
     private fun initFragment() {
         fragments = ArrayList()
-        homePrivateDashboardFragment = HomePrivateDashboardFragment()
-        homePublicDashboardFragment = HomePublicDashboardFragment()
-        fragments.add(homePrivateDashboardFragment)
         fragments.add(homePublicDashboardFragment)
+        fragments.add(homePrivateDashboardFragment)
     }
 
     private fun initObserver() {
@@ -97,7 +111,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                homePrivateDashboardFragment.getAdapter().submitList(homeViewModel.searchedQuestionList.value)
+                homePrivateDashboardFragment.getAdapter()?.submitList(homeViewModel.searchedQuestionList.value)
             }
 
         })
@@ -108,13 +122,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(this.context, PostingActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun moveToChatActivity(qid: String, uid: String) {
-        val intent = Intent(this.context, ChatActivity::class.java)
-        intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
-        intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
-        startActivity(intent)
     }
 
     override fun onDestroyView() {

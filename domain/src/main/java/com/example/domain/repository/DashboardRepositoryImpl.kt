@@ -40,6 +40,10 @@ class DashboardRepositoryImpl @Inject constructor(
 
     }
 
+    override suspend fun getQuestion(uid: String): DashboardQuestionContent? {
+        return dashboardDatasource.getQuestion(uid)
+    }
+
     override suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>? {
         return dashboardDatasource.getQuestions(uid)
     }

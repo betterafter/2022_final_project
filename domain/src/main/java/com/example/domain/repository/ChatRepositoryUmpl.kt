@@ -11,9 +11,11 @@ class ChatRepositoryUmpl @Inject constructor(
 ) : ChatRepository {
 
     // 채팅방 초기화. 사용자의 uid 기준으로 채팅방 생성
-    override suspend fun initRoom(qid: String, uid2: String, initialCallback: (() -> Unit)) {
-        chatDataSource.initChatRoom(qid, uid2) {
-            initialCallback()
+    override suspend fun initRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+        if (uid2 != null && isPrivate) {
+            chatDataSource.initChatRoom(qid, uid2, isPrivate) {
+                initialCallback()
+            }
         }
     }
 
@@ -21,9 +23,9 @@ class ChatRepositoryUmpl @Inject constructor(
 
     }
 
-    override suspend fun getChatRooms(callback: (List<ChatRoom>) -> Unit) {
-        chatDataSource.getUserChatRoomsAsync {
-            callback(it)
+    override suspend fun getChatRooms(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit) {
+        chatDataSource.getUserChatRoomsAsync { list1, list2 ->
+            callback(list1, list2)
         }
     }
 
