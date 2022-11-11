@@ -50,7 +50,10 @@ object DtoTranslator {
     fun chatRoomsTranslator(chatRooms: List<ChatRoom>): List<ChatRoomModel> {
         val list = mutableListOf<ChatRoomModel>()
         chatRooms.forEach {
-            list.add(chatRoomTranslator(it))
+            val chatRoom = chatRoomTranslator(it)
+            if (chatRoom.contents != null && chatRoom.contents.isNotEmpty()) {
+                list.add(chatRoomTranslator(it))
+            }
         }
         return list
     }
