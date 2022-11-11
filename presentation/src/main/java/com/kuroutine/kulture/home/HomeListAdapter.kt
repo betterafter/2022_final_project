@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,19 +15,22 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemHomeBinding
+import com.kuroutine.kulture.CommonDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeListAdapter(
     val moveToChatActivity: (String, String, Boolean) -> Unit,
-    val viewModel: HomeViewModel
+    val viewModel: HomeViewModel,
+    private val fragmentManager: FragmentManager
 ) : ListAdapter<DashboardQuestionModel, HomeListAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemHomeBinding,
         private val viewModel: HomeViewModel,
-        private val callback: (String, String, Boolean) -> Unit
+        private val callback: (String, String, Boolean) -> Unit,
+        private val fragmentManager: FragmentManager
     ) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
@@ -71,7 +75,14 @@ class HomeListAdapter(
             binding.tvHomeLikeNum.text = data.likeCount
 
             binding.cvHomeItem.setOnClickListener {
-                callback(data.id, data.uid, data.isPrivate)
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (data.uid != viewModel.currentUser.value?.uid) {
+                        callback(data.id, data.uid, data.isPrivate)
+                    } else {
+                        val dialog = CommonDialog()
+                        dialog.show(fragmentManager, "")
+                    }
+                }
             }
         }
 
@@ -91,7 +102,8 @@ class HomeListAdapter(
         return ViewHolder(
             ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             viewModel,
-            moveToChatActivity
+            moveToChatActivity,
+            fragmentManager
         )
     }
 

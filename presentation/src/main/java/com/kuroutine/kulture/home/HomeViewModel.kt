@@ -48,6 +48,11 @@ class HomeViewModel @Inject constructor(
     }
     val searchedPublicQuestionList: LiveData<List<DashboardQuestionModel>?> = _searchedPublicQuestionList
 
+    private val _currentUser = MutableLiveData<UserModel?>().apply {
+        value = null
+    }
+    val currentUser: LiveData<UserModel?> = _currentUser
+
     // 사용자에 맞는 언어로 실시간 변환
     suspend fun getQuestions() {
         val list = _questionList.value
@@ -63,6 +68,14 @@ class HomeViewModel @Inject constructor(
             }, callback2 = { list2 ->
                 _publicQuestionList.value = list2
             })
+        }
+    }
+
+    suspend fun getCurrentUser() {
+        viewModelScope.launch {
+            userUsecase.getUser(null) {
+                _currentUser.value = it
+            }
         }
     }
 

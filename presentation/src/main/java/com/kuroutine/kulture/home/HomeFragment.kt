@@ -77,6 +77,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun init() {
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.getCurrentUser()
+        }
+
         binding.vpHomeDashboard.apply {
             adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
         }
