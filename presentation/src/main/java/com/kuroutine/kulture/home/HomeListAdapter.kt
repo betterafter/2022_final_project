@@ -31,11 +31,13 @@ class HomeListAdapter(
         @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
             if (!data.translatedState) {
-                data.text = translate(data.title, data)
+                data.translatedTitle = translate(data.title, data)
+                data.translatedText = translate(data.text, data)
+                data.translatedLocation = translate(data.location, data)
             }
 
             binding.tvHomeUserid.text = data.userName
-            binding.tvHomeQuestion.text = data.text
+            binding.tvHomeQuestion.text = data.translatedTitle
             if (data.location == "") {
                 binding.tvHomeLocation.text = "위치 비공개"
             } else {

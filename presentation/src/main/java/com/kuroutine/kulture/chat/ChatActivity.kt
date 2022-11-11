@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
@@ -127,9 +128,23 @@ class ChatActivity : AppCompatActivity() {
                         .into(binding.ivPrivatechatPhoto)
                 }
 
-                binding.tvPrivatechatTitle.text = it.title
-                binding.tvPrivatechatDetails.text = it.text
+                CoroutineScope(Dispatchers.Main).launch {
+                    it.translatedTitle = translate(it.title, it)
+                    it.translatedText = translate(it.text, it)
+                    binding.tvPrivatechatTitle.text = it.translatedTitle
+                    binding.tvPrivatechatDetails.text = it.translatedText
+                }
             }
+        }
+    }
+
+    suspend fun translate(target: String, data: DashboardQuestionModel): String {
+        data.translatedState = true
+        val langCode = chatViewModel.checkLanguage(target)
+        return if (langCode == chatViewModel.language.value) {
+            ""
+        } else {
+            chatViewModel.getTranslatedText(target, langCode) ?: target
         }
     }
 }

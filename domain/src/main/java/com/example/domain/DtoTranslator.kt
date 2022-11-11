@@ -134,19 +134,22 @@ object DtoTranslator {
             if (!isChk) {
                 list.add(
                     DashboardQuestionModel(
-                        it.id,
-                        it.uid,
-                        it.userName,
-                        it.title,
-                        it.text,
-                        it.timestamp,
-                        it.likeCount,
-                        it.location,
-                        it.questionState,
-                        it.private,
-                        it.answerList,
-                        it.imageList,
-                        it.commentList,
+                        id = it.id,
+                        uid = it.uid,
+                        userName = it.userName,
+                        title = it.title,
+                        translatedTitle = "",
+                        text = it.text,
+                        translatedText = "",
+                        timestamp = it.timestamp,
+                        likeCount = it.likeCount,
+                        location = it.location,
+                        translatedLocation = "",
+                        questionState = it.questionState,
+                        isPrivate = it.private,
+                        answerList = it.answerList,
+                        imageList = it.imageList,
+                        commentList = it.commentList,
                         false
                     )
                 )
