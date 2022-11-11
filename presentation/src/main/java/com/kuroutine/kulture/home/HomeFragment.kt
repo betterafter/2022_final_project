@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
         }
 
         TabLayoutMediator(binding.tlHomeChatType, binding.vpHomeDashboard) { tab, position ->
-            if (position == 1) {
+            if (position == 0) {
                 tab.text = "공개 질문"
             } else {
                 tab.text = "1:1 질문"

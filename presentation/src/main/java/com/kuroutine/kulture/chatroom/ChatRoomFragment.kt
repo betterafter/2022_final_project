@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentChatroomBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,6 +56,14 @@ class ChatRoomFragment : Fragment() {
         binding.vpChatroomScreen.apply {
             adapter = ChatPager2Adapter(this@ChatRoomFragment, fragments)
         }
+
+        TabLayoutMediator(binding.tlChatroomType, binding.vpChatroomScreen) { tab, position ->
+            if (position == 0) {
+                tab.text = "1:1 질문 채팅방"
+            } else {
+                tab.text = "공개 질문 채팅방"
+            }
+        }.attach()
 
         chatRoomViewModel.getChatRooms()
     }
