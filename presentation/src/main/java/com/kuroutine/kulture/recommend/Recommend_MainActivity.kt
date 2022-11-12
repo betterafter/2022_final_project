@@ -9,17 +9,23 @@ import com.example.kuroutine.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import java.io.FileOutputStream
+import java.util.Random
 
 
 class Recommend_MainActivity : AppCompatActivity() {
 
         var videolist : ArrayList<YouTubePlayerView> = ArrayList()
         var videourl : ArrayList<String> = ArrayList()
+        var listenedMusicList : ArrayList<String> = ArrayList()
         lateinit var recyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.kuroutine.R.layout.fragment_recommend)
+        setContentView(R.layout.fragment_recommend)
+        initDB()
+        val tfidf_matrix = Make_TFIDF_Matrix(data['아티스트명'])
+        val cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
         videourl.add("https://www.youtube.com/watch?v=fCO7f0SmrDc")
         videourl.add("https://www.youtube.com/watch?v=FqmYc62HUec&list=PL4fGSI1pDJn5S09aId3dUGp40ygUqmPGc&index=3")
@@ -52,8 +58,40 @@ class Recommend_MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    //# 이는 1698개의 각 문서 벡터(가수 벡터)와 자기 자신을 포함한
+    //# 1698개의 문서 벡터 간의 유사도가 기록된 행렬입니다.
+    //# 모든 1698개 가수의 상호 유사도가 기록되어져 있습니다.
+    private fun cosine_similarity(tfidfMatrix: Any, tfidfMatrix1: Any): Any {
 
     }
+
+    //Returning TF-IDF Matrix
+    private fun Make_TFIDF_Matrix(any: Any): Any {
+
+    }
+
+    //음악 리스트 데이터베이스를 초기화
+    private fun initDB() {
+        val dbfile = getDatabasePath("music_list.db")
+        if(dbfile.parentFile.exists())
+        {
+            dbfile.parentFile.mkdir()
+        }
+        if(!dbfile.exists()){
+            val file = resources.openRawResource(R.raw.music_list)
+            val fileSize = file.available()
+            val buffer = ByteArray(fileSize)
+            file.read(buffer)
+            file.close()
+            dbfile.createNewFile()
+            val output = FileOutputStream(dbfile)
+            output.write(buffer)
+            output.close()
+        }
+    }
+
+
+}
 
 
 
