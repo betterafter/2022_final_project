@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.domain.dto.LanguageModel
+import com.example.domain.dto.QuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.FragmentMypageBinding
 import com.kuroutine.kulture.PICK_IMG_FROM_ALBUM
@@ -31,6 +32,7 @@ class MyPageFragment : Fragment() {
     private var _binding: FragmentMypageBinding? = null
 
     private lateinit var bottomSheetDialog: BottomSheet
+    private lateinit var questionsBottomSheetDialog: QuestionsBottomSheet
     private val binding get() = _binding!!
 
     private lateinit var contxt: Context
@@ -87,6 +89,10 @@ class MyPageFragment : Fragment() {
             showBottomSheet()
         }
 
+        binding.llMypageMyquestions.setOnClickListener {
+            showQuestionBottomSheet()
+        }
+
         binding.ivMypageUserpic.setOnClickListener {
             val permission = ContextCompat.checkSelfPermission(contxt, Manifest.permission.READ_EXTERNAL_STORAGE)
             if(permission == PackageManager.PERMISSION_DENIED){
@@ -110,15 +116,25 @@ class MyPageFragment : Fragment() {
     private fun createBottomSheetDialog() {
         val adapter = BottomSheetAdapter(selectCallback = ::selectCallback)
         bottomSheetDialog = BottomSheet(adapter)
+        val adapter2 = QuestionsBottomSheetAdapter(selectCallback = ::selectCallback2)
+        questionsBottomSheetDialog = QuestionsBottomSheet(adapter2)
     }
 
     private fun showBottomSheet() {
         bottomSheetDialog.show(parentFragmentManager, "TAG")
     }
 
+    private fun showQuestionBottomSheet() {
+        questionsBottomSheetDialog.show(parentFragmentManager, "TAG")
+    }
+
     private fun selectCallback(model: LanguageModel) {
         myPageViewModel.updateUserLanguage(model)
         bottomSheetDialog.dismiss()
+    }
+
+    private fun selectCallback2(model: QuestionModel) {
+        questionsBottomSheetDialog.dismiss()
     }
 
     //startActivityForResult가 deprecated되는 것은 추후 수정이 필요함.
