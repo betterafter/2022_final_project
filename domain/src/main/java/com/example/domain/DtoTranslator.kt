@@ -1,6 +1,6 @@
 package com.example.domain
 
-import android.util.Log
+import android.annotation.SuppressLint
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
@@ -9,6 +9,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
+import java.text.SimpleDateFormat
 
 object DtoTranslator {
     val languageMap = mapOf(
@@ -49,7 +50,10 @@ object DtoTranslator {
     fun chatRoomsTranslator(chatRooms: List<ChatRoom>): List<ChatRoomModel> {
         val list = mutableListOf<ChatRoomModel>()
         chatRooms.forEach {
-            list.add(chatRoomTranslator(it))
+            val chatRoom = chatRoomTranslator(it)
+            if (chatRoom.contents != null && chatRoom.contents.isNotEmpty()) {
+                list.add(chatRoomTranslator(it))
+            }
         }
         return list
     }
@@ -58,21 +62,55 @@ object DtoTranslator {
         return ChatRoomModel(
             qid = chatRoom.qid,
             users = chatRoom.users,
+            isPrivate = chatRoom.private,
             contents = chatRoom.content?.let { chatTranslator(it) }
         )
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun chatTranslator(chatMap: Map<String, ChatContent>): List<ChatModel> {
         val list = mutableListOf<ChatModel>()
         chatMap.forEach {
             val element = chatMap[it.key]
-            list.add(ChatModel(uid = element!!.uid, message = element.message, timestamp = element.timestamp))
+            list.add(
+                ChatModel(
+                    uid = element!!.uid,
+                    message = element.message,
+                    translatedMessage = "",
+                    timestamp = element.timestamp
+                )
+            )
         }
 
         // 시간 순으로 정렬 (map이라 키값으로 자동 정렬됨)
         list.sortBy { it.timestamp as Long }
 
+        list.forEach {
+            val sdf = SimpleDateFormat("MM/dd hh:mm")
+            val getTime = sdf.format(it.timestamp)
+            it.timestamp = getTime
+        }
+
         return list
+    }
+
+    fun dashboardQuestionTranslator(question: DashboardQuestionContent): DashboardQuestionModel {
+        return DashboardQuestionModel(
+            id = question.id,
+            uid = question.uid,
+            userName = question.userName,
+            title = question.title,
+            text = question.text,
+            timestamp = question.timestamp,
+            likeCount = question.likeCount,
+            location = question.location,
+            questionState = question.questionState,
+            isPrivate = question.private,
+            answerList = question.answerList,
+            imageList = question.imageList,
+            commentList = question.commentList,
+            translatedState = false,
+        )
     }
 
     fun dashboardQuestionTranslator(
@@ -96,18 +134,22 @@ object DtoTranslator {
             if (!isChk) {
                 list.add(
                     DashboardQuestionModel(
-                        it.id,
-                        it.uid,
-                        it.userName,
-                        it.title,
-                        it.text,
-                        it.timestamp,
-                        it.likeCount,
-                        it.location,
-                        it.questionState,
-                        it.answerList,
-                        it.imageList,
-                        it.commentList,
+                        id = it.id,
+                        uid = it.uid,
+                        userName = it.userName,
+                        title = it.title,
+                        translatedTitle = "",
+                        text = it.text,
+                        translatedText = "",
+                        timestamp = it.timestamp,
+                        likeCount = it.likeCount,
+                        location = it.location,
+                        translatedLocation = "",
+                        questionState = it.questionState,
+                        isPrivate = it.private,
+                        answerList = it.answerList,
+                        imageList = it.imageList,
+                        commentList = it.commentList,
                         false
                     )
                 )

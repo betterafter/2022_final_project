@@ -5,7 +5,8 @@ import com.example.kudata.entity.User
 
 interface UserDatasource {
     suspend fun initUserInfo()
-    suspend fun getUserInfo(callback: (User) -> Unit)
+    suspend fun getUserInfo(uid: String?, callback: (User) -> Unit)
+    suspend fun getUserInfo(uid: String?): User?
     suspend fun updateUserInfo(
         userUid: String?,
         userName: String?,

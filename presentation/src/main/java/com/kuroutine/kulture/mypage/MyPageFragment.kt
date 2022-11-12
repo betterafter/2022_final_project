@@ -1,18 +1,14 @@
 package com.kuroutine.kulture.mypage
 
 import android.Manifest
-import android.Manifest.permission.CAMERA
-import android.Manifest.permission_group.CAMERA
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +23,6 @@ import com.example.kuroutine.R
 import com.example.kuroutine.databinding.FragmentMypageBinding
 import com.kuroutine.kulture.PICK_IMG_FROM_ALBUM
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_mypage.*
 
 @AndroidEntryPoint
 class MyPageFragment : Fragment() {

@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kuroutine.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.chat.ChatActivity
@@ -27,12 +27,19 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
 
+    private lateinit var fragments: ArrayList<Fragment>
+    private lateinit var homePrivateDashboardFragment: HomePrivateDashboardFragment
+    private lateinit var homePublicDashboardFragment: HomePublicDashboardFragment
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        homePrivateDashboardFragment = HomePrivateDashboardFragment()
+        homePublicDashboardFragment = HomePublicDashboardFragment()
     }
 
     override fun onCreateView(
@@ -49,6 +56,7 @@ class HomeFragment : Fragment() {
         }
         val root: View = binding.root
 
+        initFragment()
         init()
         initListener()
         initObserver()
@@ -58,6 +66,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
         }
@@ -68,25 +77,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun init() {
-        binding.rvHomeQuestion.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel)
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.getCurrentUser()
         }
+
+        binding.vpHomeDashboard.apply {
+            adapter = HomeViewPager2Adapter(this@HomeFragment, fragments)
+        }
+
+        TabLayoutMediator(binding.tlHomeChatType, binding.vpHomeDashboard) { tab, position ->
+            if (position == 0) {
+                tab.text = "공개 질문"
+            } else {
+                tab.text = "1:1 질문"
+            }
+        }.attach()
+    }
+
+    private fun initFragment() {
+        fragments = ArrayList()
+        fragments.add(homePublicDashboardFragment)
+        fragments.add(homePrivateDashboardFragment)
     }
 
     private fun initObserver() {
-        homeViewModel.questionList.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
-        }
-
-        homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
-            CoroutineScope(Dispatchers.Main).launch {
-                // homeViewModel.updateTranslatedQuestionList()
-            }
-        }
-
         binding.etHomeSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -97,7 +111,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.searchedQuestionList.value)
+                homePrivateDashboardFragment.getAdapter()?.submitList(homeViewModel.searchedQuestionList.value)
             }
 
         })
@@ -108,13 +122,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(this.context, PostingActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun moveToChatActivity(qid: String, uid: String) {
-        val intent = Intent(this.context, ChatActivity::class.java)
-        intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
-        intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
-        startActivity(intent)
     }
 
     override fun onDestroyView() {

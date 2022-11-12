@@ -8,7 +8,9 @@ interface UserRepository {
 
     suspend fun initUserInfo()
 
-    suspend fun getUser(callback: (User) -> Unit)
+    suspend fun getUser(uid: String?, callback: (User) -> Unit)
+
+    suspend fun getUser(uid: String?): User?
 
     suspend fun updateUserInfo(
         userUid: String?,

@@ -41,6 +41,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/tossbold"
                 android:text="1:1 질문하기"
+                android:fontFamily="sans-serif"
+                android:text="질문하기"
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,18 +54,46 @@
 
         <ImageView
             android:id="@+id/iv_privatechat_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="4dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.054"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:srcCompat="@drawable/ic_baseline_insert_photo_24"
-            app:tint="@color/main_color" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-        <TextView
-            android:id="@+id/tv_privatechat_title"
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_radius_5"
+            android:backgroundTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.054"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_privatechat_photo">
+
+            <TextView
+                android:id="@+id/tv_privatechat_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/amiko_semibold"
+                android:padding="5dp"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/iv_privatechat_photo"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toStartOf="@+id/iv_privatechat_photo"
+                app:layout_constraintTop_toBottomOf="@+id/iv_privatechat_photo" />
+
+
+        </ScrollView>
+
+        <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -72,11 +102,11 @@
             android:inputType="textPersonName"
             android:fontFamily="@font/tossregular"
             app:layout_constraintBottom_toTopOf="@+id/tv_privatechat_details"
+            android:layout_height="175dp"
+            android:padding="2dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.056"
             app:layout_constraintStart_toEndOf="@+id/iv_privatechat_photo"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintVertical_bias="0.071" />
+            app:layout_constraintTop_toTopOf="@+id/iv_privatechat_photo">
 
         <TextView
             android:id="@+id/tv_privatechat_details"
@@ -92,16 +122,36 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_privatechat_title" />
+            
+            <TextView
+                android:id="@+id/tv_privatechat_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:fontFamily="@font/amiko_semibold"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.066"
+                app:layout_constraintStart_toEndOf="@+id/iv_privatechat_photo"
+                app:layout_constraintTop_toTopOf="@+id/iv_privatechat_photo"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+
+
+        </ScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_privatechat_chatrv"
-            android:layout_width="355dp"
-            android:layout_height="410dp"
-            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="20dp"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/view"
@@ -112,7 +162,7 @@
         <LinearLayout
             android:id="@+id/linearLayout_privatechat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:background="#F8F8F8"
             android:orientation="horizontal"

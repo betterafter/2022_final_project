@@ -22,7 +22,7 @@ class MyPageViewModel @Inject constructor(
 
     fun getUser() {
         viewModelScope.launch {
-            userUsecase.getUser {
+            userUsecase.getUser(null) {
                 _currentUser.value = it
             }
         }

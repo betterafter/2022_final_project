@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
-import com.example.kuroutine.databinding.LayoutBottomsheetBinding
+import com.example.kuroutine.databinding.LayoutBottomsheetLanguageBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheet(private var adapter: BottomSheetAdapter) : BottomSheetDialogFragment() {
     private lateinit var bottomSheetViewModel: BottomSheetViewModel
-    private lateinit var binding: LayoutBottomsheetBinding
+    private lateinit var binding: LayoutBottomsheetLanguageBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bottomSheetViewModel =
             ViewModelProvider(this).get(BottomSheetViewModel::class.java)
 
-        binding = LayoutBottomsheetBinding.inflate(inflater, container, false).apply {
+        binding = LayoutBottomsheetLanguageBinding.inflate(inflater, container, false).apply {
             viewModel = bottomSheetViewModel
             lifecycleOwner = this@BottomSheet
         }

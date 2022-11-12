@@ -20,14 +20,14 @@ class ChatUsecaseImpl @Inject constructor(
         return loginRepository.getUser()
     }
 
-    override suspend fun initRoom(qid: String, uid: String, initialCallback: (() -> Unit)) {
-        chatRepository.initRoom(qid, uid) {
+    override suspend fun initRoom(qid: String, uid: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+        chatRepository.initRoom(qid, uid, isPrivate) {
             initialCallback()
         }
     }
 
-    override suspend fun enterRoom() {
-        chatRepository.enterRoom()
+    override suspend fun enterRoom(qid: String, getChatRoomIdCallback: ((String?) -> Unit)) {
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -43,9 +43,9 @@ class ChatUsecaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun getChatRooms(callback: (List<ChatRoomModel>) -> Unit) {
-        chatRepository.getChatRooms {
-            callback(DtoTranslator.chatRoomsTranslator(it))
+    override suspend fun getChatRooms(callback: (List<ChatRoomModel>, List<ChatRoomModel>) -> Unit) {
+        chatRepository.getChatRooms { list1, list2 ->
+            callback(DtoTranslator.chatRoomsTranslator(list1), DtoTranslator.chatRoomsTranslator(list2))
         }
     }
 }
