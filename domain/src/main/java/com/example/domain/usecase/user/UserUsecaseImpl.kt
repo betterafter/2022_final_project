@@ -20,6 +20,14 @@ class UserUsecaseImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUser(uid: String?): UserModel? {
+        userRepository.getUser(uid)?.let {
+            return DtoTranslator.userTranslator(it)
+        } ?: run {
+            return null
+        }
+    }
+
     override suspend fun updateLanguage(lang: String) {
         userRepository.updateUserInfo(
             userUid = null,

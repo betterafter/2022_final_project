@@ -10,6 +10,8 @@ interface UserRepository {
 
     suspend fun getUser(uid: String?, callback: (User) -> Unit)
 
+    suspend fun getUser(uid: String?): User?
+
     suspend fun updateUserInfo(
         userUid: String?,
         userName: String?,
