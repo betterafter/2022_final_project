@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.dto.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.PapagoUsecase
@@ -41,13 +42,21 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun clearList() {
+        _chatModelList.value = null
+    }
+
     // 방에 맨 처음 입장할 때 실행.
-    fun initChatRoom(qid: String, compUid: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+    fun initChatRoom(qid: String, compUid: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
         viewModelScope.launch {
             chatUsecase.initRoom(qid, compUid, isPrivate) {
                 initialCallback()
             }
         }
+    }
+
+    suspend fun getUser(uid: String): UserModel? {
+        return userUsecase.getUser(uid)
     }
 
     suspend fun getLanguage() {

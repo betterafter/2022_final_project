@@ -26,8 +26,8 @@ class ChatUsecaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun enterRoom() {
-        chatRepository.enterRoom()
+    override suspend fun enterRoom(qid: String, getChatRoomIdCallback: ((String?) -> Unit)) {
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

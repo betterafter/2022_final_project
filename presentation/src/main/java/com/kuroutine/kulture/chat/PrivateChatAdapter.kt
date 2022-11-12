@@ -1,12 +1,16 @@
 package com.kuroutine.kulture.chat
 
+import android.opengl.Visibility
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
@@ -22,16 +26,43 @@ class PrivateChatAdapter(
     private val diffUtil = AsyncListDiffer(this, DiffUtils())
 
     class LeftViewHolder(
-        view: View,
+        private val view: View,
         private val viewModel: ChatViewModel
     ) : RecyclerView.ViewHolder(view) {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_left)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_left)
+        private val ivUserProfile = view.findViewById<ImageView>(R.id.iv_chat_item_left)
+        private val tvUserName = view.findViewById<TextView>(R.id.tv_chat_item_left_user_name)
 
-        suspend fun bind(data: ChatModel) {
+
+        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
             data.translatedMessage = tvMessage.text.toString()
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val user = viewModel.getUser(data.uid)
+                user?.let { it ->
+                    if (prevData == null || prevData.uid != data.uid) {
+                        Glide.with(view.context)
+                            .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
+                            .circleCrop()
+                            .into(ivUserProfile)
+
+                        tvUserName.visibility = View.VISIBLE
+                        tvUserName.text = it.userName
+
+                        if (nextData?.timestamp == data.timestamp) {
+                            tvTimeStamp.visibility = View.GONE
+                        } else {
+                            tvTimeStamp.visibility = View.VISIBLE
+                        }
+                    } else {
+                        tvUserName.visibility = View.GONE
+                        return@launch
+                    }
+                }
+            }
         }
 
         suspend fun translate(target: String): String {
@@ -51,9 +82,15 @@ class PrivateChatAdapter(
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_right)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
-        suspend fun bind(data: ChatModel) {
+        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
+
+            if (nextData?.timestamp == data.timestamp) {
+                tvTimeStamp.visibility = View.GONE
+            } else {
+                tvTimeStamp.visibility = View.VISIBLE
+            }
         }
 
         suspend fun translate(target: String): String {
@@ -94,13 +131,24 @@ class PrivateChatAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = diffUtil.currentList[position]
+        val prevData: ChatModel? = if (position - 1 >= 0) {
+            diffUtil.currentList[position - 1]
+        } else {
+            null
+        }
+        val nextData: ChatModel? = if (diffUtil.currentList.size <= position + 1) {
+            null
+        } else {
+            diffUtil.currentList[position + 1]
+        }
+
         when (holder) {
             is LeftViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData) }
             }
 
             is RightViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData) }
             }
 
             else -> throw RuntimeException("viewType not found.")

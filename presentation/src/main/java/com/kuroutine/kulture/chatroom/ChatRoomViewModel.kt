@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
+import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.dto.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
+import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.PapagoUsecase
 import com.example.domain.usecase.user.UserUsecase
 import com.google.firebase.auth.FirebaseUser
@@ -17,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
+    private val dashboardUsecase: DashboardUsecase,
     private val chatUsecase: ChatUsecase,
     private val papagoUsecase: PapagoUsecase,
     private val userUsecase: UserUsecase
@@ -37,6 +41,14 @@ class ChatRoomViewModel @Inject constructor(
         viewModelScope.launch {
             _currentUser.value = chatUsecase.getCurrentUser()
         }
+    }
+
+    suspend fun getUser(uid: String): UserModel? {
+        return userUsecase.getUser(uid)
+    }
+
+    suspend fun getQuestion(uid: String): DashboardQuestionModel? {
+        return dashboardUsecase.getQuestion(uid)
     }
 
     fun getChatRooms() {

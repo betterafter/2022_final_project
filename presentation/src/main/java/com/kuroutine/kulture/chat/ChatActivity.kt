@@ -33,11 +33,6 @@ class ChatActivity : AppCompatActivity() {
                 viewModel = chatViewModel
                 lifecycleOwner = this@ChatActivity
             }
-
-        initAdapter()
-        initObserver()
-
-        initListener()
     }
 
     override fun onStart() {
@@ -46,33 +41,25 @@ class ChatActivity : AppCompatActivity() {
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
         val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
         init(qid, uid, isPrivate)
+        initAdapter()
+        initObserver()
+        initListener()
     }
 
     private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
-        if (qid != null && uid != null) {
-            if (isPrivate) {
-                chatViewModel.initChatRoom(qid, uid, isPrivate = true) {
-                    chatViewModel.getMessages {
-                        chatViewModel.chatModelList.value?.let {
-                            if (it.isNotEmpty()) {
-                                binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
-                            }
-                        }
-                    }
-                }
-            } else {
+        if (qid != null) {
+            chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {
-                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)
                         }
                     }
                 }
             }
-
-            chatViewModel.getQuestion(qid)
         }
 
+        qid?.let { chatViewModel.getQuestion(qid) }
         chatViewModel.getCurrentUser()
 
         CoroutineScope(Dispatchers.Main).launch {

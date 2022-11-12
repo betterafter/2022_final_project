@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="확인"
             android:onClick="shutDownClick"
-            android:background="null"
+            android:background="@android:color/transparent"
             android:textColor="@color/main_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
