@@ -7,7 +7,7 @@
     android:layout_margin="10dp"
     android:weightSum="2">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_chat_right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,41 +15,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_chat_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_chat_message"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_chat_message_right"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="신기열" />
 
         <TextView
             android:id="@+id/tv_chat_message_right"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/chat_right_backgroud"
             android:padding="10dp"
+            android:textColor="@color/white"
             android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_chat_timestamp_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_chat_message_right"
+            app:layout_constraintEnd_toStartOf="@+id/tv_chat_message_right"
+            app:layout_constraintTop_toTopOf="@+id/tv_chat_message_right"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="8sp" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_chat_timestamp_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_chat_right"
-        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
