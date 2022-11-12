@@ -82,7 +82,7 @@
             android:id="@+id/tv_mypage_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="176dp"
             android:fontFamily="@font/tossbold"
             android:text="@{viewModel.currentUser.userName}"
             android:textColor="#2B2B2B"
@@ -154,7 +154,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="68dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="10"
@@ -184,40 +184,6 @@
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v_mypage_line1">
-
-            <TextView
-                android:id="@+id/tv_mypage_profileoptions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="9"
-                android:fontFamily="@font/tossbold"
-                android:text="프로필 공개여부"
-                android:textColor="#202020"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/iv_mypage_arrow3"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
-        </LinearLayout>
-
         <View
             android:id="@+id/v_mypage_line1"
             android:layout_width="match_parent"
@@ -236,16 +202,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-        <View
-            android:id="@+id/v_mypage_line3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#41000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <TextView
             android:id="@+id/textView12"
