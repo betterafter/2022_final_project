@@ -39,7 +39,7 @@
                 android:id="@+id/tv_privatechat_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/tossbold"
                 android:text="질문하기"
                 android:textColor="@color/white"
                 android:textSize="24sp"

@@ -104,7 +104,7 @@
                 android:id="@+id/tv_posting_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/tossbold"
                 android:text="질문 작성"
                 android:textColor="@color/white"
                 android:textSize="24sp"

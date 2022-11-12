@@ -9,10 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="K-Ranking"
+        android:text="유저 랭킹"
         android:textAlignment="center"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/main_color"
+        android:fontFamily="@font/tossbold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ranking_recyclerview"
