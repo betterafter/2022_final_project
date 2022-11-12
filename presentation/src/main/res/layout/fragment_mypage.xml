@@ -45,7 +45,6 @@
             android:layout_marginStart="1dp"
             android:fontFamily="@font/tossregular"
             android:text="@{viewModel.currentUser.userRank}"
-            android:fontFamily="@font/tossregular"
             app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_level"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.115"
@@ -83,16 +82,14 @@
             android:id="@+id/tv_mypage_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="176dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/tossbold"
             android:text="@{viewModel.currentUser.userName}"
             android:textColor="#2B2B2B"
             android:textSize="28sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/linearLayout"
-            app:layout_constraintleft_toRightOf="@id/iv_mypage_userpic"
-            app:layout_constrainttop_toBottomOf="@id/textView12"
-            tools:layout_editor_absoluteX="200dp"
+            app:layout_constraintStart_toEndOf="@+id/iv_mypage_userpic"
+            app:layout_constraintTop_toTopOf="@+id/iv_mypage_userpic"
             tools:text="신기열" />
 
         <ImageView

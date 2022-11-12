@@ -10,17 +10,13 @@
         android:id="@+id/tv_ranking"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:fontFamily="@font/tossbold"
         android:text="유저 랭킹"
         android:textAlignment="center"
-        android:textColor="#4C5CB8"
+        android:textColor="@color/main_color"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="@color/main_color"
-        android:fontFamily="@font/tossbold"/>
-        app:layout_constraintBottom_toTopOf="@+id/ranking_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
