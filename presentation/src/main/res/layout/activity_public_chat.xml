@@ -21,14 +21,13 @@
         android:id="@+id/tv_publicchat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/tossbold"
         android:text="공개 질문"
         android:textColor="@color/main_color"
-        android:fontFamily="@font/angel"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,10 +67,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_publicchat_chatrv"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_publicchat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_publicchat_details" />
 
     <LinearLayout
@@ -82,6 +83,7 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:weightSum="100"
+        android:background="#F8F8F8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
