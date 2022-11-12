@@ -37,10 +37,6 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
         val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)

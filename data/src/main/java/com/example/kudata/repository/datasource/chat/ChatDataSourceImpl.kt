@@ -48,6 +48,7 @@ class ChatDataSourceImpl : ChatDataSource {
             }
         } else {
             enterPublicRoom(qid) {
+                initialCallback()
             }
         }
     }

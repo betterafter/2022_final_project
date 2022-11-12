@@ -35,7 +35,7 @@ class PrivateChatAdapter(
         private val tvUserName = view.findViewById<TextView>(R.id.tv_chat_item_left_user_name)
 
 
-        suspend fun bind(data: ChatModel, prevData: ChatModel?) {
+        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
             data.translatedMessage = tvMessage.text.toString()
@@ -52,7 +52,7 @@ class PrivateChatAdapter(
                         tvUserName.visibility = View.VISIBLE
                         tvUserName.text = it.userName
 
-                        if (prevData?.timestamp == data.timestamp) {
+                        if (nextData?.timestamp == data.timestamp) {
                             tvTimeStamp.visibility = View.GONE
                         } else {
                             tvTimeStamp.visibility = View.VISIBLE
@@ -82,9 +82,15 @@ class PrivateChatAdapter(
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_right)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
-        suspend fun bind(data: ChatModel) {
+        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
+
+            if (nextData?.timestamp == data.timestamp) {
+                tvTimeStamp.visibility = View.GONE
+            } else {
+                tvTimeStamp.visibility = View.VISIBLE
+            }
         }
 
         suspend fun translate(target: String): String {
@@ -125,19 +131,24 @@ class PrivateChatAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = diffUtil.currentList[position]
-        var prevData: ChatModel? = if (position - 1 >= 0) {
+        val prevData: ChatModel? = if (position - 1 >= 0) {
             diffUtil.currentList[position - 1]
         } else {
             null
         }
+        val nextData: ChatModel? = if (diffUtil.currentList.size <= position + 1) {
+            null
+        } else {
+            diffUtil.currentList[position + 1]
+        }
 
         when (holder) {
             is LeftViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData) }
             }
 
             is RightViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData) }
             }
 
             else -> throw RuntimeException("viewType not found.")
