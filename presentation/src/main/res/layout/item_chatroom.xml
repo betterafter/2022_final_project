@@ -11,13 +11,15 @@
         android:id="@+id/linearLayout5"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_left_except_radius"
         android:backgroundTint="@color/sub_color"
         android:gravity="center|start"
         android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

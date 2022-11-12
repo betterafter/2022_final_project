@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chat
 
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -48,8 +49,16 @@ class PrivateChatAdapter(
                             .circleCrop()
                             .into(ivUserProfile)
 
+                        tvUserName.visibility = View.VISIBLE
                         tvUserName.text = it.userName
+
+                        if (prevData?.timestamp == data.timestamp) {
+                            tvTimeStamp.visibility = View.GONE
+                        } else {
+                            tvTimeStamp.visibility = View.VISIBLE
+                        }
                     } else {
+                        tvUserName.visibility = View.GONE
                         return@launch
                     }
                 }
@@ -116,8 +125,7 @@ class PrivateChatAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = diffUtil.currentList[position]
-        var prevData: ChatModel?
-        prevData = if (position - 1 > 0) {
+        var prevData: ChatModel? = if (position - 1 >= 0) {
             diffUtil.currentList[position - 1]
         } else {
             null

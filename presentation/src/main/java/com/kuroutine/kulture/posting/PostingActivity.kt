@@ -10,6 +10,8 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.kuroutine.kulture.CommonDialog
 import com.kuroutine.kulture.mypage.BottomSheetAdapter
 import com.kuroutine.kulture.PICK_IMG_FROM_ALBUM
 import com.kuroutine.kulture.mypage.BottomSheet
@@ -99,13 +102,17 @@ class PostingActivity : AppCompatActivity() {
         }
 
         submitButton.setOnClickListener {
-            postingViewModel.postQuestion(
-                titleTextView.text.toString(),
-                contentTextView.text.toString(),
-                locationTextView.text.toString(),
-                toggleButtonGroup.checkedButtonId == R.id.btn_posting_private
-            ) {
-                this.finish()
+            if (titleTextView.text.toString().length > 30) {
+                CommonDialog("제목은 30자 이하로 정해주세요.").show(supportFragmentManager, "")
+            } else {
+                postingViewModel.postQuestion(
+                    titleTextView.text.toString(),
+                    contentTextView.text.toString(),
+                    locationTextView.text.toString(),
+                    toggleButtonGroup.checkedButtonId == R.id.btn_posting_private
+                ) {
+                    this.finish()
+                }
             }
         }
 

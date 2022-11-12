@@ -56,7 +56,7 @@ class ChatActivity : AppCompatActivity() {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {
-                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
+                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)
                         }
                     }
                 }

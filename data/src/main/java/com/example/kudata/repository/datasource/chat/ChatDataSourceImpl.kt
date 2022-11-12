@@ -38,20 +38,16 @@ class ChatDataSourceImpl : ChatDataSource {
                     CoroutineScope(Dispatchers.IO).launch {
                         if (id == null) {
                             db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
-                            checkIfExistPersonalChatRoom(qid, uid2) {
-                                initialCallback()
-                            }
-                        } else {
-                            enterRoom(qid) {
-                                initialCallback()
-                            }
+                        }
+
+                        checkIfExistPersonalChatRoom(qid, uid2) {
+                            initialCallback()
                         }
                     }
                 }
             }
         } else {
-            enterRoom(qid) {
-
+            enterPublicRoom(qid) {
             }
         }
     }
@@ -142,7 +138,7 @@ class ChatDataSourceImpl : ChatDataSource {
         }
     }
 
-    override suspend fun enterRoom(qid: String, callback: () -> Unit) {
+    override suspend fun enterPublicRoom(qid: String, callback: () -> Unit) {
         try {
             firebaseAuth.currentUser?.let { user ->
                 db.reference.child(CHAT_ROOM_KEY).orderByChild("/qid").equalTo(qid)
