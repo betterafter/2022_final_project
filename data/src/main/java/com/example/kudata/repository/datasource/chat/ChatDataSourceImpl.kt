@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ChatDataSourceImpl : ChatDataSource {
     private val db = FirebaseDatabase.getInstance()
@@ -32,14 +33,21 @@ class ChatDataSourceImpl : ChatDataSource {
             )
 
             checkIfExistPersonalChatRoom(qid, uid2) { id ->
-                if (id == null) {
-                    db.reference.child(CHAT_ROOM_KEY).push().setValue(room)
-                } else {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        enterRoom(qid)
+                Log.d("[keykat]", "checkRoom?::: $id")
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (id == null) {
+                        db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
+                        checkIfExistPersonalChatRoom(qid, uid2) {
+                            initialCallback()
+                            Log.d("[keykat]", "roomID1:::::::::::::::::::$roomId")
+                        }
+                    } else {
+                        enterRoom(qid) {
+                            initialCallback()
+                            Log.d("[keykat]", "roomID2:::::::::::::::::::$roomId")
+                        }
                     }
                 }
-                initialCallback()
             }
         }
     }
@@ -126,10 +134,11 @@ class ChatDataSourceImpl : ChatDataSource {
             }
         } catch (e: Exception) {
             Log.d("[keykat]", "$e")
+            getChatRoomIdCallback(null)
         }
     }
 
-    override suspend fun enterRoom(qid: String) {
+    override suspend fun enterRoom(qid: String, callback: () -> Unit) {
         try {
             firebaseAuth.currentUser?.let { user ->
                 db.reference.child(CHAT_ROOM_KEY).orderByChild("/qid").equalTo(qid)
@@ -139,6 +148,7 @@ class ChatDataSourceImpl : ChatDataSource {
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
                                 chatRoom?.let { room ->
                                     roomId = data.key
+                                    callback()
                                 }
                             }
                         }
@@ -147,8 +157,7 @@ class ChatDataSourceImpl : ChatDataSource {
                             Log.d("[keykat]", "$error")
                         }
                     })
-            } ?: run {
-            }
+            } ?: run { }
         } catch (e: Exception) {
             Log.d("[keykat]", "$e")
         }
@@ -158,6 +167,7 @@ class ChatDataSourceImpl : ChatDataSource {
         firebaseAuth.currentUser?.let {
             val content = ChatContent(it.uid, message, timeStamp)
             roomId?.let { id ->
+                Log.d("[keykat]", "roomID::: $roomId")
                 db.reference.child(CHAT_ROOM_KEY).child(id).child(CHAT_ROOM_CONTENT_KEY).push().setValue(content)
             }
         }

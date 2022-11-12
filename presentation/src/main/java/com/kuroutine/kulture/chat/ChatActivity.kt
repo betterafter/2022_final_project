@@ -33,11 +33,6 @@ class ChatActivity : AppCompatActivity() {
                 viewModel = chatViewModel
                 lifecycleOwner = this@ChatActivity
             }
-
-        initAdapter()
-        initObserver()
-
-        initListener()
     }
 
     override fun onStart() {
@@ -49,13 +44,20 @@ class ChatActivity : AppCompatActivity() {
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
         val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+        Log.d("[keykat]", "qid: $qid, uid: $uid isPrivate: $isPrivate")
         init(qid, uid, isPrivate)
+        initAdapter()
+        initObserver()
+        initListener()
     }
 
     private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
         if (qid != null && uid != null) {
+            Log.d("[keykat]", "null???")
             if (isPrivate) {
+                Log.d("[keykat]", "isPrivate?")
                 chatViewModel.initChatRoom(qid, uid, isPrivate = true) {
+                    Log.d("[keykat]", "initRoom!!!!")
                     chatViewModel.getMessages {
                         chatViewModel.chatModelList.value?.let {
                             if (it.isNotEmpty()) {
