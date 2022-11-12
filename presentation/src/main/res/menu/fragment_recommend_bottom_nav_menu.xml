@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/K_recommend_nav_recommend"
+        android:icon="@drawable/ic_baseline_library_books_24"
+        android:title="추천"/>
+    <item
+        android:id="@+id/K_ranking"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="랭킹"/>
+    <item
+        android:id="@+id/K_recommend_nav_Home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="홈"/>
+    <item
+        android:id="@+id/K_recommend_nav_history"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="내역"/>
+    <item
+        android:id="@+id/K_recommend_nav_mypage"
+        android:icon="@drawable/ic_baseline_people_24"
+        android:title="내역"/>
+</menu>

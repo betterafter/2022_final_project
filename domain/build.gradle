@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    compileSdk 33
+    namespace 'com.example.domain'
+}
+
+dependencies {
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.42")
+    implementation 'androidx.test:monitor:1.5.0'
+    testImplementation 'junit:junit:4.12'
+    kapt("com.google.dagger:hilt-android-compiler:2.42")
+
+    // firesbase
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.8'
+    implementation "androidx.startup:startup-runtime:1.2.0-alpha01"
+
+    // facebook
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
+    // data module
+    implementation(project(":data"))
+}
+
+kapt {
+    correctErrorTypes = true
+}

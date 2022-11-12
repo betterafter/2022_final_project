@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- k추천 fragment_recommend -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/k_fragment_"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clipToOutline="true">
+
+    <!-- Kulture Title -->
+    <TextView
+        android:id="@+id/kulture"
+        android:layout_width="243dp"
+        android:layout_height="49dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="77dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/kulture"
+        android:gravity="center_horizontal|top"
+        />
+
+    <!-- 인기글 -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="60dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="K-Contents" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="K-Pop" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <!-- item recyclerview-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_recommend_recycler_view"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:scrollbars="vertical" />
+
+    <!-- item framelayout-->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="100dp"
+        android:layout_constraintTop_toTopOf="parent"
+        android:layout_constraintStart_toStartOf="parent"
+        android:layout_constraintEnd_toEndOf="parent"
+        android:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Bottom Navigation View -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/recommend_BottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_constraintStart_toStartOf="parent"
+        android:layout_constraintEnd_toEndOf="parent"
+        android:layout_constraintBottom_toBottomOf="parent"
+        android:menu="@menu/fragment_recommend_bottom_nav_menu" />
+
+</RelativeLayout>
