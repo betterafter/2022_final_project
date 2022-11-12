@@ -122,9 +122,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home_question"
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_home_dashboard"
                     android:layout_width="match_parent"

@@ -38,9 +38,9 @@ class RankingViewAdapter(
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        val user_pic = itemView.findViewById<ImageView>(R.id.imageView3)
-        val user_name = itemView.findViewById<TextView>(R.id.textView)
-        val user_level = itemView.findViewById<TextView>(R.id.textView2)
+        val user_pic = itemView.findViewById<ImageView>(R.id.iv_rank_thumbnail)
+        val user_name = itemView.findViewById<TextView>(R.id.tv_rank_username)
+        val user_level = itemView.findViewById<TextView>(R.id.tv_rank_level)
 
     }
 
