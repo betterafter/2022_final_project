@@ -7,12 +7,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_ranking"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:fontFamily="@font/tossbold"
-        android:text="랭킹"
+        android:text="유저 랭킹"
         android:textAlignment="center"
         android:textColor="#4C5CB8"
         android:textSize="34sp"
@@ -33,5 +33,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_ranking" />
 </androidx.constraintlayout.widget.ConstraintLayout>

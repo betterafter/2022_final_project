@@ -24,7 +24,7 @@
                 android:id="@+id/iv_item_chatroom_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/main_color"
+                android:background="#AAAAAA"
                 android:padding="10dp"
                 app:tint="@color/white"
                 android:src="@drawable/ic_profile_fill" />

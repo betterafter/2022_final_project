@@ -83,6 +83,7 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:weightSum="100"
+        android:background="#F8F8F8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
