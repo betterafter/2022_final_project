@@ -83,45 +83,6 @@
                 android:background="@drawable/bg_radius_top"
                 android:backgroundTint="@color/white">
 
-                <Button
-                    android:id="@+id/btn_home_type"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_radius_5"
-                    android:fontFamily="@font/tossbold"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="10dp"
-                    android:text="완료"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_home_question_type"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_home_question_type"
-                    app:layout_constraintTop_toTopOf="@+id/btn_home_question_type"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <Button
-                    android:id="@+id/btn_home_question_type"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/bg_radius_5_stroke"
-                    android:fontFamily="@font/tossbold"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="10dp"
-                    android:text="1:1 질문"
-                    android:textColor="@color/main_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_home_dashboard"
                     android:layout_width="match_parent"
