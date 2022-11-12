@@ -43,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
+            android:fontFamily="@font/tossregular"
             android:text="@{viewModel.currentUser.userRank}"
             android:fontFamily="@font/tossregular"
             app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_level"
