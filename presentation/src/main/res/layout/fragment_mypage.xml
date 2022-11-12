@@ -209,7 +209,7 @@
             android:text="마이페이지"
             android:textSize="34sp"
             android:fontFamily="@font/tossbold"
-            android:textColor="#4C5CB8"
+            android:textColor="@color/main_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
