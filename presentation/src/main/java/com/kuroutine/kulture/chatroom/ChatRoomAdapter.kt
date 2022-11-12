@@ -1,6 +1,5 @@
 package com.kuroutine.kulture.chatroom
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,7 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.domain.dto.ChatRoomModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemChatroomBinding
-import com.kuroutine.kulture.chat.ChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
