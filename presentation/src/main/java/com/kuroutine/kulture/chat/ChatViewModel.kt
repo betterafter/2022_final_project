@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.dto.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.PapagoUsecase
@@ -48,6 +49,10 @@ class ChatViewModel @Inject constructor(
                 initialCallback()
             }
         }
+    }
+
+    suspend fun getUser(uid: String): UserModel? {
+        return userUsecase.getUser(uid)
     }
 
     suspend fun getLanguage() {

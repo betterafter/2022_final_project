@@ -1,12 +1,15 @@
 package com.kuroutine.kulture.chat
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
@@ -22,16 +25,35 @@ class PrivateChatAdapter(
     private val diffUtil = AsyncListDiffer(this, DiffUtils())
 
     class LeftViewHolder(
-        view: View,
+        private val view: View,
         private val viewModel: ChatViewModel
     ) : RecyclerView.ViewHolder(view) {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_left)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_left)
+        private val ivUserProfile = view.findViewById<ImageView>(R.id.iv_chat_item_left)
+        private val tvUserName = view.findViewById<TextView>(R.id.tv_chat_item_left_user_name)
 
-        suspend fun bind(data: ChatModel) {
+
+        suspend fun bind(data: ChatModel, prevData: ChatModel?) {
             tvMessage.text = translate(data.message)
             tvTimeStamp.text = data.timestamp.toString()
             data.translatedMessage = tvMessage.text.toString()
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val user = viewModel.getUser(data.uid)
+                user?.let { it ->
+                    if (prevData == null || prevData.uid != data.uid) {
+                        Glide.with(view.context)
+                            .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
+                            .circleCrop()
+                            .into(ivUserProfile)
+
+                        tvUserName.text = it.userName
+                    } else {
+                        return@launch
+                    }
+                }
+            }
         }
 
         suspend fun translate(target: String): String {
@@ -94,9 +116,16 @@ class PrivateChatAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = diffUtil.currentList[position]
+        var prevData: ChatModel?
+        prevData = if (position - 1 > 0) {
+            diffUtil.currentList[position - 1]
+        } else {
+            null
+        }
+
         when (holder) {
             is LeftViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData) }
             }
 
             is RightViewHolder -> {
