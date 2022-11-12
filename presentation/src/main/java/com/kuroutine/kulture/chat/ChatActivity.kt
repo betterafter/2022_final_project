@@ -44,7 +44,6 @@ class ChatActivity : AppCompatActivity() {
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
         val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
-        Log.d("[keykat]", "qid: $qid, uid: $uid isPrivate: $isPrivate")
         init(qid, uid, isPrivate)
         initAdapter()
         initObserver()
@@ -52,21 +51,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
-        if (qid != null && uid != null) {
-            Log.d("[keykat]", "null???")
-            if (isPrivate) {
-                Log.d("[keykat]", "isPrivate?")
-                chatViewModel.initChatRoom(qid, uid, isPrivate = true) {
-                    Log.d("[keykat]", "initRoom!!!!")
-                    chatViewModel.getMessages {
-                        chatViewModel.chatModelList.value?.let {
-                            if (it.isNotEmpty()) {
-                                binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size - 1)
-                            }
-                        }
-                    }
-                }
-            } else {
+        if (qid != null) {
+            chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
                 chatViewModel.getMessages {
                     chatViewModel.chatModelList.value?.let {
                         if (it.isNotEmpty()) {
@@ -75,10 +61,9 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            chatViewModel.getQuestion(qid)
         }
 
+        qid?.let { chatViewModel.getQuestion(qid) }
         chatViewModel.getCurrentUser()
 
         CoroutineScope(Dispatchers.Main).launch {

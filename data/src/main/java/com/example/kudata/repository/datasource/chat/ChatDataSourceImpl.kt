@@ -22,32 +22,36 @@ class ChatDataSourceImpl : ChatDataSource {
 
     var roomId: String? = null
 
-    override suspend fun initChatRoom(qid: String, uid2: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
-        firebaseAuth.currentUser?.let {
-            val users = if (it.uid != uid2) mapOf(it.uid to true, uid2 to false) else mapOf(it.uid to true)
-            val room = ChatRoom(
-                qid,
-                private = isPrivate,
-                users,
-                mapOf()
-            )
+    override suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+        if (isPrivate) {
+            firebaseAuth.currentUser?.let {
+                val users =
+                    if (uid2 != null && it.uid != uid2) mapOf(it.uid to true, uid2 to false) else mapOf(it.uid to true)
+                val room = ChatRoom(
+                    qid,
+                    private = isPrivate,
+                    users,
+                    mapOf()
+                )
 
-            checkIfExistPersonalChatRoom(qid, uid2) { id ->
-                Log.d("[keykat]", "checkRoom?::: $id")
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (id == null) {
-                        db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
-                        checkIfExistPersonalChatRoom(qid, uid2) {
-                            initialCallback()
-                            Log.d("[keykat]", "roomID1:::::::::::::::::::$roomId")
-                        }
-                    } else {
-                        enterRoom(qid) {
-                            initialCallback()
-                            Log.d("[keykat]", "roomID2:::::::::::::::::::$roomId")
+                checkIfExistPersonalChatRoom(qid, uid2) { id ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (id == null) {
+                            db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
+                            checkIfExistPersonalChatRoom(qid, uid2) {
+                                initialCallback()
+                            }
+                        } else {
+                            enterRoom(qid) {
+                                initialCallback()
+                            }
                         }
                     }
                 }
+            }
+        } else {
+            enterRoom(qid) {
+
             }
         }
     }
@@ -99,7 +103,7 @@ class ChatDataSourceImpl : ChatDataSource {
 
     private fun checkIfExistPersonalChatRoom(
         qid: String,
-        uid2: String,
+        uid2: String?,
         getChatRoomIdCallback: ((String?) -> Unit)
     ) {
         try {
@@ -148,6 +152,14 @@ class ChatDataSourceImpl : ChatDataSource {
                                 val chatRoom: ChatRoom? = data.getValue(ChatRoom::class.java)
                                 chatRoom?.let { room ->
                                     roomId = data.key
+                                    if (!chatRoom.private) {
+                                        val map = chatRoom.users?.toMutableMap()
+                                        map?.set(user.uid, true)
+                                        map?.toMap()?.let {
+                                            db.reference.child(CHAT_ROOM_KEY).child("/$roomId/users")
+                                                .updateChildren(it)
+                                        }
+                                    }
                                     callback()
                                 }
                             }
@@ -167,7 +179,6 @@ class ChatDataSourceImpl : ChatDataSource {
         firebaseAuth.currentUser?.let {
             val content = ChatContent(it.uid, message, timeStamp)
             roomId?.let { id ->
-                Log.d("[keykat]", "roomID::: $roomId")
                 db.reference.child(CHAT_ROOM_KEY).child(id).child(CHAT_ROOM_CONTENT_KEY).push().setValue(content)
             }
         }
@@ -178,7 +189,6 @@ class ChatDataSourceImpl : ChatDataSource {
             db.reference.child(CHAT_ROOM_KEY).child(id).child(CHAT_ROOM_CONTENT_KEY)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        Log.d("[keykat]", "data changed")
                         val map = mutableMapOf<String, ChatContent>()
                         snapshot.children.forEach {
                             it.getValue(ChatContent::class.java)?.let { content -> map[it.key!!] = content }
