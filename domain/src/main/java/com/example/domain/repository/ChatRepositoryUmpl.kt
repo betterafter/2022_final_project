@@ -19,7 +19,7 @@ class ChatRepositoryUmpl @Inject constructor(
         }
     }
 
-    override suspend fun enterRoom() {
+    override suspend fun enterRoom(qid: String, getChatRoomIdCallback: ((String?) -> Unit)) {
 
     }
 

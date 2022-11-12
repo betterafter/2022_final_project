@@ -42,6 +42,10 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun clearList() {
+        _chatModelList.value = null
+    }
+
     // 방에 맨 처음 입장할 때 실행.
     fun initChatRoom(qid: String, compUid: String, isPrivate: Boolean, initialCallback: (() -> Unit)) {
         viewModelScope.launch {
