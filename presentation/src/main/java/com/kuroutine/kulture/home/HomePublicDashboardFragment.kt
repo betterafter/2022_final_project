@@ -8,10 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kuroutine.R
 import com.example.kuroutine.databinding.FragmentHomeBinding
 import com.example.kuroutine.databinding.FragmentHomePrivateDashboardBinding
 import com.example.kuroutine.databinding.FragmentHomePublicDashboardBinding
@@ -54,6 +58,27 @@ class HomePublicDashboardFragment : Fragment() {
 
         init()
         initObserver()
+
+        var array = arrayListOf<String>()
+        array.add("최신순")
+        array.add("과거순")
+        var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, array)
+        val spinner : Spinner = binding.spinner
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(spinner.selectedItem.toString()=="최신순") {
+
+                }
+                else { //과거순
+
+                }
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
 
         return root
     }
