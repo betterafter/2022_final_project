@@ -43,9 +43,10 @@ class UsecaseModule {
     @Provides
     @Singleton
     fun provideUserUsecase(
-        userRepositoryImpl: UserRepositoryImpl
+        userRepositoryImpl: UserRepositoryImpl,
+        dashboardRepositoryImpl: DashboardRepositoryImpl
     ) : UserUsecase
-            = UserUsecaseImpl(userRepositoryImpl)
+            = UserUsecaseImpl(userRepositoryImpl, dashboardRepositoryImpl)
 
     @Provides
     @Singleton

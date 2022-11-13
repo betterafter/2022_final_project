@@ -4,11 +4,16 @@ import android.net.Uri
 import android.util.Log
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.UserModel
+import com.example.kudata.repository.DashboardRepository
 import com.example.kudata.repository.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UserUsecaseImpl @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val dashboardRepository: DashboardRepository
 ) : UserUsecase {
     override suspend fun initUser() {
         userRepository.initUserInfo()
@@ -16,20 +21,22 @@ class UserUsecaseImpl @Inject constructor(
 
     override suspend fun getUser(uid: String?, callback: (UserModel) -> Unit) {
         userRepository.getUser(uid) {
-            callback(DtoTranslator.userTranslator(it))
+            CoroutineScope(Dispatchers.Main).launch {
+                callback(DtoTranslator.userTranslator(it, dashboardRepository))
+            }
         }
     }
 
     override suspend fun getUser(uid: String?): UserModel? {
         userRepository.getUser(uid)?.let {
-            return DtoTranslator.userTranslator(it)
+            return DtoTranslator.userTranslator(it, dashboardRepository)
         } ?: run {
             return null
         }
     }
 
     override suspend fun getUsers(): List<UserModel> {
-        return DtoTranslator.usersTranslator(userRepository.getUsers())
+        return DtoTranslator.usersTranslator(userRepository.getUsers(), dashboardRepository)
     }
 
     override suspend fun updateLanguage(lang: String) {

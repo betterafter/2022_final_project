@@ -1,6 +1,7 @@
 package com.example.domain
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
@@ -9,6 +10,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
+import com.example.kudata.repository.DashboardRepository
 import getValue
 import java.text.SimpleDateFormat
 
@@ -35,7 +37,22 @@ object DtoTranslator {
     )
 
 
-    fun userTranslator(user: User): UserModel {
+    suspend fun userTranslator(user: User, dashboardRepository: DashboardRepository): UserModel {
+        val questionMap = user.questionList
+        val favoriteMap = user.favoriteList
+        val questionList = mutableListOf<DashboardQuestionModel>()
+        val favoriteList = mutableListOf<DashboardQuestionModel>()
+
+        questionMap.forEach {
+            dashboardRepository.getQuestion(it.key)?.let { it1 -> dashboardQuestionTranslator(it1) }
+                ?.let { it2 -> questionList.add(it2) }
+        }
+
+        favoriteMap.forEach {
+            dashboardRepository.getQuestion(it.key)?.let { it1 -> dashboardQuestionTranslator(it1) }
+                ?.let { it2 -> favoriteList.add(it2) }
+        }
+
         return UserModel(
             uid = user.uid,
             userName = user.userName,
@@ -45,15 +62,18 @@ object DtoTranslator {
             language = user.language,
             languageText = languageMap[user.language] ?: "존재하지 않는 언어",
             profile = user.profile,
-            questionList = user.questionList,
-            favoriteList = user.favoriteList
+            questionList = questionList,
+            favoriteList = favoriteList
         )
     }
 
-    fun usersTranslator(users: List<User>): List<UserModel> {
+    suspend fun usersTranslator(
+        users: List<User>,
+        dashboardRepository: DashboardRepository
+    ): List<UserModel> {
         val list = mutableListOf<UserModel>()
         users.forEach {
-            list.add(userTranslator(it))
+            list.add(userTranslator(it, dashboardRepository))
         }
         list.sortWith(comparator = { it1, it2 ->
             (it1.userRank ?: "bronze").getValue()

@@ -24,6 +24,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             userUsecase.getUser(null) {
                 _currentUser.value = it
+                Log.d("[keykat]", "it::: ${_currentUser.value}")
             }
         }
     }

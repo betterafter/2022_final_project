@@ -3,7 +3,7 @@
     <data>
         <variable
             name="questionViewModel"
-            type="com.kuroutine.kulture.mypage.QuestionsBottomSheetViewModel" />
+            type="com.kuroutine.kulture.mypage.MyPageViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

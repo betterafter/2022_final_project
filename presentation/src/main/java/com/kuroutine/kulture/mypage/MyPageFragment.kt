@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.domain.dto.DashboardQuestionModel
 import com.example.domain.dto.LanguageModel
 import com.example.domain.dto.QuestionModel
 import com.example.kuroutine.R
@@ -34,6 +35,8 @@ class MyPageFragment : Fragment() {
     private lateinit var bottomSheetDialog: BottomSheet
     private lateinit var questionsBottomSheetDialog: QuestionsBottomSheet
     private val binding get() = _binding!!
+
+    private lateinit var adapter2: QuestionsBottomSheetAdapter
 
     private lateinit var contxt: Context
 
@@ -83,6 +86,8 @@ class MyPageFragment : Fragment() {
                 .load(profile)
                 .circleCrop()
                 .into(binding.ivMypageUserpic)
+
+            adapter2.submitList(it?.questionList)
         }
 
         binding.llMypageLanguageSelection.setOnClickListener {
@@ -116,7 +121,8 @@ class MyPageFragment : Fragment() {
     private fun createBottomSheetDialog() {
         val adapter = BottomSheetAdapter(selectCallback = ::selectCallback)
         bottomSheetDialog = BottomSheet(adapter)
-        val adapter2 = QuestionsBottomSheetAdapter(selectCallback = ::selectCallback2)
+
+        adapter2 = QuestionsBottomSheetAdapter(selectCallback = ::selectCallback2)
         questionsBottomSheetDialog = QuestionsBottomSheet(adapter2)
     }
 
@@ -133,7 +139,7 @@ class MyPageFragment : Fragment() {
         bottomSheetDialog.dismiss()
     }
 
-    private fun selectCallback2(model: QuestionModel) {
+    private fun selectCallback2(model: DashboardQuestionModel) {
         questionsBottomSheetDialog.dismiss()
     }
 
