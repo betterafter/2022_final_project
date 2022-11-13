@@ -28,6 +28,10 @@ class UserUsecaseImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUsers() {
+
+    }
+
     override suspend fun updateLanguage(lang: String) {
         userRepository.updateUserInfo(
             userUid = null,

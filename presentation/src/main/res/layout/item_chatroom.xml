@@ -71,10 +71,6 @@
                 android:id="@+id/iv_item_chatroom_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="#AAAAAA"
-                android:padding="10dp"
-                app:tint="@color/white"
-                android:src="@drawable/ic_profile_fill" />
                 android:src="@drawable/icon_profile" />
 
             <LinearLayout
@@ -102,9 +98,6 @@
                         android:textColor="#2C2C2C"
                         android:fontFamily="@font/tossbold"
                         android:textSize="18dp"/>
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="신기열" />
 
                     <TextView
                         android:id="@+id/tv_item_chatroom_time"
@@ -114,9 +107,6 @@
                         android:textSize="11sp"
                         android:fontFamily="@font/tossregular"
                         tools:text="오후 2:31"/>
-                        android:gravity="start"
-                        android:textSize="10sp"
-                        tools:text="오후 2:31" />
 
                 </LinearLayout>
 
@@ -129,9 +119,6 @@
                     android:layout_weight="1"
                     tools:text="안녕하세요!"
                     android:fontFamily="@font/tossregular"/>
-                    android:ellipsize="end"
-                    android:textSize="12sp"
-                    tools:text="안녕하세요!" />
             </LinearLayout>
 
         </LinearLayout>
