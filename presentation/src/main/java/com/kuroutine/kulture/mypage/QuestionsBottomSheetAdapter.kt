@@ -21,12 +21,14 @@ import com.example.kuroutine.databinding.ItemQuestionBinding
 import com.google.android.material.internal.ContextUtils.getActivity
 
 class QuestionsBottomSheetAdapter(
-    private val selectCallback: (DashboardQuestionModel) -> Unit
+    private val selectCallback: (DashboardQuestionModel) -> Unit,
+    private val viewModel: MyPageViewModel
 ) : ListAdapter<DashboardQuestionModel, QuestionsBottomSheetAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemQuestionBinding,
-        private val callback: (DashboardQuestionModel) -> Unit
+        private val callback: (DashboardQuestionModel) -> Unit,
+        private val viewModel: MyPageViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("RestrictedApi")
         fun bind(data: DashboardQuestionModel) {
@@ -50,9 +52,11 @@ class QuestionsBottomSheetAdapter(
                     .setTitle("질문상태를 선택하세요")
                     .setNegativeButton("질문 중") { dialog, which ->
                         binding.tvHomeStateLabel.text = "질문 중" //질문상태 변경
+                        viewModel.updateQuestionState("질문 중")
                     }
                     .setPositiveButton("질문 완료") { dialog, which ->
                         binding.tvHomeStateLabel.text = "질문 완료" //질문상태 변경
+                        viewModel.updateQuestionState("질문 완료")
                     }
                     .create()
                     .show()
@@ -84,7 +88,8 @@ class QuestionsBottomSheetAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemQuestionBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            selectCallback
+            selectCallback,
+            viewModel
         )
     }
 }
