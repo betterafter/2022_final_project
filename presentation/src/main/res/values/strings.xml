@@ -2,7 +2,7 @@
     <string name="app_name">kulture</string>
     <string name="title_home">질문</string>
     <string name="title_ranking">랭킹</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_recommend">추천</string>
     <string name="title_mypage">마이페이지</string>
     <string name="title_chat">채팅</string>
 

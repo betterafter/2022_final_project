@@ -17,9 +17,9 @@
         android:title="@string/title_chat" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_recommend"
         android:icon="@drawable/notilog"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_recommend" />
 
     <item
         android:id="@+id/navigation_myPage"

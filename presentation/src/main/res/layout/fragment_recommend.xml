@@ -1,28 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="15dp">
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/k_fragment_"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clipToOutline="true">
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <!-- 인기글 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="K-Contents" />
+            android:paddingTop="60dp">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="K-Pop" />
-    </com.google.android.material.tabs.TabLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="K-Contents" />
 
-</LinearLayout>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="K-Pop" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <!-- item recyclerview-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_recommend_recycler_view"
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:scrollbars="vertical" />
+
+        <!-- item framelayout-->
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="100dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
