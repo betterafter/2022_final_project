@@ -30,6 +30,11 @@ class Recommend_DBHelper(val context: Context)
         db.close()
     }
 
+   fun openDB() : SQLiteDatabase {
+        //데이터베이스에 쓸수 있는 권한을 리턴해줌(갖게됨)
+        var writabledatabase = this.getWritableDatabase()
+        return writabledatabase
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val create_table = "create table if not exists $TABLE_NAME("+

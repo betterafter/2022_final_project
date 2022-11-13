@@ -1,5 +1,8 @@
 package com.kuroutine.kulture.recommend
 
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabase.openDatabase
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -18,12 +21,17 @@ class Recommend_MainActivity : AppCompatActivity() {
         var videolist : ArrayList<YouTubePlayerView> = ArrayList()
         var videourl : ArrayList<String> = ArrayList()
         var listenedMusicList : ArrayList<String> = ArrayList()
+        var recommendDbhelper: Recommend_DBHelper = Recommend_DBHelper(this)
+        lateinit var writabledb : SQLiteDatabase
         lateinit var recyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_recommend)
         initDB()
+        initListenedMusicList()
+        writabledb = recommendDbhelper.openDB()
+
         val tfidf_matrix = Make_TFIDF_Matrix(data['아티스트명'])
         val cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
@@ -57,6 +65,19 @@ class Recommend_MainActivity : AppCompatActivity() {
         val adapter = Fragment_recommend_VideoAdapter(videolist)
         recyclerView.adapter = adapter
     }
+
+    private fun initListenedMusicList() {
+        listenedMusicList.add("신촌을 못가")
+        listenedMusicList.add("DNA")
+        listenedMusicList.add("겨울소리")
+        listenedMusicList.add("오르막길")
+        listenedMusicList.add("퇴근버스")
+        listenedMusicList.add("이 소설의 끝을 다시 써보려 해")
+        listenedMusicList.add("소주 한잔")
+        listenedMusicList.add("V")
+    }
+
+
 
     //# 이는 1698개의 각 문서 벡터(가수 벡터)와 자기 자신을 포함한
     //# 1698개의 문서 벡터 간의 유사도가 기록된 행렬입니다.
