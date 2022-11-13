@@ -96,8 +96,16 @@ class Recommend_MainActivity : AppCompatActivity() {
 
     //Returning TF-IDF Matrix
     private fun Make_TFIDF_Matrix(artist: ArrayList<String>): Any {
+
         
-        
+    }
+
+    fun tf(list : List<String>,word : String){
+        var result : Double = 0.0
+        for( targetWord : list)
+            if(word.equalsIg)
+
+
     }
 
     //음악 리스트 데이터베이스를 초기화
