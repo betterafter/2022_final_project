@@ -7,7 +7,7 @@ interface UserUsecase {
     suspend fun initUser()
     suspend fun getUser(uid: String?, callback: (UserModel) -> Unit)
     suspend fun getUser(uid: String?): UserModel?
-    suspend fun getUsers()
+    suspend fun getUsers(): List<UserModel>
     suspend fun updateLanguage(lang: String)
     suspend fun setUserProfileImage(uri: Uri)
 }

@@ -7,7 +7,7 @@ interface UserDatasource {
     suspend fun initUserInfo()
     suspend fun getUserInfo(uid: String?, callback: (User) -> Unit)
     suspend fun getUserInfo(uid: String?): User?
-    suspend fun getUsersInfo()
+    suspend fun getUsersInfo(): List<User>
     suspend fun updateUserInfo(
         userUid: String?,
         userName: String?,

@@ -77,11 +77,25 @@ class UserDatasourceImpl : UserDatasource {
         }
     }
 
-    override suspend fun getUsersInfo() {
+    override suspend fun getUsersInfo(): List<User> {
         val list = mutableListOf<User>()
-        _fireStore.collection("/users").document().get().addOnCompleteListener {
-            Log.d("[keykat]" ,"doc:::: $it")
+        val ref = _fireStore.collection("/users").get().await()
+        ref.documents.forEach { doc ->
+            doc.data?.let { data ->
+                val user = User(
+                    uid = data["uid"] as String?,
+                    userName = data["userName"] as String?,
+                    userEmail = data["userEmail"] as String?,
+                    userRank = data["userRank"] as String?,
+                    userXp = data["userXp"] as Long,
+                    language = (data["language"] ?: "ko") as String,
+                    profile = (data["profile"] ?: "") as String
+                )
+                list.add(user)
+            }
         }
+
+        return list.toList()
     }
 
     override suspend fun getUserInfo(uid: String?, callback: (User) -> Unit) {
