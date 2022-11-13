@@ -13,7 +13,6 @@
         android:layout_height="30dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="15dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_left_except_radius"
         android:backgroundTint="@color/sub_color"
@@ -52,10 +51,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_chatroom_item"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        tools:layout_editor_absoluteX="10dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <LinearLayout
             android:id="@+id/linearLayout4"
@@ -94,19 +94,19 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:layout_weight="8"
-                        tools:text="신기열"
-                        android:textColor="#2C2C2C"
                         android:fontFamily="@font/tossbold"
-                        android:textSize="18dp"/>
+                        android:textColor="#2C2C2C"
+                        android:textSize="18dp"
+                        tools:text="신기열" />
 
                     <TextView
                         android:id="@+id/tv_item_chatroom_time"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:textSize="11sp"
                         android:fontFamily="@font/tossregular"
-                        tools:text="오후 2:31"/>
+                        android:textSize="11sp"
+                        tools:text="오후 2:31" />
 
                 </LinearLayout>
 
@@ -115,11 +115,21 @@
                     android:layout_width="200dp"
                     android:layout_height="0dp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="#8C8C8C"
                     android:layout_weight="1"
-                    tools:text="안녕하세요!"
-                    android:fontFamily="@font/tossregular"/>
+                    android:fontFamily="@font/tossregular"
+                    android:textColor="#8C8C8C"
+                    tools:text="안녕하세요!" />
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_chatroom_tts"
+                android:layout_width="78dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/soundpic" />
 
         </LinearLayout>
 

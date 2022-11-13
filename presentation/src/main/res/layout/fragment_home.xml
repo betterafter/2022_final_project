@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DFDADA">
+        android:background="#E3E3E3">
 
 
         <LinearLayout
@@ -37,7 +37,6 @@
                     android:background="@drawable/bg_radius_15"
                     android:backgroundTint="@color/white"
                     android:drawableStart="@drawable/bg_search"
-                    android:fontFamily="@font/tossregular"
                     android:hyphenationFrequency="none"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="10dp"

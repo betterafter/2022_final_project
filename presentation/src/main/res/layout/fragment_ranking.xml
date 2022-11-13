@@ -40,6 +40,7 @@
                 android:gravity="center"
                 android:paddingVertical="5dp"
                 android:text="순위"
+                android:fontFamily="@font/tossregular"
                 android:textColor="@color/white" />
 
             <TextView
@@ -49,6 +50,7 @@
                 android:gravity="center"
                 android:paddingVertical="5dp"
                 android:text="유저"
+                android:fontFamily="@font/tossregular"
                 android:textColor="@color/white" />
 
             <TextView
@@ -58,6 +60,7 @@
                 android:gravity="center"
                 android:paddingVertical="5dp"
                 android:text="등급"
+                android:fontFamily="@font/tossregular"
                 android:textColor="@color/white" />
 
         </LinearLayout>

@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_publicchat_back"
         app:srcCompat="@drawable/ic_baseline_insert_photo_24"
-        app:tint="@color/light_main_color" />
+        app:tint="#B5B5B5" />
 
     <TextView
         android:id="@+id/tv_publicchat_title"
