@@ -8,7 +8,7 @@ import java.text.DecimalFormat
 
 class VectorSpaceModel(wordListTxtFile: String?) {
     // 1. Integer: Document seq, 2. String: Term, 3. Double : frequency
-    internal enum class WriteOption {
+    enum class WriteOption {
         TF, TFIDF, DF
     }
 

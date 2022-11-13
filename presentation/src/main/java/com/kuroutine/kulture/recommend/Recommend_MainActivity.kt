@@ -41,7 +41,7 @@ class Recommend_MainActivity : AppCompatActivity() {
         cursor.close()
         //
 
-        val tfidf_matrix = Make_TFIDF_Matrix(artist)
+        val tfidf_matrix = VectorSpaceModel(artist)
         val cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
         videourl.add("https://www.youtube.com/watch?v=fCO7f0SmrDc")
@@ -100,13 +100,31 @@ class Recommend_MainActivity : AppCompatActivity() {
         
     }
 
-    fun tf(list : List<String>,word : String){
+    fun tf(list : List<String>,word : String) : Double {
         var result : Double = 0.0
-        for( targetWord : list)
-            if(word.equalsIg)
-
-
+        val forlist = list
+        for( targetWord : forlist)
+            if(word.equals(targetWord, ignoreCase = true))
+                result ++
+        return result / list.size()
     }
+
+    fun idf(lists : List<List<String>>, word : String) : Double {
+        var n : Double = 0.0
+        for( list:List<String> : lists){
+            for (targetword: String : list){
+            if (word.equals(targetWord, ignoreCase = true)){
+                n++
+            break}
+        }
+        }
+        return Math.log(lists.size() / n)
+    }
+
+    fun ifidf(list : List<String>, lists : List<List<String>>, word : String):Double{
+        return tf(list,word) * idf(lists,word)
+    }
+
 
     //음악 리스트 데이터베이스를 초기화
     private fun initDB() {
