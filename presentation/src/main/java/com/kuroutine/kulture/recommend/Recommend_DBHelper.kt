@@ -16,10 +16,13 @@ class Recommend_DBHelper(val context: Context)
     companion object{
         val DB_NAME = "music_list.db"
         val DB_VERSION = 1
-        val TABLE_NAME = "musics"
-        val SONGID = "songid"
-        val SONGNAME = "songname"
-        val ARTIST = "artist"
+        val TABLE_NAME = "music_list"
+        val ALBUM = "앨범명"
+        val SONGID = "index"
+        val SONGNAME = "저작물명"
+        val ARTIST = "아티스트명"
+        val AGENCY = "대리중개사명"
+        val COMPANY = "제작사명"
     }
 
     fun getALLRecord(){
@@ -32,8 +35,7 @@ class Recommend_DBHelper(val context: Context)
 
    fun openDB() : SQLiteDatabase {
         //데이터베이스에 쓸수 있는 권한을 리턴해줌(갖게됨)
-        var writabledatabase = this.getWritableDatabase()
-        return writabledatabase
+        return this.readableDatabase
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

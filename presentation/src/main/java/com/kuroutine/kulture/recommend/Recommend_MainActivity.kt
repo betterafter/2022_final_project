@@ -1,8 +1,6 @@
 package com.kuroutine.kulture.recommend
 
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteDatabase.openDatabase
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +11,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import java.io.FileOutputStream
-import java.util.Random
 
 
 class Recommend_MainActivity : AppCompatActivity() {
@@ -22,7 +19,7 @@ class Recommend_MainActivity : AppCompatActivity() {
         var videourl : ArrayList<String> = ArrayList()
         var listenedMusicList : ArrayList<String> = ArrayList()
         var recommendDbhelper: Recommend_DBHelper = Recommend_DBHelper(this)
-        lateinit var writabledb : SQLiteDatabase
+        var readableDatabase : SQLiteDatabase = recommendDbhelper.readableDatabase
         lateinit var recyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +27,21 @@ class Recommend_MainActivity : AppCompatActivity() {
         setContentView(R.layout.fragment_recommend)
         initDB()
         initListenedMusicList()
-        writabledb = recommendDbhelper.openDB()
 
-        val tfidf_matrix = Make_TFIDF_Matrix(data['아티스트명'])
+        // 아티스트 칼럼에서 아티스트 이름 뽑아오기
+        val strsql = "SELECT "+"아티스트명"+"FROM music_list"
+        val cursor = readableDatabase.rawQuery(strsql,null)
+        val artist : ArrayList<String> = ArrayList()
+
+        for (i in 0 until cursor.count) {
+            val songname = cursor.getString(i)
+            artist.add(songname)
+            cursor.moveToNext() //이걸 해줘야 다음 레코드로 넘어가게된다.
+        }
+        cursor.close()
+        //
+
+        val tfidf_matrix = Make_TFIDF_Matrix(artist)
         val cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
         videourl.add("https://www.youtube.com/watch?v=fCO7f0SmrDc")
@@ -78,7 +87,6 @@ class Recommend_MainActivity : AppCompatActivity() {
     }
 
 
-
     //# 이는 1698개의 각 문서 벡터(가수 벡터)와 자기 자신을 포함한
     //# 1698개의 문서 벡터 간의 유사도가 기록된 행렬입니다.
     //# 모든 1698개 가수의 상호 유사도가 기록되어져 있습니다.
@@ -87,8 +95,9 @@ class Recommend_MainActivity : AppCompatActivity() {
     }
 
     //Returning TF-IDF Matrix
-    private fun Make_TFIDF_Matrix(any: Any): Any {
-
+    private fun Make_TFIDF_Matrix(artist: ArrayList<String>): Any {
+        
+        
     }
 
     //음악 리스트 데이터베이스를 초기화
