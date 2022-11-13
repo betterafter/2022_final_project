@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.LanguageModel
 import com.example.domain.dto.UserModel
+import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.user.UserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val userUsecase: UserUsecase
+    private val userUsecase: UserUsecase,
+    private val dashboardUsecase: DashboardUsecase
 ) : ViewModel() {
     private val _currentUser = MutableLiveData<UserModel?>().apply { value = null }
     val currentUser: LiveData<UserModel?> = _currentUser
@@ -24,8 +26,13 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             userUsecase.getUser(null) {
                 _currentUser.value = it
-                Log.d("[keykat]", "it::: ${_currentUser.value}")
             }
+        }
+    }
+
+    fun updateQuestionState(questionState: String) {
+        viewModelScope.launch {
+            dashboardUsecase.updateQuestionState(questionState)
         }
     }
 

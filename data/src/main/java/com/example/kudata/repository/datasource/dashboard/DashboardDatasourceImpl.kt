@@ -122,6 +122,47 @@ class DashboardDatasourceImpl : DashboardDatasource {
         return null
     }
 
+    override suspend fun updateQuestion(
+        id: String?,
+        uid: String?,
+        title: String?,
+        text: String?,
+        likeCount: String?,
+        location: String?,
+        private: Boolean?,
+        questionState: String?,
+        answerList: List<DashboardQuestionContent>?,
+        imageList: List<DashboardQuestionContent>?,
+        commentList: List<DashboardQuestionContent>?,
+    ) {
+        _auth.currentUser?.uid?.let { currId ->
+            val r = db.reference.child(DASHBOARD_KEY).get().await()
+            r.children.forEach {
+                val q = it.getValue(DashboardQuestionContent::class.java)
+                Log.d("[keykat]", "qid: ${q?.id} currId: $currId")
+                if (q?.uid == currId) {
+                    val key = it.key
+                    key?.let {
+                        val ref = db.reference.child(DASHBOARD_KEY).child(key)
+                        Log.d("[keykat]", "ref::: $ref")
+                        title?.let { ref.child("title").setValue(title) }
+                        text?.let { ref.child("text").setValue(text) }
+                        likeCount?.let { ref.child("likeCount").setValue(likeCount) }
+                        location?.let { ref.child("location").setValue(location) }
+                        private?.let { ref.child("private").setValue(private) }
+                        questionState?.let { ref.child("questionState").setValue(questionState) }
+                        imageList?.let { ref.child("imageList").setValue(imageList) }
+                        commentList?.let { ref.child("commentList").setValue(commentList) }
+                        answerList?.let { ref.child("answerList").setValue(answerList) }
+
+                        return
+                    }
+                }
+            }
+
+        }
+    }
+
     override suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>? {
         val list = mutableListOf<DashboardQuestionContent>()
         val ref = db.reference.child(DASHBOARD_KEY).get()

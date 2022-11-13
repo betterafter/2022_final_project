@@ -63,6 +63,13 @@ class DashboardUsecaseImpl @Inject constructor(
         return dashboardRepository.getQuestions(uid)
     }
 
+    override suspend fun updateQuestionState(questionState: String) {
+        dashboardRepository.updateQuestion(
+            null, null, null, null, null, null,
+            null, questionState, null, null, null,
+        )
+    }
+
     override suspend fun getQuestionsInRealtime(
         compList: List<DashboardQuestionModel>?,
         compList2: List<DashboardQuestionModel>?,

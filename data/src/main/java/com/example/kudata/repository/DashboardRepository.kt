@@ -29,6 +29,20 @@ interface DashboardRepository {
         imageList: List<String>,
     )
 
+    suspend fun updateQuestion(
+        id: String?,
+        uid: String?,
+        title: String?,
+        text: String?,
+        likeCount: String?,
+        location: String?,
+        private: Boolean?,
+        questionState: String?,
+        answerList: List<DashboardQuestionContent>?,
+        imageList: List<DashboardQuestionContent>?,
+        commentList: List<DashboardQuestionContent>?,
+    )
+
     suspend fun getQuestion(uid: String): DashboardQuestionContent?
 
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?

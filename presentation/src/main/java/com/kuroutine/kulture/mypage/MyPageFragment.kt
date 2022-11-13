@@ -122,7 +122,7 @@ class MyPageFragment : Fragment() {
         val adapter = BottomSheetAdapter(selectCallback = ::selectCallback)
         bottomSheetDialog = BottomSheet(adapter)
 
-        adapter2 = QuestionsBottomSheetAdapter(selectCallback = ::selectCallback2)
+        adapter2 = QuestionsBottomSheetAdapter(selectCallback = ::selectCallback2, myPageViewModel)
         questionsBottomSheetDialog = QuestionsBottomSheet(adapter2)
     }
 

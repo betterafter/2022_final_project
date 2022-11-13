@@ -25,5 +25,19 @@ interface DashboardDatasource {
 
     suspend fun getQuestions(uid: String?): List<DashboardQuestionContent>?
 
+    suspend fun updateQuestion(
+        id: String?,
+        uid: String?,
+        title: String?,
+        text: String?,
+        likeCount: String?,
+        location: String?,
+        private: Boolean?,
+        questionState: String?,
+        answerList: List<DashboardQuestionContent>?,
+        imageList: List<DashboardQuestionContent>?,
+        commentList: List<DashboardQuestionContent>?,
+    )
+
     suspend fun getQuestionsInRealtime(callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit))
 }
