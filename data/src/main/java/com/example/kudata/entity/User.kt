@@ -8,6 +8,8 @@ data class User(
     val userXp: Long,
     val language: String,
     val profile: String,
+    val questionList: Map<String, Any>,
+    val favoriteList: Map<String, Any>
 )
 
 //1. ko: 한국어

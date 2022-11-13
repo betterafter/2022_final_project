@@ -37,7 +37,19 @@ class UserRepositoryImpl @Inject constructor(
         userXp: Int?,
         language: String?,
         profile: Uri?,
+        questionList: Map<String, Any>?,
+        favoriteList: Map<String, Any>?,
     ) {
-        userDatasource.updateUserInfo(userUid, userName, userEmail, userRank, userXp, language, profile)
+        userDatasource.updateUserInfo(
+            userUid,
+            userName,
+            userEmail,
+            userRank,
+            userXp,
+            language,
+            profile,
+            questionList,
+            favoriteList
+        )
     }
 }

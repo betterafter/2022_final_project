@@ -15,6 +15,8 @@ interface UserDatasource {
         userRank: String?,
         userXp: Int?,
         language: String?,
-        profile: Uri?
+        profile: Uri?,
+        questionList: Map<String, Any>?,
+        favoriteList: Map<String, Any>?,
     )
 }

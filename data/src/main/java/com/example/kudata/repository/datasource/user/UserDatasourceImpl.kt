@@ -3,6 +3,7 @@ package com.example.kudata.repository.datasource.user
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.util.Log
+import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.utils.PROFILE_IMAGE_STORE_KEY
@@ -35,6 +36,8 @@ class UserDatasourceImpl : UserDatasource {
                     0,
                     language = "en",
                     profile = "",
+                    mapOf(),
+                    mapOf()
                 )
                 if (it.isEmpty) {
                     _fireStore.collection("/users").document(id).set(user)
@@ -52,6 +55,8 @@ class UserDatasourceImpl : UserDatasource {
         userXp: Int?,
         language: String?,
         profile: Uri?,
+        questionList: Map<String, Any>?,
+        favoriteList: Map<String, Any>?,
     ) {
         var profileString = ""
         profile?.let {
@@ -72,6 +77,8 @@ class UserDatasourceImpl : UserDatasource {
             userXp?.let { map["userXp"] = it }
             language?.let { map["language"] = it }
             profile?.let { map["profile"] = profileString }
+            questionList?.let { map["questionList"] = questionList }
+            favoriteList?.let { map["favoriteList"] = favoriteList }
 
             _fireStore.collection("/users").document(it).update(map)
         }
@@ -82,6 +89,9 @@ class UserDatasourceImpl : UserDatasource {
         val ref = _fireStore.collection("/users").get().await()
         ref.documents.forEach { doc ->
             doc.data?.let { data ->
+                val questionList = getQuestionListFromData(data)
+                val favoriteList = getFavoriteListsFromData(data)
+
                 val user = User(
                     uid = data["uid"] as String?,
                     userName = data["userName"] as String?,
@@ -89,7 +99,9 @@ class UserDatasourceImpl : UserDatasource {
                     userRank = data["userRank"] as String?,
                     userXp = data["userXp"] as Long,
                     language = (data["language"] ?: "ko") as String,
-                    profile = (data["profile"] ?: "") as String
+                    profile = (data["profile"] ?: "") as String,
+                    questionList = questionList,
+                    favoriteList = favoriteList
                 )
                 list.add(user)
             }
@@ -102,6 +114,9 @@ class UserDatasourceImpl : UserDatasource {
         uid?.let {
             _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                 snapShot.result.data?.let { data ->
+                    val questionList = getQuestionListFromData(data)
+                    val favoriteList = getFavoriteListsFromData(data)
+
                     val user = User(
                         uid = data["uid"] as String?,
                         userName = data["userName"] as String?,
@@ -109,7 +124,9 @@ class UserDatasourceImpl : UserDatasource {
                         userRank = data["userRank"] as String?,
                         userXp = (data["userXp"] ?: 0) as Long,
                         language = (data["language"] ?: "ko") as String,
-                        profile = (data["profile"] ?: "") as String
+                        profile = (data["profile"] ?: "") as String,
+                        questionList = questionList,
+                        favoriteList = favoriteList
                     )
 
                     callback(user)
@@ -119,6 +136,9 @@ class UserDatasourceImpl : UserDatasource {
             _auth.currentUser?.uid?.let { it ->
                 _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                     snapShot.result.data?.let { data ->
+                        val questionList = getQuestionListFromData(data)
+                        val favoriteList = getFavoriteListsFromData(data)
+
                         val user = User(
                             uid = data["uid"] as String?,
                             userName = data["userName"] as String?,
@@ -126,7 +146,9 @@ class UserDatasourceImpl : UserDatasource {
                             userRank = data["userRank"] as String?,
                             userXp = (data["userXp"] ?: 0) as Long,
                             language = (data["language"] ?: "ko") as String,
-                            profile = (data["profile"] ?: "") as String
+                            profile = (data["profile"] ?: "") as String,
+                            questionList = questionList,
+                            favoriteList = favoriteList
                         )
 
                         callback(user)
@@ -139,8 +161,30 @@ class UserDatasourceImpl : UserDatasource {
     override suspend fun getUserInfo(uid: String?): User? {
         var user: User? = null
         uid?.let {
-            _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
-                snapShot.result.data?.let { data ->
+            val ref = _fireStore.collection("/users").document(it).get().await()
+            ref.data?.let { data ->
+                val questionList = getQuestionListFromData(data)
+                val favoriteList = getFavoriteListsFromData(data)
+
+                user = User(
+                    uid = data["uid"] as String?,
+                    userName = data["userName"] as String?,
+                    userEmail = data["userEmail"] as String?,
+                    userRank = data["userRank"] as String?,
+                    userXp = (data["userXp"] ?: 0) as Long,
+                    language = (data["language"] ?: "ko") as String,
+                    profile = (data["profile"] ?: "") as String,
+                    questionList = questionList,
+                    favoriteList = favoriteList
+                )
+            }
+        } ?: run {
+            _auth.currentUser?.uid?.let { it ->
+                val ref = _fireStore.collection("/users").document(it).get().await()
+                ref.data?.let { data ->
+                    val questionList = getQuestionListFromData(data)
+                    val favoriteList = getFavoriteListsFromData(data)
+
                     user = User(
                         uid = data["uid"] as String?,
                         userName = data["userName"] as String?,
@@ -148,24 +192,10 @@ class UserDatasourceImpl : UserDatasource {
                         userRank = data["userRank"] as String?,
                         userXp = (data["userXp"] ?: 0) as Long,
                         language = (data["language"] ?: "ko") as String,
-                        profile = (data["profile"] ?: "") as String
+                        profile = (data["profile"] ?: "") as String,
+                        questionList = questionList,
+                        favoriteList = favoriteList
                     )
-                }
-            }.await()
-        } ?: run {
-            _auth.currentUser?.uid?.let { it ->
-                _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
-                    snapShot.result.data?.let { data ->
-                        user = User(
-                            uid = data["uid"] as String?,
-                            userName = data["userName"] as String?,
-                            userEmail = data["userEmail"] as String?,
-                            userRank = data["userRank"] as String?,
-                            userXp = (data["userXp"] ?: 0) as Long,
-                            language = (data["language"] ?: "ko") as String,
-                            profile = (data["profile"] ?: "") as String
-                        )
-                    }
                 }
             }
         }
@@ -203,5 +233,31 @@ class UserDatasourceImpl : UserDatasource {
         } catch (e: Exception) {
             Log.d("[keykat]", "e: $e")
         }
+    }
+
+    private fun getFavoriteListsFromData(data: Map<String, Any>): Map<String, Any> {
+        val favoriteListData = data["favoriteList"] as Map<*, *>
+        val favoriteList = mutableMapOf<String, Any>()
+
+        favoriteListData.forEach {
+            if (it.key is String) {
+                favoriteList[it.key as String] = it.value as Any
+            }
+        }
+
+        return favoriteList
+    }
+
+    private fun getQuestionListFromData(data: Map<String, Any>): Map<String, Any> {
+        val questionListData = data["questionList"] as Map<*, *>
+        val questionList = mutableMapOf<String, Any>()
+
+        questionListData.forEach {
+            if (it.key is String) {
+                questionList[it.key as String] = it.value as Any
+            }
+        }
+
+        return questionList
     }
 }

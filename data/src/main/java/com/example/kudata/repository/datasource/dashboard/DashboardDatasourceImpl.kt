@@ -11,6 +11,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.DashboardAnswerContent
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
+import com.example.kudata.repository.datasource.user.UserDatasourceImpl
 import com.example.kudata.utils.DASHBOARD_KEY
 import com.example.kudata.utils.IMAGE_STORE_KEY
 import com.example.kudata.utils.QuestionState
@@ -36,15 +37,11 @@ class DashboardDatasourceImpl : DashboardDatasource {
     private val db = FirebaseDatabase.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val chatDataSource = ChatDataSourceImpl()
+    private val userDataSource = UserDatasourceImpl()
 
     @SuppressLint("SimpleDateFormat")
     override suspend fun postQuestion(
-        title: String,
-        text: String,
-        location: String,
-        isPrivate: Boolean,
-        imageList: List<Uri>,
-        callback: (() -> Unit)?
+        title: String, text: String, location: String, isPrivate: Boolean, imageList: List<Uri>, callback: (() -> Unit)?
     ) {
         _auth.currentUser?.let {
             val uid = it.uid
@@ -81,8 +78,17 @@ class DashboardDatasourceImpl : DashboardDatasource {
                 // 공개 질문의 경우 포스팅하자마자 채팅방 바로 생성
                 if (!content.private) {
                     chatDataSource.initPublicChatRoom(
-                        qid = content.id,
-                        isPrivate = content.private
+                        qid = content.id, isPrivate = content.private
+                    )
+                }
+
+                userDataSource.getUserInfo(null).apply {
+                    val questionList = this?.questionList?.toMutableMap()
+                    questionList?.set(content.id, true)
+
+                    userDataSource.updateUserInfo(
+                        null, null, null, null,
+                        null, null, null, questionList, null
                     )
                 }
 
@@ -131,7 +137,8 @@ class DashboardDatasourceImpl : DashboardDatasource {
     }
 
     override suspend fun getQuestionsInRealtime(
-        callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit)) {
+        callback: ((List<DashboardQuestionContent>?, List<DashboardQuestionContent>?) -> Unit)
+    ) {
         if (_auth.currentUser != null) {
             val ref = db.reference.child(DASHBOARD_KEY)
             ref.orderByChild("dashboards/").addListenerForSingleValueEvent(object : ValueEventListener {

@@ -9,4 +9,6 @@ data class UserModel(
     val language: String,
     val languageText: String,
     val profile: String,
+    val questionList: Map<String, Any>?,
+    val favoriteList: Map<String, Any>?,
 )

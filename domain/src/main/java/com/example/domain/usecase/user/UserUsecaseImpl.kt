@@ -40,7 +40,9 @@ class UserUsecaseImpl @Inject constructor(
             userRank = null,
             userXp = null,
             language = lang,
-            profile = null
+            profile = null,
+            questionList = null,
+            favoriteList = null
         )
     }
 
@@ -56,7 +58,9 @@ class UserUsecaseImpl @Inject constructor(
             userRank = null,
             userXp = null,
             language = null,
-            profile = uri
+            profile = uri,
+            questionList = null,
+            favoriteList = null
         )
     }
 
