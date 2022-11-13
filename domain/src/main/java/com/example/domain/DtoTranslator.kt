@@ -9,6 +9,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
+import getValue
 import java.text.SimpleDateFormat
 
 object DtoTranslator {
@@ -52,6 +53,11 @@ object DtoTranslator {
         users.forEach {
             list.add(userTranslator(it))
         }
+        list.sortWith(comparator = { it1, it2 ->
+            (it1.userRank ?: "bronze").getValue()
+                .compareTo((it2.userRank ?: "bronze").getValue())
+        })
+        list.reverse()
 
         return list.toList()
     }

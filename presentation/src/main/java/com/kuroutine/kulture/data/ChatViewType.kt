@@ -4,6 +4,10 @@ enum class ChatViewType(val value: Int) {
     LEFT(0), RIGHT(1)
 }
 
-enum class RankType(val value: Int) {
-    Diamond(5), Platinum(4), Gold(3), Silver(2), Bronze(1)
+enum class RankType(val value: Int, val value2: String) {
+    Diamond(5, "diamond"),
+    Platinum(4, "platinum"),
+    Gold(3, "gold"),
+    Silver(2, "silver"),
+    Bronze(1, "bronze");
 }
