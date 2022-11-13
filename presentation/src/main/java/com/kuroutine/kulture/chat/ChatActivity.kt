@@ -34,8 +34,6 @@ class ChatActivity : AppCompatActivity() {
                 viewModel = chatViewModel
                 lifecycleOwner = this@ChatActivity
             }
-        binding.rvPrivatechatChatrv.recycledViewPool.setMaxRecycledViews(ChatViewType.RIGHT.value, 0)
-        binding.rvPrivatechatChatrv.recycledViewPool.setMaxRecycledViews(ChatViewType.LEFT.value, 0)
     }
 
     override fun onStart() {

@@ -36,9 +36,9 @@ class ChatUsecaseImpl @Inject constructor(
         chatRepository.sendMessage(message, timestamp)
     }
 
-    override suspend fun getMessages(callback: (List<ChatModel>) -> Unit) {
+    override suspend fun getMessages(callback: (List<ChatModel>) -> Unit, compList: List<ChatModel>?) {
         chatRepository.getRealtimeMessage {
-            val list = DtoTranslator.chatTranslator(it)
+            val list = DtoTranslator.chatTranslator(it, compList = compList)
             callback(list)
         }
     }

@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chat
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,33 +34,47 @@ class PrivateChatAdapter(
 
 
         suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
-            tvMessage.text = translate(data.message)
+            if (data.translatedMessage == "") {
+                data.translatedMessage = translate(data.message)
+            }
+            tvMessage.text = data.translatedMessage
             tvTimeStamp.text = data.timestamp.toString()
-            data.translatedMessage = tvMessage.text.toString()
+
+            Log.d("[keykat]", "data: $data")
 
             CoroutineScope(Dispatchers.Main).launch {
-                val user = viewModel.getUser(data.uid)
-                user?.let { it ->
-                    if (prevData == null || prevData.uid != data.uid) {
+                if (data.userName == "") {
+                    val user = viewModel.getUser(data.uid)
+                    user?.let { it ->
+                        data.userName = user.userName.toString()
+                        data.userProfile = user.profile
+
                         Glide.with(view.context)
                             .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
                             .circleCrop()
                             .into(ivUserProfile)
-                        ivUserProfile.visibility = View.VISIBLE
-
-                        tvUserName.visibility = View.VISIBLE
                         tvUserName.text = it.userName
-
-                        if (nextData?.timestamp == data.timestamp) {
-                            tvTimeStamp.visibility = View.GONE
-                        } else {
-                            tvTimeStamp.visibility = View.VISIBLE
-                        }
-                    } else {
-                        tvUserName.visibility = View.GONE
-                        ivUserProfile.visibility = View.INVISIBLE
-                        return@launch
                     }
+                } else {
+                    tvUserName.text = data.userName
+                    Glide.with(view.context)
+                        .load(if (data.userProfile != "") data.userProfile else R.drawable.icon_profile)
+                        .circleCrop()
+                        .into(ivUserProfile)
+                }
+
+                if (prevData == null || prevData.uid != data.uid) {
+                    tvUserName.visibility = View.VISIBLE
+                } else {
+                    tvUserName.visibility = View.GONE
+                    ivUserProfile.visibility = View.INVISIBLE
+                    return@launch
+                }
+
+                if (nextData?.timestamp == data.timestamp) {
+                    tvTimeStamp.visibility = View.GONE
+                } else {
+                    tvTimeStamp.visibility = View.VISIBLE
                 }
             }
         }
@@ -67,9 +82,13 @@ class PrivateChatAdapter(
         suspend fun translate(target: String): String {
             val langCode = viewModel.checkLanguage(target)
             return if (langCode == viewModel.language.value) {
-                ""
+                target
             } else {
-                viewModel.getTranslatedText(target, langCode) ?: target
+                try {
+                    return viewModel.getTranslatedText(target, langCode) ?: target
+                } catch (e: Exception) {
+                    return target
+                }
             }
         }
     }
@@ -105,30 +124,43 @@ class PrivateChatAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return if (diffUtil.currentList[position].uid == myUId) {
-            ChatViewType.RIGHT.value
+            -position
         } else {
-            ChatViewType.LEFT.value
+            position
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View?
-        return when (viewType) {
-            ChatViewType.RIGHT.value -> {
-                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
-                RightViewHolder(view, viewModel)
-            }
-
-            ChatViewType.LEFT.value -> {
-                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
-                LeftViewHolder(view, viewModel)
-            }
-
-            else -> throw RuntimeException("viewType not found.")
+        if (viewType < 0) {
+            view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
+            return RightViewHolder(view, viewModel)
+        } else {
+            view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
+            return LeftViewHolder(view, viewModel)
         }
+//        return when (viewType) {
+//            (viewType < 0) -> {
+//                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
+//                RightViewHolder(view, viewModel)
+//            }
+//
+//            ChatViewType.LEFT.value -> {
+//                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
+//                LeftViewHolder(view, viewModel)
+//            }
+//
+//            else -> throw RuntimeException("viewType not found.")
+//        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
+
         val data = diffUtil.currentList[position]
         val prevData: ChatModel? = if (position - 1 >= 0) {
             diffUtil.currentList[position - 1]

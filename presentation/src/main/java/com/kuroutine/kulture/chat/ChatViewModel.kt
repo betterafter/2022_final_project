@@ -63,6 +63,9 @@ class ChatViewModel @Inject constructor(
         userUsecase.getUser(null) {
             if (_language.value != it.language) {
                 _language.value = it.language
+                _chatModelList.value?.forEach {
+                    it.translatedMessage = ""
+                }
             }
         }
     }
@@ -85,10 +88,12 @@ class ChatViewModel @Inject constructor(
 
     fun getMessages(animationCallback: (() -> Unit)) {
         viewModelScope.launch {
-            chatUsecase.getMessages { it ->
+            val list = chatModelList.value
+
+            chatUsecase.getMessages({
                 _chatModelList.value = it
                 animationCallback()
-            }
+            }, list)
         }
     }
 

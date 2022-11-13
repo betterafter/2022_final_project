@@ -10,5 +10,5 @@ interface ChatUsecase {
     suspend fun enterRoom(qid: String, getChatRoomIdCallback: ((String?) -> Unit))
     suspend fun getChatRooms(callback: (List<ChatRoomModel>, List<ChatRoomModel>) -> Unit)
     suspend fun sendMessage(message: String)
-    suspend fun getMessages(callback: (List<ChatModel>) -> Unit)
+    suspend fun getMessages(callback: (List<ChatModel>) -> Unit, compList: List<ChatModel>?)
 }

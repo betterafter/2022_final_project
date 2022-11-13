@@ -100,21 +100,34 @@ object DtoTranslator {
             qid = chatRoom.qid,
             users = chatRoom.users,
             isPrivate = chatRoom.private,
-            contents = chatRoom.content?.let { chatTranslator(it) }
+            contents = chatRoom.content?.let { chatTranslator(it, null) }
         )
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun chatTranslator(chatMap: Map<String, ChatContent>): List<ChatModel> {
+    fun chatTranslator(
+        chatMap: Map<String, ChatContent>,
+        compList: List<ChatModel>?
+    ): List<ChatModel> {
         val list = mutableListOf<ChatModel>()
         chatMap.forEach {
             val element = chatMap[it.key]
+            var translatedMessage = ""
+
+            compList?.forEach { chat ->
+                if (chat.uid == element!!.uid) {
+                    translatedMessage = chat.translatedMessage
+                }
+            }
+
             list.add(
                 ChatModel(
                     uid = element!!.uid,
                     message = element.message,
-                    translatedMessage = "",
-                    timestamp = element.timestamp
+                    translatedMessage = translatedMessage,
+                    timestamp = element.timestamp,
+                    userName = "",
+                    userProfile = ""
                 )
             )
         }
