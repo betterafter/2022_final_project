@@ -25,6 +25,10 @@ class UserRepositoryImpl @Inject constructor(
         return userDatasource.getUserInfo(uid)
     }
 
+    override suspend fun getUsers(): List<User> {
+        return userDatasource.getUsersInfo()
+    }
+
     override suspend fun updateUserInfo(
         userUid: String?,
         userName: String?,

@@ -9,6 +9,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.entity.User
+import getValue
 import java.text.SimpleDateFormat
 
 object DtoTranslator {
@@ -45,6 +46,20 @@ object DtoTranslator {
             languageText = languageMap[user.language] ?: "존재하지 않는 언어",
             profile = user.profile
         )
+    }
+
+    fun usersTranslator(users: List<User>): List<UserModel> {
+        val list = mutableListOf<UserModel>()
+        users.forEach {
+            list.add(userTranslator(it))
+        }
+        list.sortWith(comparator = { it1, it2 ->
+            (it1.userRank ?: "bronze").getValue()
+                .compareTo((it2.userRank ?: "bronze").getValue())
+        })
+        list.reverse()
+
+        return list.toList()
     }
 
     fun chatRoomsTranslator(chatRooms: List<ChatRoom>): List<ChatRoomModel> {

@@ -31,13 +31,13 @@ class UserDatasourceImpl : UserDatasource {
                     id,
                     _auth.currentUser?.displayName,
                     _auth.currentUser?.email,
-                    "newbie",
+                    "bronze",
                     0,
                     language = "en",
                     profile = "",
                 )
                 if (it.isEmpty) {
-                    _fireStore.collection(id).document("/user").set(user)
+                    _fireStore.collection("/users").document(id).set(user)
                 }
             }
         }
@@ -73,13 +73,34 @@ class UserDatasourceImpl : UserDatasource {
             language?.let { map["language"] = it }
             profile?.let { map["profile"] = profileString }
 
-            _fireStore.collection(it).document("/user").update(map)
+            _fireStore.collection("/users").document(it).update(map)
         }
+    }
+
+    override suspend fun getUsersInfo(): List<User> {
+        val list = mutableListOf<User>()
+        val ref = _fireStore.collection("/users").get().await()
+        ref.documents.forEach { doc ->
+            doc.data?.let { data ->
+                val user = User(
+                    uid = data["uid"] as String?,
+                    userName = data["userName"] as String?,
+                    userEmail = data["userEmail"] as String?,
+                    userRank = data["userRank"] as String?,
+                    userXp = data["userXp"] as Long,
+                    language = (data["language"] ?: "ko") as String,
+                    profile = (data["profile"] ?: "") as String
+                )
+                list.add(user)
+            }
+        }
+
+        return list.toList()
     }
 
     override suspend fun getUserInfo(uid: String?, callback: (User) -> Unit) {
         uid?.let {
-            _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+            _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                 snapShot.result.data?.let { data ->
                     val user = User(
                         uid = data["uid"] as String?,
@@ -96,7 +117,7 @@ class UserDatasourceImpl : UserDatasource {
             }
         } ?: run {
             _auth.currentUser?.uid?.let { it ->
-                _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+                _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                     snapShot.result.data?.let { data ->
                         val user = User(
                             uid = data["uid"] as String?,
@@ -118,7 +139,7 @@ class UserDatasourceImpl : UserDatasource {
     override suspend fun getUserInfo(uid: String?): User? {
         var user: User? = null
         uid?.let {
-            _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+            _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                 snapShot.result.data?.let { data ->
                     user = User(
                         uid = data["uid"] as String?,
@@ -133,7 +154,7 @@ class UserDatasourceImpl : UserDatasource {
             }.await()
         } ?: run {
             _auth.currentUser?.uid?.let { it ->
-                _fireStore.collection(it).document("/user").get().addOnCompleteListener { snapShot ->
+                _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                     snapShot.result.data?.let { data ->
                         user = User(
                             uid = data["uid"] as String?,

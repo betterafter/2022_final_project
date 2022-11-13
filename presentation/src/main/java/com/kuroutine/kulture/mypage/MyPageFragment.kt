@@ -72,8 +72,8 @@ class MyPageFragment : Fragment() {
     @SuppressLint("IntentReset")
     private fun initListener() {
         myPageViewModel.currentUser.observe(viewLifecycleOwner) {
-            val profile = if (it?.profile != null && it.profile != "") it.profile else (R.drawable.ic_profile_fill)
-            if (profile == R.drawable.ic_profile_fill) {
+            val profile = if (it?.profile != null && it.profile != "") it.profile else (R.drawable.icon_profile)
+            if (profile == R.drawable.icon_profile) {
                 binding.ivMypageUserpic.setColorFilter(ContextCompat.getColor(contxt, R.color.main_color))
             } else {
                 binding.ivMypageUserpic.setColorFilter(Color.TRANSPARENT)
