@@ -14,6 +14,7 @@ import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
+import com.kuroutine.kulture.data.ChatViewType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,8 @@ class ChatActivity : AppCompatActivity() {
                 viewModel = chatViewModel
                 lifecycleOwner = this@ChatActivity
             }
+        binding.rvPrivatechatChatrv.recycledViewPool.setMaxRecycledViews(ChatViewType.RIGHT.value, 0)
+        binding.rvPrivatechatChatrv.recycledViewPool.setMaxRecycledViews(ChatViewType.LEFT.value, 0)
     }
 
     override fun onStart() {

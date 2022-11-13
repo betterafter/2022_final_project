@@ -1,7 +1,5 @@
 package com.kuroutine.kulture.chat
 
-import android.opengl.Visibility
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.dto.ChatModel
-import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.kuroutine.kulture.data.ChatViewType
 import kotlinx.coroutines.CoroutineScope
@@ -48,6 +45,7 @@ class PrivateChatAdapter(
                             .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
                             .circleCrop()
                             .into(ivUserProfile)
+                        ivUserProfile.visibility = View.VISIBLE
 
                         tvUserName.visibility = View.VISIBLE
                         tvUserName.text = it.userName
@@ -59,6 +57,7 @@ class PrivateChatAdapter(
                         }
                     } else {
                         tvUserName.visibility = View.GONE
+                        ivUserProfile.visibility = View.INVISIBLE
                         return@launch
                     }
                 }
