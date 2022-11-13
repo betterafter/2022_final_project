@@ -1,151 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
     android:layout_marginVertical="7dp"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardUseCompatPadding="false"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="30dp">
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.504"
+            tools:text="1" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:weightSum="10"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:layout_weight="3">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="2">
+            <ImageView
+                android:id="@+id/iv_rank_thumbnail"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                tools:srcCompat="@tools:sample/avatars" />
 
-                <ImageView
-                    android:id="@+id/iv_rank_thumbnail"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.476"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.266"
-                    tools:srcCompat="@tools:sample/avatars" />
+            <TextView
+                android:id="@+id/tv_rank_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/tossregular"
+                android:maxLines="1"
+                android:textColor="@color/background_black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_rank_thumbnail"
+                app:layout_constraintStart_toEndOf="@+id/iv_rank_thumbnail"
+                app:layout_constraintTop_toTopOf="@+id/iv_rank_thumbnail"
+                tools:text="이름" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cv_rank_item"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_weight="8"
-                android:paddingEnd="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="17dp"
-                    android:layout_height="21dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tv_rank_username"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_rank_points"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/level1" />
-
-                <TextView
-                    android:id="@+id/tv_rank_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/tossregular"
-                    android:maxLines="1"
-                    android:textColor="@color/background_black"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="이름" />
-
-                <TextView
-                    android:id="@+id/tv_rank_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="8"
-                    android:fontFamily="@font/tossregular"
-                    android:gravity="start"
-                    android:text="레벨: "
-                    android:paddingTop="5dp"
-                    android:textColor="#373737"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/tv_rank_username"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_rank_username" />
-
-                <TextView
-                    android:id="@+id/tv_rank_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="59dp"
-                    android:text="내공: "
-                    android:paddingTop="6dp"
-                    android:gravity="start"
-                    android:textSize="12dp"
-                    android:textColor="#373737"
-                    android:fontFamily="@font/tossregular"
-                    app:layout_constraintBottom_toTopOf="@+id/imageView"
-                    app:layout_constraintStart_toStartOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_rank_gradeoflevel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
-                    android:text="@{viewModel.currentUser.userRank}"
-                    android:fontFamily="@font/tossregular"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_rank_level"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.115"
-                    app:layout_constraintStart_toEndOf="@+id/tv_rank_level"
-                    app:layout_constraintTop_toTopOf="@+id/tv_rank_level"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/tv_rank_numberofpoints"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/tossregular"
-                    android:text="@{Long.toString(viewModel.currentUser.userXp)}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_rank_points"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_rank_gradeoflevel"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/tv_rank_points"
-                    app:layout_constraintTop_toTopOf="@+id/tv_rank_points"
-                    app:layout_constraintVertical_bias="0.0" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/iv_ranking_level"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.753"
+                app:layout_constraintStart_toEndOf="@+id/tv_rank_username"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/level1" />
+
+            <TextView
+                android:id="@+id/tv_ranking_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:text="브론즈" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

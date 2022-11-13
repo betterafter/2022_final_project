@@ -6,17 +6,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.*
+import com.example.domain.dto.UserModel
 import com.example.kuroutine.R
 
 class RankingViewAdapter(
-    private val values: ArrayList<RankingData>
+    private val values: ArrayList<RankingData>,
+
 ) : RecyclerView.Adapter<RankingViewAdapter.ViewHolder>() {
 
-    interface OnItemClickListener{
-        fun OnItemClick(data:RankingData, position: Int) //position 정보 추가
+    interface OnItemClickListener {
+        fun OnItemClick(data: RankingData, position: Int) //position 정보 추가
     }
 
-    var itemClickListener:OnItemClickListener?=null
+    var itemClickListener: OnItemClickListener? = null
 
     // recyclerview 재사용에서 생기는 오류 방지
     override fun getItemViewType(position: Int): Int {
@@ -37,11 +39,13 @@ class RankingViewAdapter(
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-
         val user_pic = itemView.findViewById<ImageView>(R.id.iv_rank_thumbnail)
         val user_name = itemView.findViewById<TextView>(R.id.tv_rank_username)
-        val user_level = itemView.findViewById<TextView>(R.id.tv_rank_level)
+        val user_level = itemView.findViewById<TextView>(R.id.tv_ranking_level)
 
+        fun bind(data: UserModel) {
+
+        }
     }
 
 }
