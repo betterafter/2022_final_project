@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_ranking" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.kuroutine.kulture.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_recommend"
+        android:name="com.kuroutine.kulture.recommend.RecommendFragment"
+        android:label="@string/title_recommend"
+        tools:layout="@layout/fragment_recommend" />
 
     <fragment
         android:id="@+id/navigation_chat"

@@ -63,7 +63,6 @@
             android:name="com.kuroutine.kulture.chat.ChatActivity"
             android:exported="true">
         </activity>
-        
     </application>
 
 </manifest>
