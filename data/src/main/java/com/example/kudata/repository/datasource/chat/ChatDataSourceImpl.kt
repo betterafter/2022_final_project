@@ -78,7 +78,6 @@ class ChatDataSourceImpl : ChatDataSource {
                     snapshot.children.forEach {
                         it.getValue(ChatRoom::class.java)?.let { room ->
                             if (room.users?.containsKey(user.uid) == true) {
-                                Log.d("[keykat]", "room: $room")
                                 if (room.private) {
                                     list.add(room)
                                 } else {

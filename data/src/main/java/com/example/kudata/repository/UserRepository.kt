@@ -12,7 +12,7 @@ interface UserRepository {
 
     suspend fun getUser(uid: String?): User?
 
-    suspend fun getUsers()
+    suspend fun getUsers(): List<User>
 
     suspend fun updateUserInfo(
         userUid: String?,

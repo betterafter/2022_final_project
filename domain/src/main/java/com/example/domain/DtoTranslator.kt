@@ -47,6 +47,15 @@ object DtoTranslator {
         )
     }
 
+    fun usersTranslator(users: List<User>): List<UserModel> {
+        val list = mutableListOf<UserModel>()
+        users.forEach {
+            list.add(userTranslator(it))
+        }
+
+        return list.toList()
+    }
+
     fun chatRoomsTranslator(chatRooms: List<ChatRoom>): List<ChatRoomModel> {
         val list = mutableListOf<ChatRoomModel>()
         chatRooms.forEach {
