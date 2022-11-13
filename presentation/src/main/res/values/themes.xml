@@ -25,4 +25,10 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@color/main_color</item>
+    </style>
 </resources>
