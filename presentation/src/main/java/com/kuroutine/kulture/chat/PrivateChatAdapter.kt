@@ -133,38 +133,27 @@ class PrivateChatAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return if (diffUtil.currentList[position].uid == myUId) {
-            -position
+            ChatViewType.RIGHT.value
         } else {
-            position
+            ChatViewType.LEFT.value
         }
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View?
-        if (viewType < 0) {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
-            return RightViewHolder(view, viewModel)
-        } else {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
-            return LeftViewHolder(view, viewModel)
+        return when (viewType) {
+            ChatViewType.RIGHT.value -> {
+                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
+                RightViewHolder(view, viewModel)
+            }
+
+            ChatViewType.LEFT.value -> {
+                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
+                LeftViewHolder(view, viewModel)
+            }
+
+            else -> throw RuntimeException("viewType not found.")
         }
-//        return when (viewType) {
-//            (viewType < 0) -> {
-//                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
-//                RightViewHolder(view, viewModel)
-//            }
-//
-//            ChatViewType.LEFT.value -> {
-//                view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
-//                LeftViewHolder(view, viewModel)
-//            }
-//
-//            else -> throw RuntimeException("viewType not found.")
-//        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
