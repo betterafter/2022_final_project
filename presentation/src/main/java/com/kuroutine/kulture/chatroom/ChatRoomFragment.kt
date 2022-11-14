@@ -71,10 +71,6 @@ class ChatRoomFragment : Fragment() {
         chatRoomViewModel.getChatRooms()
 
         chatRoomViewModel.getCurrentUser()
-
-        CoroutineScope(Dispatchers.Main).launch {
-            chatRoomViewModel.getLanguage()
-        }
     }
 
     private fun initFragment() {

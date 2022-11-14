@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chatroom
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,15 +46,63 @@ class ChatRoomViewModel @Inject constructor(
         return userUsecase.getUser(uid)
     }
 
-    suspend fun getQuestion(uid: String): DashboardQuestionModel? {
-        return dashboardUsecase.getQuestion(uid)
+    suspend fun getQuestion(uid: String, callback: (DashboardQuestionModel) -> Unit) {
+        val question = dashboardUsecase.getQuestion(uid)
+
+        _language.value?.let { ulang ->
+            question?.title?.let { title ->
+                checkLanguage(title) { lang ->
+                    viewModelScope.launch {
+                        translateUsecase.getText(title, lang, ulang) { str ->
+                            question.translatedTitle = str
+                            callback(question)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun getChatRooms() {
         viewModelScope.launch {
             chatUsecase.getChatRooms { list1, list2 ->
-                _chatRoomModelList.value = list1
-                _publicChatRoomModelList.value = list2
+                list1.forEach { model ->
+                    viewModelScope.launch {
+                        model.contents?.last()?.message?.let { it1 ->
+                            _language.value?.let { ulang ->
+                                checkLanguage(it1) { lang ->
+                                    viewModelScope.launch {
+                                        translateUsecase.getText(it1, lang, ulang) { str ->
+                                            model.contents!!.last().message = str
+                                            val nList = mutableListOf<ChatRoomModel>()
+                                            list1.forEach { item -> nList.add(item.copy(contents = item.contents)) }
+                                            _chatRoomModelList.value = nList
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                list2.forEach { model ->
+                    viewModelScope.launch {
+                        model.contents?.last()?.message?.let { it1 ->
+                            _language.value?.let { ulang ->
+                                checkLanguage(it1) { lang ->
+                                    viewModelScope.launch {
+                                        translateUsecase.getText(it1, lang, ulang) { str ->
+                                            model.contents!!.last().message = str
+                                            val nList = mutableListOf<ChatRoomModel>()
+                                            list2.forEach { item -> nList.add(item.copy(contents = item.contents)) }
+                                            _publicChatRoomModelList.value = nList
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

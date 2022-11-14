@@ -16,6 +16,9 @@ import com.kuroutine.kulture.chat.ChatActivity
 import com.kuroutine.kulture.chat.ChatViewModel
 import com.kuroutine.kulture.home.HomeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PrivateChatRoomFragment : Fragment() {
@@ -61,11 +64,19 @@ class PrivateChatRoomFragment : Fragment() {
             binding.rvPrivateChatroomList.adapter =
                 ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
         }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            chatRoomViewModel.getLanguage()
+        }
     }
 
     private fun initObserver() {
         chatRoomViewModel.chatRoomModelList.observe(viewLifecycleOwner) {
             (binding.rvPrivateChatroomList.adapter as ChatRoomAdapter).submitList(it)
+        }
+
+        chatRoomViewModel.language.observe(viewLifecycleOwner) {
+            chatRoomViewModel.getChatRooms()
         }
     }
 

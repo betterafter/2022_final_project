@@ -28,7 +28,7 @@ class ChatRoomAdapter(
 
             // 채팅방 대화창 및 프로필 디자인
             data.contents?.last()?.let { model ->
-                translate(model.message) { binding.tvItemChatroomContent.text = it }
+                binding.tvItemChatroomContent.text = model.message
                 binding.tvItemChatroomTime.text = model.timestamp.toString()
 
                 // 유저 프로필 이미지 및 이름 가져오기
@@ -62,27 +62,13 @@ class ChatRoomAdapter(
 
             // 채팅방 상단 정보 디자인
             CoroutineScope(Dispatchers.Main).launch {
-                val question = viewModel.getQuestion(data.qid)
-                question?.let {
+                viewModel.getQuestion(data.qid) { question ->
                     Glide.with(binding.root.context)
-                        .load(it.imageList?.first())
+                        .load(question.imageList?.first())
                         .transform(RoundedCorners(15))
                         .into(binding.ivChatroomQuestionImage)
 
-                    translate(it.title) {
-                        binding.tvChatroomQuestionTitle.text
-                    }
-                }
-            }
-        }
-
-        suspend fun translate(target: String, callback: (String) -> Unit) {
-            viewModel.checkLanguage(target) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val langCode = it
-                    viewModel.getTranslatedText(target, langCode) { text ->
-                        callback(text)
-                    }
+                    binding.tvChatroomQuestionTitle.text = question.translatedTitle
                 }
             }
         }

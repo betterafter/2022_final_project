@@ -104,7 +104,6 @@ class HomePublicDashboardFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
-            Log.d("[keykat]", "list::::: $it")
             (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
         }
     }
