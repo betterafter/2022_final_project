@@ -9,6 +9,8 @@ import com.example.kudata.repository.datasource.login.FacebookLoginDatasource
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasource
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasourceImpl
+import com.example.kudata.repository.datasource.mltranslator.MlKitDatasource
+import com.example.kudata.repository.datasource.mltranslator.MlKitDatasourceImpl
 import com.example.kudata.repository.datasource.papago.PapagoDatasource
 import com.example.kudata.repository.datasource.papago.PapagoDatasourceImpl
 import com.example.kudata.repository.datasource.user.UserDatasource
@@ -26,31 +28,30 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providePapagoDatasource() : PapagoDatasource
-            = PapagoDatasourceImpl()
+    fun providePapagoDatasource(): PapagoDatasource = PapagoDatasourceImpl()
 
     @Provides
     @Singleton
-    fun provideGoogleLoginDatasource(@ApplicationContext context: Context) : GoogleLoginDatasource
-            = GoogleLoginDatasourceImpl(context = context)
+    fun provideGoogleLoginDatasource(@ApplicationContext context: Context): GoogleLoginDatasource =
+        GoogleLoginDatasourceImpl(context = context)
 
     @Provides
     @Singleton
-    fun provideFacebookLoginDatasource() : FacebookLoginDatasource
-            = FacebookLoginDatasourceImpl()
+    fun provideFacebookLoginDatasource(): FacebookLoginDatasource = FacebookLoginDatasourceImpl()
 
     @Provides
     @Singleton
-    fun provideChatDatasource() : ChatDataSource
-            = ChatDataSourceImpl()
+    fun provideChatDatasource(): ChatDataSource = ChatDataSourceImpl()
 
     @Provides
     @Singleton
-    fun provideUserDatasource() : UserDatasource
-            = UserDatasourceImpl()
+    fun provideUserDatasource(): UserDatasource = UserDatasourceImpl()
 
     @Provides
     @Singleton
-    fun provideDashboardDatasource() : DashboardDatasource
-            = DashboardDatasourceImpl()
+    fun provideDashboardDatasource(): DashboardDatasource = DashboardDatasourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideMlKitDatasource(): MlKitDatasource = MlKitDatasourceImpl()
 }
