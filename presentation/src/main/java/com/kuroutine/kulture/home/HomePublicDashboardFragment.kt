@@ -63,18 +63,18 @@ class HomePublicDashboardFragment : Fragment() {
         array.add("최신순")
         array.add("과거순")
         var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, array)
-        val spinner : Spinner = binding.spinner
+        val spinner: Spinner = binding.spinner
         spinner.adapter = adapter
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if(spinner.selectedItem.toString()=="최신순") {
+                if (spinner.selectedItem.toString() == "최신순") {
 
-                }
-                else { //과거순
+                } else { //과거순
 
                 }
             }
+
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
