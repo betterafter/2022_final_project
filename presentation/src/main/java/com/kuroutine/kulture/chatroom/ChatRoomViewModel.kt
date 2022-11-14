@@ -1,17 +1,15 @@
 package com.kuroutine.kulture.chatroom
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.domain.dto.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
-import com.example.domain.usecase.papago.PapagoUsecase
+import com.example.domain.usecase.papago.TranslateUsecase
 import com.example.domain.usecase.user.UserUsecase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +20,7 @@ import javax.inject.Inject
 class ChatRoomViewModel @Inject constructor(
     private val dashboardUsecase: DashboardUsecase,
     private val chatUsecase: ChatUsecase,
-    private val papagoUsecase: PapagoUsecase,
+    private val translateUsecase: TranslateUsecase,
     private val userUsecase: UserUsecase
 ) : ViewModel() {
     private val _language = MutableLiveData<String?>().apply { value = null }
@@ -60,8 +58,10 @@ class ChatRoomViewModel @Inject constructor(
         }
     }
 
-    suspend fun checkLanguage(data: String): String {
-        return papagoUsecase.getLangCode(data) ?: "ko"
+    suspend fun checkLanguage(data: String, callback: (String) -> Unit) {
+        translateUsecase.getLangCode(data) {
+            callback(it)
+        }
     }
 
     suspend fun getLanguage() {
@@ -72,7 +72,9 @@ class ChatRoomViewModel @Inject constructor(
         }
     }
 
-    suspend fun getTranslatedText(data: String, code: String): String? {
-        return papagoUsecase.getText(data, code, _language.value ?: "ko")
+    suspend fun getTranslatedText(data: String, code: String, callback: (String) -> Unit) {
+        translateUsecase.getText(data, code, _language.value ?: "ko") {
+            callback(it)
+        }
     }
 }

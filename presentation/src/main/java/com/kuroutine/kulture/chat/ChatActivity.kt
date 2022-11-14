@@ -117,8 +117,8 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    it.translatedTitle = translate(it.title, it)
-                    it.translatedText = translate(it.text, it)
+                    translate(it.title, it) { text -> it.translatedTitle = text }
+                    translate(it.text, it) { text -> it.translatedText = text }
                     binding.tvPrivatechatTitle.text = it.translatedTitle
                     binding.tvPrivatechatDetails.text = it.translatedText
                 }
@@ -126,13 +126,15 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun translate(target: String, data: DashboardQuestionModel): String {
+    suspend fun translate(target: String, data: DashboardQuestionModel, callback: (String) -> Unit) {
         data.translatedState = true
-        val langCode = chatViewModel.checkLanguage(target)
-        return if (langCode == chatViewModel.language.value) {
-            ""
-        } else {
-            chatViewModel.getTranslatedText(target, langCode) ?: target
+        chatViewModel.checkLanguage(target) {
+            CoroutineScope(Dispatchers.Main).launch {
+                val langCode = it
+                chatViewModel.getTranslatedText(target, langCode) { text ->
+                    callback(text)
+                }
+            }
         }
     }
 }

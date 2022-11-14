@@ -35,9 +35,11 @@ class HomeListAdapter(
         @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
             if (!data.translatedState) {
-                data.translatedTitle = translate(data.title, data)
-                data.translatedText = translate(data.text, data)
-                data.translatedLocation = translate(data.location, data)
+                translate(data.title, data) { data.translatedTitle = it }
+
+                translate(data.text, data) { data.translatedText = it }
+
+                translate(data.location, data) { data.translatedLocation = it }
             }
 
             binding.tvHomeUserid.text = data.userName
@@ -86,13 +88,15 @@ class HomeListAdapter(
             }
         }
 
-        suspend fun translate(target: String, data: DashboardQuestionModel): String {
+        suspend fun translate(target: String, data: DashboardQuestionModel, callback: (String) -> Unit) {
             data.translatedState = true
-            val langCode = viewModel.checkLanguage(target)
-            return if (langCode == viewModel.language.value) {
-                ""
-            } else {
-                viewModel.getTranslatedText(target, langCode) ?: target
+            viewModel.checkLanguage(target) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val langCode = it
+                    viewModel.getTranslatedText(target, langCode) { text ->
+                        callback(text)
+                    }
+                }
             }
         }
 

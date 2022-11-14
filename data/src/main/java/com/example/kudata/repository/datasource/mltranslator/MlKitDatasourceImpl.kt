@@ -12,7 +12,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
     private val languageIdentifier = LanguageIdentification
         .getClient(
             LanguageIdentificationOptions.Builder()
-                .setConfidenceThreshold(0.8f)
+                .setConfidenceThreshold(0.34f)
                 .build()
         )
 
@@ -39,6 +39,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
                     .addOnSuccessListener { translatedText ->
                         // Translation successful.
                         callback(translatedText)
+                        Log.d("[keykat]", "text: $text -> translateText: $translatedText")
                     }
                     .addOnFailureListener { exception ->
                         callback(text)

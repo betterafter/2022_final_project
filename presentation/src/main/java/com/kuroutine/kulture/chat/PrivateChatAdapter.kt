@@ -35,10 +35,16 @@ class PrivateChatAdapter(
 
 
         suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
+
+            // 디폴트 메세지를 보여준 다음 번역된 텍스트 다시 보여주기
+            tvMessage.text = data.message
             if (data.translatedMessage == "") {
-                data.translatedMessage = translate(data.message)
+                translate(data.message) {
+                    data.translatedMessage = it
+                    tvMessage.text = data.translatedMessage
+                }
             }
-            tvMessage.text = data.translatedMessage
+
             tvTimeStamp.text = data.timestamp.toString()
 
             Log.d("[keykat]", "data: $data")
@@ -82,15 +88,13 @@ class PrivateChatAdapter(
             }
         }
 
-        suspend fun translate(target: String): String {
-            val langCode = viewModel.checkLanguage(target)
-            return if (langCode == viewModel.language.value) {
-                target
-            } else {
-                try {
-                    return viewModel.getTranslatedText(target, langCode) ?: target
-                } catch (e: Exception) {
-                    return target
+        suspend fun translate(target: String, callback: (String) -> Unit) {
+            viewModel.checkLanguage(target) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val langCode = it
+                    viewModel.getTranslatedText(target, langCode) { text ->
+                        callback(text)
+                    }
                 }
             }
         }
@@ -104,7 +108,7 @@ class PrivateChatAdapter(
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
         suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
-            tvMessage.text = translate(data.message)
+            translate(data.message) { tvMessage.text = it }
             tvTimeStamp.text = data.timestamp.toString()
 
             if (nextData?.timestamp == data.timestamp) {
@@ -114,12 +118,14 @@ class PrivateChatAdapter(
             }
         }
 
-        suspend fun translate(target: String): String {
-            val langCode = viewModel.checkLanguage(target)
-            return if (langCode == viewModel.language.value) {
-                ""
-            } else {
-                viewModel.getTranslatedText(target, langCode) ?: target
+        suspend fun translate(target: String, callback: (String) -> Unit) {
+            viewModel.checkLanguage(target) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val langCode = it
+                    viewModel.getTranslatedText(target, langCode) { text ->
+                        callback(text)
+                    }
+                }
             }
         }
     }
