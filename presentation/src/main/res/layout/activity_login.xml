@@ -107,7 +107,7 @@
             android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.587"
+            app:layout_constraintHorizontal_bias="0.633"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_login_applogo1" />
 
@@ -115,8 +115,8 @@
             android:id="@+id/imageView3"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="185dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginEnd="184dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/icon_k"
             app:layout_constraintBottom_toBottomOf="@+id/textView6"
             app:layout_constraintEnd_toEndOf="@+id/textView6" />
