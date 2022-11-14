@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_left_except_radius"
+        android:backgroundTint="@color/sub_color"
+        android:gravity="center|start"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_chatroom_question_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_chatroom_question_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_chatroom_question_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_chatroom_question_image"
+            app:layout_constraintTop_toTopOf="@+id/iv_chatroom_question_image"
+            tools:text="제목" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cv_chatroom_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="10"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/iv_item_chatroom_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/icon_profile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical"
+                android:paddingRight="10dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:id="@+id/tv_item_chatroom_name"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:fontFamily="@font/tossbold"
+                        android:textColor="#2C2C2C"
+                        android:textSize="18dp"
+                        tools:text="신기열" />
+
+                    <TextView
+                        android:id="@+id/tv_item_chatroom_time"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:fontFamily="@font/tossregular"
+                        android:textSize="11sp"
+                        tools:text="오후 2:31" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_item_chatroom_content"
+                    android:layout_width="200dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/tossregular"
+                    android:textColor="#8C8C8C"
+                    tools:text="안녕하세요!" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_chatroom_tts"
+                android:layout_width="78dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/soundpic" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

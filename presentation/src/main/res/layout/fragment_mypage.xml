@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kuroutine.kulture.mypage.MyPageViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_mypage_userpic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="104dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_mypage_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/tossbold"
+            android:text="⭐ 레벨 : "
+            android:textColor="#474747"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_mypage_username"
+            app:layout_constraintTop_toBottomOf="@+id/tv_mypage_username" />
+
+        <TextView
+            android:id="@+id/tv_mypage_gradeoflevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/tossregular"
+            android:textSize="20sp"
+            android:text="@{viewModel.currentUser.userRank}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_level"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.039"
+            app:layout_constraintStart_toEndOf="@+id/tv_mypage_level"
+            app:layout_constraintTop_toTopOf="@+id/tv_mypage_level"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_mypage_numberofpoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tossregular"
+            android:textSize="20sp"
+            android:text="@{Long.toString(viewModel.currentUser.userXp)}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_points"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.043"
+            app:layout_constraintStart_toEndOf="@+id/tv_mypage_points"
+            app:layout_constraintTop_toTopOf="@+id/tv_mypage_points"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_mypage_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/tossbold"
+            android:text="      내공 : "
+            android:textColor="#474747"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_mypage_username"
+            app:layout_constraintTop_toBottomOf="@+id/tv_mypage_level" />
+
+        <TextView
+            android:id="@+id/tv_mypage_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/tossregular"
+            android:text="@{viewModel.currentUser.userName}"
+            android:textColor="#2B2B2B"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_mypage_userpic"
+            app:layout_constraintTop_toTopOf="@+id/iv_mypage_userpic"
+            tools:text="신기열" />
+
+        <ImageView
+            android:id="@+id/iv_mypage_levelicon"
+            android:layout_width="29dp"
+            android:layout_height="27dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_username"
+            app:layout_constraintEnd_toEndOf="@+id/iv_mypage_userpic"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tv_mypage_username"
+            app:layout_constraintTop_toTopOf="@+id/tv_mypage_username"
+            app:layout_constraintVertical_bias="0.533"
+            app:srcCompat="@drawable/level1" />
+
+        <LinearLayout
+            android:id="@+id/ll_mypage_language_selection"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_mypage_myquestions">
+
+            <TextView
+                android:id="@+id/tv_mypage_languageselection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="3"
+                android:fontFamily="@font/tossbold"
+                android:text="언어선택"
+                android:textColor="#202020"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_mypage_languageresult"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:fontFamily="@font/tossbold"
+                android:text="@{viewModel.currentUser.languageText}"
+                android:textAlignment="textEnd"
+                android:textColor="#202020"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/iv_mypage_arrow2"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:rotation="90"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_mypage_myquestions"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="68dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_mypage_userpic">
+
+            <TextView
+                android:id="@+id/tv_mypage_interestedquestions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="9"
+                android:fontFamily="@font/tossbold"
+                android:text="내 질문"
+                android:textColor="#202020"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_mypage_arrow1"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:rotation="90"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_mypage_line1">
+
+            <TextView
+                android:id="@+id/tv_mypage_profileoptions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="9"
+                android:fontFamily="sans-serif"
+                android:text="프로필 공개여부"
+                android:textColor="@color/main_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_mypage_arrow3"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:rotation="90"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_mypage_line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:background="#41000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_mypage_language_selection" />
+
+        <View
+            android:id="@+id/v_mypage_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#41000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_mypage_myquestions" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="My Page"
+            android:textSize="34sp"
+            android:fontFamily="@font/tossbold"
+            android:textColor="@color/main_color"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

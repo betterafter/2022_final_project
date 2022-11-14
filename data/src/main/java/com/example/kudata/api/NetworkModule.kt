@@ -1,6 +1,5 @@
 package com.example.kudata.api
 
-import com.example.kudata.api.NetworkModule.httpClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
