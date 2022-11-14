@@ -45,7 +45,6 @@ class RecommendFragment: Fragment() {
         // 리사이클러뷰에 표시할 데이터 리스트 생성.
         for (i in 0..9) {
             val num = (0..24).random()
-            Log.d("[keykat]", "list:::: ${videolist.size}")
             lifecycle.addObserver(videolist.get(num))
             videolist.get(num).addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {

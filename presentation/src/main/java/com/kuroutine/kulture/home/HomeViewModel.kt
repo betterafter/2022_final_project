@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.TranslateUsecase
 import com.example.domain.usecase.user.UserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -52,18 +54,54 @@ class HomeViewModel @Inject constructor(
 
     // 사용자에 맞는 언어로 실시간 변환
     suspend fun getQuestions() {
-        val list = _questionList.value
-        val list2 = _publicQuestionList.value
-
-        withContext(viewModelScope.coroutineContext) {
-            getLanguage()
-        }
+        val listA = _questionList.value
+        val listB = _publicQuestionList.value
 
         viewModelScope.launch {
-            dashboardUsecase.getQuestionsInRealtime(list, list2, callback = { list1 ->
-                _questionList.value = list1
+            dashboardUsecase.getQuestionsInRealtime(listA, listB, callback = { list1 ->
+                list1?.forEach { model ->
+                    viewModelScope.launch {
+                        checkLanguage(model.title) { lang ->
+                            viewModelScope.launch {
+                                _language.value?.let { ulang ->
+                                    translateUsecase.getText(model.title, lang, ulang) { str ->
+                                        model.translatedTitle = str
+                                        val nList = mutableListOf<DashboardQuestionModel>()
+                                        list1.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
+                                        _questionList.value = nList
+                                    }
+                                } ?: run {
+                                    model.translatedTitle = model.title
+                                    val nList = mutableListOf<DashboardQuestionModel>()
+                                    list1.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
+                                    _questionList.value = nList
+                                }
+                            }
+                        }
+                    }
+                }
             }, callback2 = { list2 ->
-                _publicQuestionList.value = list2
+                list2?.forEach { model ->
+                    viewModelScope.launch {
+                        checkLanguage(model.title) { lang ->
+                            viewModelScope.launch {
+                                _language.value?.let { ulang ->
+                                    translateUsecase.getText(model.title, lang, ulang) { str ->
+                                        model.translatedTitle = str
+                                        val nList = mutableListOf<DashboardQuestionModel>()
+                                        list2.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
+                                        _publicQuestionList.value = nList
+                                    }
+                                } ?: run {
+                                    model.translatedTitle = model.title
+                                    val nList = mutableListOf<DashboardQuestionModel>()
+                                    list2.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
+                                    _publicQuestionList.value = nList
+                                }
+                            }
+                        }
+                    }
+                }
             })
         }
     }

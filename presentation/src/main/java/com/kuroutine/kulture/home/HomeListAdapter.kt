@@ -34,16 +34,11 @@ class HomeListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         suspend fun bind(data: DashboardQuestionModel) {
-            if (!data.translatedState) {
-                translate(data.title, data) { data.translatedTitle = it }
-
-                translate(data.text, data) { data.translatedText = it }
-
-                translate(data.location, data) { data.translatedLocation = it }
-            }
+            // 제목 초기화
+            binding.tvHomeQuestion.text = data.translatedTitle
 
             binding.tvHomeUserid.text = data.userName
-            binding.tvHomeQuestion.text = data.translatedTitle
+
             if (data.location == "") {
                 binding.tvHomeLocation.text = "위치 비공개"
             } else {
@@ -87,19 +82,6 @@ class HomeListAdapter(
                 }
             }
         }
-
-        suspend fun translate(target: String, data: DashboardQuestionModel, callback: (String) -> Unit) {
-            data.translatedState = true
-            viewModel.checkLanguage(target) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val langCode = it
-                    viewModel.getTranslatedText(target, langCode) { text ->
-                        callback(text)
-                    }
-                }
-            }
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

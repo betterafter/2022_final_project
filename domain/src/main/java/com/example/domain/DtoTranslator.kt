@@ -118,12 +118,6 @@ object DtoTranslator {
             val element = chatMap[it.key]
             var translatedMessage = ""
 
-            compList?.forEach { chat ->
-                if (chat.uid == element!!.uid) {
-                    translatedMessage = chat.translatedMessage
-                }
-            }
-
             list.add(
                 ChatModel(
                     uid = element!!.uid,
@@ -154,10 +148,13 @@ object DtoTranslator {
             uid = question.uid,
             userName = question.userName,
             title = question.title,
+            translatedTitle = question.title,
             text = question.text,
+            translatedText = question.text,
             timestamp = question.timestamp,
             likeCount = question.likeCount,
             location = question.location,
+            translatedLocation = question.location,
             questionState = question.questionState,
             isPrivate = question.private,
             answerList = question.answerList,
@@ -173,41 +170,27 @@ object DtoTranslator {
     ): List<DashboardQuestionModel> {
         val list = mutableListOf<DashboardQuestionModel>()
         questionList.forEachIndexed { index, it ->
-            var isChk = false
-            //Log.d("[keykat]", "compList:::: $compList")
-            compList?.let { model ->
-                for (idx in compList.indices) {
-                    if (compList[idx].uid == it.uid && compList[idx].timestamp == it.timestamp && compList[idx].translatedState) {
-                        isChk = true
-                        list.add(compList[idx])
-                        break
-                    }
-                }
-            }
-
-            if (!isChk) {
-                list.add(
-                    DashboardQuestionModel(
-                        id = it.id,
-                        uid = it.uid,
-                        userName = it.userName,
-                        title = it.title,
-                        translatedTitle = "",
-                        text = it.text,
-                        translatedText = "",
-                        timestamp = it.timestamp,
-                        likeCount = it.likeCount,
-                        location = it.location,
-                        translatedLocation = "",
-                        questionState = it.questionState,
-                        isPrivate = it.private,
-                        answerList = it.answerList,
-                        imageList = it.imageList,
-                        commentList = it.commentList,
-                        false
-                    )
+            list.add(
+                DashboardQuestionModel(
+                    id = it.id,
+                    uid = it.uid,
+                    userName = it.userName,
+                    title = it.title,
+                    translatedTitle = it.title,
+                    text = it.text,
+                    translatedText = it.text,
+                    timestamp = it.timestamp,
+                    likeCount = it.likeCount,
+                    location = it.location,
+                    translatedLocation = it.location,
+                    questionState = it.questionState,
+                    isPrivate = it.private,
+                    answerList = it.answerList,
+                    imageList = it.imageList,
+                    commentList = it.commentList,
+                    false
                 )
-            }
+            )
         }
 
         return list.toList()

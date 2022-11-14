@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -88,23 +89,23 @@ class HomePublicDashboardFragment : Fragment() {
     }
 
     private fun init() {
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.getQuestions()
+        }
+
         binding.rvHomePublicQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel, parentFragmentManager)
+            setItemViewCacheSize(-1)
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
+            Log.d("[keykat]", "list::::: $it")
             (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
-        }
-
-        homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicQuestionList.value)
-            CoroutineScope(Dispatchers.Main).launch {
-                // homeViewModel.updateTranslatedQuestionList()
-            }
         }
     }
 

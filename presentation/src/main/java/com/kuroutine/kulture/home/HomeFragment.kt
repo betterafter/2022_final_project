@@ -101,6 +101,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObserver() {
+        homeViewModel.language.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                homeViewModel.getQuestions()
+            }
+        }
+
         binding.etHomeSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 

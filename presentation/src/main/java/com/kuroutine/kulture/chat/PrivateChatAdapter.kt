@@ -48,8 +48,6 @@ class PrivateChatAdapter(
 
             tvTimeStamp.text = data.timestamp.toString()
 
-            Log.d("[keykat]", "data: $data")
-
             CoroutineScope(Dispatchers.Main).launch {
                 if (data.userName == "") {
                     val user = viewModel.getUser(data.uid)

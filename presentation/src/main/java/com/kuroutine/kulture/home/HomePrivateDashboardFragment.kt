@@ -1,6 +1,7 @@
 package com.kuroutine.kulture.home
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -87,6 +88,10 @@ class HomePrivateDashboardFragment : Fragment() {
     }
 
     private fun init() {
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.getQuestions()
+        }
+
         binding.rvHomeQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -94,15 +99,10 @@ class HomePrivateDashboardFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         homeViewModel.questionList.observe(viewLifecycleOwner) {
             (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(it)
-        }
-
-        homeViewModel.language.observe(viewLifecycleOwner) {
-            (binding.rvHomeQuestion.adapter as HomeListAdapter).submitList(homeViewModel.questionList.value)
-            CoroutineScope(Dispatchers.Main).launch {
-            }
         }
     }
 
