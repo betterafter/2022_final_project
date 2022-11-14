@@ -27,16 +27,15 @@
             android:id="@+id/tv_mypage_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="4dp"
             android:fontFamily="@font/tossbold"
-            android:text="⭐ 레벨 : "
+            android:text="⭐ 등급 : "
             android:textColor="#474747"
             android:textSize="20dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_mypage_username"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mypage_username" />
+            app:layout_constraintBottom_toTopOf="@+id/tv_mypage_points"
+            app:layout_constraintStart_toEndOf="@+id/iv_mypage_userpic" />
 
         <TextView
             android:id="@+id/tv_mypage_gradeoflevel"
@@ -44,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:fontFamily="@font/tossregular"
-            android:textSize="20sp"
             android:text="@{viewModel.currentUser.userRank}"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_level"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.039"
@@ -58,8 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/tossregular"
-            android:textSize="20sp"
             android:text="@{Long.toString(viewModel.currentUser.userXp)}"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_mypage_points"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.043"
@@ -71,22 +70,22 @@
             android:id="@+id/tv_mypage_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="112dp"
             android:fontFamily="@font/tossbold"
             android:text="      내공 : "
             android:textColor="#474747"
             android:textSize="20dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_mypage_username"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mypage_level" />
+            app:layout_constraintBottom_toTopOf="@+id/ll_mypage_myquestions"
+            app:layout_constraintEnd_toEndOf="@+id/tv_mypage_level"
+            app:layout_constraintStart_toEndOf="@+id/iv_mypage_userpic" />
 
         <TextView
             android:id="@+id/tv_mypage_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="36dp"
             android:fontFamily="@font/tossregular"
             android:text="@{viewModel.currentUser.userName}"
             android:textColor="#2B2B2B"
@@ -214,14 +213,12 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/iv_mypage_arrow3"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:rotation="90"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+            <Switch
+                android:id="@+id/switch_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -248,10 +245,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="My Page"
-            android:textSize="34sp"
             android:fontFamily="@font/tossbold"
+            android:text="마이페이지"
             android:textColor="@color/main_color"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
