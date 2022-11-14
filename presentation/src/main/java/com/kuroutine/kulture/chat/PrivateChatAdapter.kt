@@ -42,6 +42,7 @@ class PrivateChatAdapter(
                 translate(data.message) {
                     data.translatedMessage = it
                     tvMessage.text = data.translatedMessage
+                    Log.d("[keykat]", "private chat: ${tvMessage.text}")
                 }
             }
 

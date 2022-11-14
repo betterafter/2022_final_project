@@ -46,12 +46,17 @@
 
         <activity
             android:name="com.kuroutine.kulture.login.LoginActivity"
+            android:exported="true"/>
+
+        <activity
+            android:name="com.kuroutine.kulture.intro.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.kuroutine.kulture.MainActivity"
             android:theme="@style/Theme.Kuroutine"

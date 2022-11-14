@@ -24,6 +24,10 @@ class TranslateUsecaseImpl @Inject constructor(
         mlKitRepository.getLanguageType(text, callback)
     }
 
+    override fun prepare(callback: () -> Unit) {
+        mlKitRepository.downloadModels(callback)
+    }
+
     override suspend fun getText(text: String, source: String, target: String, callback: (String) -> Unit) {
         mlKitRepository.getTranslatedText(text, source, target, callback)
     }

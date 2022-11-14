@@ -12,6 +12,10 @@ class MlKitRepositoryImpl @Inject constructor(
         mlKitDatasource.getLanguageType(text, callback)
     }
 
+    override fun downloadModels(callback: () -> Unit) {
+        mlKitDatasource.downloadModels(callback)
+    }
+
     override fun getTranslatedText(text: String, from: String, to: String, callback: (String) -> Unit) {
         mlKitDatasource.getTranslatedText(text, from, to, callback)
     }
