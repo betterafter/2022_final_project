@@ -55,7 +55,7 @@ class ChatRoomAdapter(
                 data.users?.forEach {
                     if (it.value) {
                         callback(data.qid, it.key, data.isPrivate)
-                        return@forEach
+                        return@setOnClickListener
                     }
                 }
             }

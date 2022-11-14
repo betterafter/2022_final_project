@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chat
 
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -49,18 +50,20 @@ class PrivateChatAdapter(
                         data.userName = user.userName.toString()
                         data.userProfile = user.profile
 
-                        Glide.with(view.context)
-                            .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
-                            .circleCrop()
-                            .into(ivUserProfile)
+                        if (!(view.context as Activity).isFinishing && !(view.context as Activity).isDestroyed)
+                            Glide.with(view.context)
+                                .load(if (user.profile != "") it.profile else R.drawable.icon_profile)
+                                .circleCrop()
+                                .into(ivUserProfile)
                         tvUserName.text = it.userName
                     }
                 } else {
                     tvUserName.text = data.userName
-                    Glide.with(view.context)
-                        .load(if (data.userProfile != "") data.userProfile else R.drawable.icon_profile)
-                        .circleCrop()
-                        .into(ivUserProfile)
+                    if (!(view.context as Activity).isFinishing && !(view.context as Activity).isDestroyed)
+                        Glide.with(view.context)
+                            .load(if (data.userProfile != "") data.userProfile else R.drawable.icon_profile)
+                            .circleCrop()
+                            .into(ivUserProfile)
                 }
 
                 if (prevData == null || prevData.uid != data.uid) {
