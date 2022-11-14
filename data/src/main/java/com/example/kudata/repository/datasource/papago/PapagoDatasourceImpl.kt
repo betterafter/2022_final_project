@@ -13,15 +13,15 @@ import com.example.kudata.utils.PAPAGO_SECRET_2
 class PapagoDatasourceImpl : PapagoDatasource {
     override suspend fun getPapagoTranslateResult(text: String, source: String, target: String): TranslateResult? =
         NetworkModule.providePapagoService().papagoService(
-            PAPAGO_ID_2,
-            PAPAGO_SECRET_2,
+            PAPAGO_ID,
+            PAPAGO_SECRET,
             PapagoRequest(source = source, target = target, text = text)
         ).body()?.message?.result
 
     override suspend fun getPapagoLangResult(query: String): String? =
         NetworkModule.providePapagoService().papagoDetectLang(
-            PAPAGO_ID_2,
-            PAPAGO_SECRET_2,
+            PAPAGO_ID,
+            PAPAGO_SECRET,
             PapagoLangRequest(query = query)
         ).body()?.langCode
 }
