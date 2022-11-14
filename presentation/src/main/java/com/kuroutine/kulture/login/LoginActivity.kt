@@ -1,11 +1,14 @@
 package com.kuroutine.kulture.login
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityLoginBinding
 import com.facebook.login.LoginManager
@@ -30,6 +33,11 @@ class LoginActivity : AppCompatActivity() {
 
         initObserver()
         initListener()
+
+        binding.ivLoginApplogo1.setColorFilter(ContextCompat.getColor(this@LoginActivity, R.color.white))
+        Glide.with(applicationContext)
+            .load(R.drawable.gif_global2)
+            .into(binding.ivLoginApplogo1)
     }
 
     // view와 결합성이 커서 나누지 못할 경우 사용

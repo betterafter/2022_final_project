@@ -25,7 +25,7 @@
             android:layout_below="@+id/iv_login_applogo1"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="212dp"
+            android:layout_marginBottom="150dp"
             android:background="@drawable/facebook_background_round"
             android:onClick="facebookLogin"
             android:padding="10dp"
@@ -34,6 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintVertical_bias="0.81"
             app:srcCompat="@drawable/logo_facebook">
 
             <ImageView
@@ -48,9 +49,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
+                android:fontFamily="@font/tossregular"
                 android:gravity="center"
                 android:text="Facebook으로 로그인"
-                android:fontFamily="@font/tossregular"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -87,43 +88,53 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:gravity="center"
                 android:fontFamily="@font/tossregular"
+                android:gravity="center"
                 android:text="Google로 로그인"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_login_applogo1"
-            android:layout_width="354dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="84dp"
-            android:layout_marginBottom="102dp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_login_facebook"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/applogo5" />
-
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="318dp"
-            android:layout_marginBottom="83dp"
-            android:fontFamily="@font/tossbold"
-            android:text="KULTURE"
+
+            android:fontFamily="@font/cafe_24_ssurround"
+            android:text="ULTURE"
             android:textColor="#FFFFFF"
             android:textSize="48sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_login_facebook"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintHorizontal_bias="0.587"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_login_applogo1" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="185dp"
+            android:layout_marginBottom="11dp"
+            android:src="@drawable/icon_k"
+            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="@+id/textView6" />
+
+        <ImageView
+            android:id="@+id/iv_login_applogo1"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="92dp"
+            android:layout_marginEnd="80dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/gif_global2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
