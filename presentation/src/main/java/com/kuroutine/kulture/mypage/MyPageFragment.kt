@@ -82,6 +82,8 @@ class MyPageFragment : Fragment() {
                 binding.ivMypageUserpic.setColorFilter(Color.TRANSPARENT)
             }
 
+            binding.tvMypageNumberofpoints.text = it?.userXp.toString()
+
             Glide.with(contxt)
                 .load(profile)
                 .circleCrop()
