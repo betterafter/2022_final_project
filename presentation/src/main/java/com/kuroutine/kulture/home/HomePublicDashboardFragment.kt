@@ -105,6 +105,7 @@ class HomePublicDashboardFragment : Fragment() {
     private fun initObserver() {
         homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
             (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
+            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).notifyDataSetChanged()
         }
     }
 

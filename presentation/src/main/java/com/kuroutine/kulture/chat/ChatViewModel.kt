@@ -93,7 +93,6 @@ class ChatViewModel @Inject constructor(
 
             chatUsecase.getMessages({ chatList ->
                 _chatModelList.value = chatList
-                Log.d("[keykat]", "init")
                 animationCallback()
 
                 viewModelScope.launch {
@@ -105,7 +104,6 @@ class ChatViewModel @Inject constructor(
                                         translateUsecase.getText(model.message, lang, ulang) { str ->
                                             model.translatedMessage = str
                                             _chatModelList.value = chatList
-                                            Log.d("[keykat]", "update")
                                         }
                                     }
                                 }
