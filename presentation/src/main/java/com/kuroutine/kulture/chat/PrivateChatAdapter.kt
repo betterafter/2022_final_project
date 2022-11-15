@@ -33,19 +33,10 @@ class PrivateChatAdapter(
         private val ivUserProfile = view.findViewById<ImageView>(R.id.iv_chat_item_left)
         private val tvUserName = view.findViewById<TextView>(R.id.tv_chat_item_left_user_name)
 
-
         suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
 
             // 디폴트 메세지를 보여준 다음 번역된 텍스트 다시 보여주기
-            tvMessage.text = data.message
-            if (data.translatedMessage == "") {
-                translate(data.message) {
-                    data.translatedMessage = it
-                    tvMessage.text = data.translatedMessage
-                    Log.d("[keykat]", "private chat: ${tvMessage.text}")
-                }
-            }
-
+            tvMessage.text = data.translatedMessage
             tvTimeStamp.text = data.timestamp.toString()
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -86,17 +77,6 @@ class PrivateChatAdapter(
                 }
             }
         }
-
-        suspend fun translate(target: String, callback: (String) -> Unit) {
-            viewModel.checkLanguage(target) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val langCode = it
-                    viewModel.getTranslatedText(target, langCode) { text ->
-                        callback(text)
-                    }
-                }
-            }
-        }
     }
 
     class RightViewHolder(
@@ -107,24 +87,13 @@ class PrivateChatAdapter(
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_right)
 
         suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
-            translate(data.message) { tvMessage.text = it }
+            tvMessage.text = data.translatedMessage
             tvTimeStamp.text = data.timestamp.toString()
 
             if (nextData?.timestamp == data.timestamp) {
                 tvTimeStamp.visibility = View.GONE
             } else {
                 tvTimeStamp.visibility = View.VISIBLE
-            }
-        }
-
-        suspend fun translate(target: String, callback: (String) -> Unit) {
-            viewModel.checkLanguage(target) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val langCode = it
-                    viewModel.getTranslatedText(target, langCode) { text ->
-                        callback(text)
-                    }
-                }
             }
         }
     }
@@ -156,8 +125,6 @@ class PrivateChatAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
-
         val data = diffUtil.currentList[position]
         val prevData: ChatModel? = if (position - 1 >= 0) {
             diffUtil.currentList[position - 1]

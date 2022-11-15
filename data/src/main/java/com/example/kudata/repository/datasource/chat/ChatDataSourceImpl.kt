@@ -23,6 +23,7 @@ class ChatDataSourceImpl : ChatDataSource {
     var roomId: String? = null
 
     override suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+        roomId = null
         if (isPrivate) {
             firebaseAuth.currentUser?.let {
                 val users =
@@ -91,7 +92,7 @@ class ChatDataSourceImpl : ChatDataSource {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.d("[keykat]", "$error")
+                    Log.d("[keykat]", "chat error::: $error")
                 }
             })
         }
@@ -155,8 +156,8 @@ class ChatDataSourceImpl : ChatDataSource {
                                             db.reference.child(CHAT_ROOM_KEY).child("/$roomId/users")
                                                 .updateChildren(it)
                                         }
+                                        callback()
                                     }
-                                    callback()
                                 }
                             }
                         }

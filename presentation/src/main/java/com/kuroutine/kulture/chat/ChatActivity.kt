@@ -1,7 +1,9 @@
 package com.kuroutine.kulture.chat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -16,6 +18,7 @@ import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.data.ChatViewType
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_private_chat.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,34 +41,32 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
         val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+
         init(qid, uid, isPrivate)
         initAdapter()
-        initObserver()
         initListener()
+        initObserver()
     }
 
     private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
         if (qid != null) {
             chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
-                chatViewModel.getMessages {
-                    chatViewModel.chatModelList.value?.let {
-                        if (it.isNotEmpty()) {
-                            binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)
-                        }
-                    }
+                CoroutineScope(Dispatchers.Main).launch {
+                    chatViewModel.getLanguage()
                 }
             }
         }
 
         qid?.let { chatViewModel.getQuestion(qid) }
         chatViewModel.getCurrentUser()
-
-        CoroutineScope(Dispatchers.Main).launch {
-            chatViewModel.getLanguage()
-        }
     }
 
     private fun initListener() {
@@ -83,15 +84,21 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         chatViewModel.currentUser.observe(this) { user ->
             user?.let {
                 val adapter = binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter
                 adapter.getUser(user.uid)
+            }
+        }
+
+        chatViewModel.language.observe(this) {
+            chatViewModel.getMessages {
                 chatViewModel.chatModelList.value?.let {
-                    adapter.submitList(it)
-                } ?: run {
-                    adapter.submitList(listOf())
+                    if (it.isNotEmpty()) {
+                        binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)
+                    }
                 }
             }
         }
@@ -99,6 +106,7 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.chatModelList.observe(this) {
             it?.let { list ->
                 (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).submitList(list)
+                (binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).notifyDataSetChanged()
             }
         }
 

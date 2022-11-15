@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chat
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,9 +63,6 @@ class ChatViewModel @Inject constructor(
         userUsecase.getUser(null) {
             if (_language.value != it.language) {
                 _language.value = it.language
-                _chatModelList.value?.forEach {
-                    it.translatedMessage = ""
-                }
             }
         }
     }
@@ -88,13 +86,58 @@ class ChatViewModel @Inject constructor(
     }
 
     fun getMessages(animationCallback: (() -> Unit)) {
+        clearList()
+
         viewModelScope.launch {
             val list = chatModelList.value
 
-            chatUsecase.getMessages({
-                _chatModelList.value = it
+            chatUsecase.getMessages({ chatList ->
+                _chatModelList.value = chatList
+                Log.d("[keykat]", "init")
                 animationCallback()
+
+                viewModelScope.launch {
+                    chatList.forEach { model ->
+                        viewModelScope.launch {
+                            checkLanguage(model.message) { lang ->
+                                viewModelScope.launch {
+                                    _language.value?.let { ulang ->
+                                        translateUsecase.getText(model.message, lang, ulang) { str ->
+                                            model.translatedMessage = str
+                                            _chatModelList.value = chatList
+                                            Log.d("[keykat]", "update")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }, list)
+
+//            chatUsecase.getMessages({ chatList ->
+//                _chatModelList.value = chatList
+//
+//                viewModelScope.launch {
+//                    chatList.forEach { model ->
+//                        viewModelScope.launch {
+//                            checkLanguage(model.message) { lang ->
+//                                viewModelScope.launch {
+//                                    _language.value?.let { ulang ->
+//                                        translateUsecase.getText(model.message, lang, ulang) { str ->
+//                                            model.translatedMessage = str
+//                                            val nList = mutableListOf<ChatModel>()
+//                                            chatList.forEach { item -> nList.add(item.copy(translatedMessage = item.translatedMessage)) }
+//                                            _chatModelList.value = nList
+//
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }, list)
         }
     }
 

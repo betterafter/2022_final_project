@@ -43,28 +43,31 @@ class MlKitDatasourceImpl : MlKitDatasource {
         var downloadedCount = 0
 
         languageList.forEach { lang ->
-            CoroutineScope(Dispatchers.Main).launch {
-                val options = TranslatorOptions
-                    .Builder()
-                    .setSourceLanguage(lang)
-                    .setTargetLanguage(lang)
-                    .build()
-                val translator = Translation.getClient(options)
+            languageList.forEach { lang2 ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    val options = TranslatorOptions
+                        .Builder()
+                        .setSourceLanguage(lang)
+                        .setTargetLanguage(lang2)
+                        .build()
+                    val translator = Translation.getClient(options)
 
-                var conditions = DownloadConditions.Builder().build()
-                translator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener {
-                        downloadedCount += 1
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d("[keykat]", "download failed: $lang")
-                    }
+                    var conditions = DownloadConditions.Builder().build()
+                    translator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener {
+                            downloadedCount += 1
+                            Log.d("[keykat]", "$downloadedCount")
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d("[keykat]", "download failed: $lang")
+                        }
+                }
             }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
-                if (downloadedCount == languageList.size) {
+                if (downloadedCount == languageList.size * languageList.size) {
                     callback()
                     return@launch
                 }
@@ -79,32 +82,32 @@ class MlKitDatasourceImpl : MlKitDatasource {
             .build()
         val translator = Translation.getClient(options)
 
-//        translator.translate(text)
-//            .addOnSuccessListener { translatedText ->
-//                // Translation successful.
-//                callback(translatedText)
-//                Log.d("[keykat]", "text: $text -> translateText: $translatedText")
-//            }
-//            .addOnFailureListener { exception ->
-//                callback(text)
-//            }
-
-        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
-            .addOnSuccessListener {
-                translator.translate(text)
-                    .addOnSuccessListener { translatedText ->
-                        // Translation successful.
-                        callback(translatedText)
-                        // Log.d("[keykat]", "text: $text -> translateText: $translatedText")
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d("[keykat]", "exception: $exception")
-                        callback(text)
-                    }
+        translator.translate(text)
+            .addOnSuccessListener { translatedText ->
+                // Translation successful.
+                callback(translatedText)
+                Log.d("[keykat]", "text: $text -> translateText: $translatedText")
             }
             .addOnFailureListener { exception ->
-                Log.d("[keykat]", "exception: $exception")
                 callback(text)
             }
+
+//        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
+//            .addOnSuccessListener {
+//                translator.translate(text)
+//                    .addOnSuccessListener { translatedText ->
+//                        // Translation successful.
+//                        callback(translatedText)
+//                        Log.d("[keykat]", "text: $text -> translateText: $translatedText")
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        Log.d("[keykat]", "exception: $exception")
+//                        callback(text)
+//                    }
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.d("[keykat]", "exception: $exception")
+//                callback(text)
+//            }
     }
 }

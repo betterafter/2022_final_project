@@ -116,13 +116,11 @@ object DtoTranslator {
         val list = mutableListOf<ChatModel>()
         chatMap.forEach {
             val element = chatMap[it.key]
-            var translatedMessage = ""
-
             list.add(
                 ChatModel(
                     uid = element!!.uid,
                     message = element.message,
-                    translatedMessage = translatedMessage,
+                    translatedMessage = element.message,
                     timestamp = element.timestamp,
                     userName = "",
                     userProfile = ""

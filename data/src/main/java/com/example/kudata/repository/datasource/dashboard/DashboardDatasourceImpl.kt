@@ -139,12 +139,10 @@ class DashboardDatasourceImpl : DashboardDatasource {
             val r = db.reference.child(DASHBOARD_KEY).get().await()
             r.children.forEach {
                 val q = it.getValue(DashboardQuestionContent::class.java)
-                Log.d("[keykat]", "qid: ${q?.id} currId: $currId")
                 if (q?.uid == currId) {
                     val key = it.key
                     key?.let {
                         val ref = db.reference.child(DASHBOARD_KEY).child(key)
-                        Log.d("[keykat]", "ref::: $ref")
                         title?.let { ref.child("title").setValue(title) }
                         text?.let { ref.child("text").setValue(text) }
                         likeCount?.let { ref.child("likeCount").setValue(likeCount) }
