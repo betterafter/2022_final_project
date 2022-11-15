@@ -123,7 +123,8 @@ object DtoTranslator {
                     translatedMessage = element.message,
                     timestamp = element.timestamp,
                     userName = "",
-                    userProfile = ""
+                    userProfile = "",
+                    isReversed = false
                 )
             )
         }

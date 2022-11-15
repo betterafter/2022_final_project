@@ -1,6 +1,8 @@
 package com.kuroutine.kulture.chatroom
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.OnInitListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentChatroomBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {

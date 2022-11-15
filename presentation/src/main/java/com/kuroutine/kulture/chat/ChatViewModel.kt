@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.chat
 
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,7 @@ import com.example.domain.usecase.user.UserUsecase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,9 +70,9 @@ class ChatViewModel @Inject constructor(
     }
 
     suspend fun checkLanguage(data: String, callback: (String) -> Unit) {
-         translateUsecase.getLangCode(data) {
-             callback(it)
-         }
+        translateUsecase.getLangCode(data) {
+            callback(it)
+        }
     }
 
     fun getQuestion(qid: String) {
@@ -139,9 +141,40 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    suspend fun getTranslatedText(data: String, code: String, callback: (String) -> Unit) {
-        return translateUsecase.getText(data, code, _language.value ?: "ko") {
-            callback(it)
+    suspend fun getTranslatedText(data: String, isReversed: Boolean?, tts: TextToSpeech?, callback: (String) -> Unit) {
+        viewModelScope.launch {
+            checkLanguage(data) { lang ->
+                viewModelScope.launch {
+                    _language.value?.let { ulang ->
+                        if (isReversed != null && !isReversed) {
+                            translateUsecase.getText(data, ulang, "ko") { str ->
+                                tts?.apply {
+                                    language = Locale.forLanguageTag(ulang)
+                                    setPitch(1.0f)
+                                    setSpeechRate(1.0f)
+                                    speak(data, TextToSpeech.QUEUE_FLUSH, null)
+                                }
+
+                                callback(str)
+                            }
+                        } else if (isReversed != null && isReversed) {
+                            translateUsecase.getText(data, "ko", ulang) { str ->
+                                tts?.apply {
+                                    language = Locale.forLanguageTag("ko")
+                                    setPitch(1.0f)
+                                    setSpeechRate(1.0f)
+                                    speak(data, TextToSpeech.QUEUE_FLUSH, null)
+                                }
+                                callback(str)
+                            }
+                        } else {
+                            translateUsecase.getText(data, lang, ulang) { str ->
+                                callback(str)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

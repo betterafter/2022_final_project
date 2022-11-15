@@ -7,4 +7,5 @@ data class ChatModel(
     var userProfile: String,
     var userName: String,
     var timestamp: Any,
+    var isReversed: Boolean = false
 )

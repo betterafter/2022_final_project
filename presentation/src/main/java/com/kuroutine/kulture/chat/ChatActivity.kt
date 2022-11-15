@@ -2,6 +2,7 @@ package com.kuroutine.kulture.chat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
@@ -22,12 +23,15 @@ import kotlinx.android.synthetic.main.activity_private_chat.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPrivateChatBinding
     private val chatViewModel by viewModels<ChatViewModel>()
+
+    private lateinit var tts: TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,13 @@ class ChatActivity : AppCompatActivity() {
                 viewModel = chatViewModel
                 lifecycleOwner = this@ChatActivity
             }
+
+
+        tts = TextToSpeech(applicationContext) { status ->
+            if (status != TextToSpeech.ERROR) {
+                tts.language = Locale.KOREAN
+            }
+        }
     }
 
     override fun onStart() {
@@ -80,7 +91,8 @@ class ChatActivity : AppCompatActivity() {
         binding.rvPrivatechatChatrv.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPrivatechatChatrv.adapter = PrivateChatAdapter(chatViewModel)
+            binding.rvPrivatechatChatrv.adapter =
+                PrivateChatAdapter(chatViewModel, tts, notifyCallback = ::notifyCallback)
         }
     }
 
@@ -139,10 +151,14 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.checkLanguage(target) {
             CoroutineScope(Dispatchers.Main).launch {
                 val langCode = it
-                chatViewModel.getTranslatedText(target, langCode) { text ->
+                chatViewModel.getTranslatedText(target, null, null) { text ->
                     callback(text)
                 }
             }
         }
+    }
+
+    fun notifyCallback(index: Int) {
+        //(binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).notifyItemChanged(index)
     }
 }

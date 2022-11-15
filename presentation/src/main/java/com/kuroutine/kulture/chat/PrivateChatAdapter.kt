@@ -1,6 +1,7 @@
 package com.kuroutine.kulture.chat
 
 import android.app.Activity
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,21 +20,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PrivateChatAdapter(
-    private val viewModel: ChatViewModel
+    private val viewModel: ChatViewModel,
+    private val tts: TextToSpeech,
+    private val notifyCallback: (Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var myUId: String = ""
     private val diffUtil = AsyncListDiffer(this, DiffUtils())
 
     class LeftViewHolder(
         private val view: View,
-        private val viewModel: ChatViewModel
+        private val viewModel: ChatViewModel,
+        private val tts: TextToSpeech,
+        private val notifyCallback: (Int) -> Unit
     ) : RecyclerView.ViewHolder(view) {
         private val tvMessage = view.findViewById<TextView>(R.id.tv_chat_message_left)
         private val tvTimeStamp = view.findViewById<TextView>(R.id.tv_chat_timestamp_left)
         private val ivUserProfile = view.findViewById<ImageView>(R.id.iv_chat_item_left)
         private val tvUserName = view.findViewById<TextView>(R.id.tv_chat_item_left_user_name)
 
-        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?) {
+        suspend fun bind(data: ChatModel, prevData: ChatModel?, nextData: ChatModel?, index: Int) {
 
             // 디폴트 메세지를 보여준 다음 번역된 텍스트 다시 보여주기
             tvMessage.text = data.translatedMessage
@@ -74,6 +79,17 @@ class PrivateChatAdapter(
                     tvTimeStamp.visibility = View.GONE
                 } else {
                     tvTimeStamp.visibility = View.VISIBLE
+                }
+            }
+
+            view.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    viewModel.getTranslatedText(tvMessage.text.toString(), data.isReversed, tts) {
+                        data.isReversed = !data.isReversed
+                        tvMessage.text = it
+
+                        notifyCallback(index)
+                    }
                 }
             }
         }
@@ -117,7 +133,7 @@ class PrivateChatAdapter(
 
             ChatViewType.LEFT.value -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
-                LeftViewHolder(view, viewModel)
+                LeftViewHolder(view, viewModel, tts, notifyCallback)
             }
 
             else -> throw RuntimeException("viewType not found.")
@@ -139,7 +155,7 @@ class PrivateChatAdapter(
 
         when (holder) {
             is LeftViewHolder -> {
-                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData) }
+                CoroutineScope(Dispatchers.Main).launch { holder.bind(data, prevData, nextData, position) }
             }
 
             is RightViewHolder -> {
