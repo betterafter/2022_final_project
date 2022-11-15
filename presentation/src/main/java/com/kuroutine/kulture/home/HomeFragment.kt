@@ -118,6 +118,7 @@ class HomeFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 homePrivateDashboardFragment.getAdapter()?.submitList(homeViewModel.searchedQuestionList.value)
+                homePublicDashboardFragment.getAdapter()?.submitList(homeViewModel.searchedPublicQuestionList.value)
             }
 
         })

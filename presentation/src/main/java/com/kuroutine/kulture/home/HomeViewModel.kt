@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -145,12 +146,21 @@ class HomeViewModel @Inject constructor(
 
     fun updateSearchedList(title: String) {
         val list: MutableList<DashboardQuestionModel> = mutableListOf()
+        val publicList: MutableList<DashboardQuestionModel> = mutableListOf()
         _questionList.value?.forEach { model ->
-            if (model.title.contains(title)) {
+            if (model.translatedTitle.lowercase(Locale.ROOT).contains(title.lowercase(Locale.ROOT))) {
                 list.add(model)
             }
         }
+
+        _publicQuestionList.value?.forEach { model ->
+            if (model.translatedTitle.lowercase(Locale.ROOT).contains(title.lowercase(Locale.ROOT))) {
+                publicList.add(model)
+            }
+        }
+
         _searchedQuestionList.value = list.toList()
+        _searchedPublicQuestionList.value = publicList.toList()
     }
 
     fun resetTranslateState() {
