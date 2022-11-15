@@ -70,6 +70,7 @@ class HomeListAdapter(
             }
 
             binding.tvHomeLikeNum.text = data.likeCount
+            binding.tvHomeStateLabel.text = data.questionState
 
             binding.cvHomeItem.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
