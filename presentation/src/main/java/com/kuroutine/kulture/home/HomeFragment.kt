@@ -70,10 +70,6 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.getLanguage()
         }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.getQuestions()
-        }
     }
 
     private fun init() {

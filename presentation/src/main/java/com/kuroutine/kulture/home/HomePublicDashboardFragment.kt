@@ -89,10 +89,6 @@ class HomePublicDashboardFragment : Fragment() {
     }
 
     private fun init() {
-        CoroutineScope(Dispatchers.Main).launch {
-            homeViewModel.getQuestions()
-        }
-
         binding.rvHomePublicQuestion.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -105,7 +101,7 @@ class HomePublicDashboardFragment : Fragment() {
     private fun initObserver() {
         homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
             (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
-            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).notifyDataSetChanged()
+            //(binding.rvHomePublicQuestion.adapter as HomeListAdapter).notifyDataSetChanged()
         }
     }
 
