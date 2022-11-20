@@ -48,6 +48,7 @@ class RecommendFragment : Fragment() {
     private fun init() {
         binding.vpRecommendScreen.apply {
             adapter = RecommendViewPager2Adapter(this@RecommendFragment, fragments)
+            isUserInputEnabled = false
         }
 
         TabLayoutMediator(binding.tlRecommendScreen, binding.vpRecommendScreen) { tab, position ->
