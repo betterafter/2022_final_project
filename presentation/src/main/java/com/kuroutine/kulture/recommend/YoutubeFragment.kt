@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.example.kuroutine.databinding.FragmentYoutubeBinding
+import com.kuroutine.kulture.MainActivity
 
 class YoutubeFragment: Fragment() {
     private var _binding: FragmentYoutubeBinding? = null
@@ -46,4 +47,8 @@ class YoutubeFragment: Fragment() {
 
         return root
     }
+
+    fun canGoBack() = binding.wvRecommendYoutube.canGoBack()
+
+    fun goBack() = binding.wvRecommendYoutube.goBack()
 }

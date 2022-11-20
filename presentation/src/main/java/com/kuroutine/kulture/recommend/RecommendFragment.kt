@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kuroutine.databinding.FragmentRecommendBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kuroutine.kulture.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RecommendFragment : Fragment() {
+class RecommendFragment : Fragment(), MainActivity.OnBackPressedListener {
     lateinit var recyclerView: RecyclerView
 
     private var _binding: FragmentRecommendBinding? = null
@@ -64,5 +65,29 @@ class RecommendFragment : Fragment() {
         fragments = ArrayList()
         fragments.add(youtubeFragment)
         fragments.add(trendFragment)
+    }
+
+    override fun onBackPressed(): Boolean {
+        when (val fragment = childFragmentManager.findFragmentByTag("f" + binding.vpRecommendScreen.currentItem)) {
+            is YoutubeFragment -> {
+                return if (fragment.canGoBack()) {
+                    fragment.goBack()
+                    true
+                } else {
+                    false
+                }
+            }
+            is TrendFragment -> {
+                return if (fragment.canGoBack()) {
+                    fragment.goBack()
+                    true
+                } else {
+                    false
+                }
+            }
+            else -> {
+                return false
+            }
+        }
     }
 }

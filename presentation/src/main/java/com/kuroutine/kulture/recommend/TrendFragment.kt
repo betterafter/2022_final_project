@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.example.kuroutine.databinding.FragmentTrendBinding
+import com.kuroutine.kulture.MainActivity
 
 class TrendFragment: Fragment() {
     private var _binding: FragmentTrendBinding? = null
@@ -46,4 +47,8 @@ class TrendFragment: Fragment() {
 
         return root
     }
+
+    fun canGoBack() = binding.wvRecommendTrend.canGoBack()
+
+    fun goBack() = binding.wvRecommendTrend.goBack()
 }

@@ -1,16 +1,17 @@
 package com.kuroutine.kulture
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityMainBinding
+import com.kuroutine.kulture.recommend.RecommendFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,5 +41,25 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+    }
+
+    interface OnBackPressedListener {
+        fun onBackPressed(): Boolean
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+        val fragment = navHostFragment?.childFragmentManager?.primaryNavigationFragment
+        if (fragment is OnBackPressedListener) {
+            if ((fragment as OnBackPressedListener).onBackPressed()) {
+                return
+            } else {
+                super.onBackPressed()
+            }
+            return
+        } else {
+            super.onBackPressed()
+        }
     }
 }
