@@ -8,45 +8,36 @@
         android:layout_height="fill_parent"
         android:clipToOutline="true">
 
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="K-Contents" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="K-Pop" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:text="최신 트렌드"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:paddingVertical="10dp"
+            android:background="@color/main_color"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <!-- item recyclerview-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_recommend_recycler_view"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_recommend_screen"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:tabSelectedTextColor="@color/main_color"
+            app:tabTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_recommend_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_recommend"
-            app:layout_constraintBottom_toBottomOf="@+id/viewpager"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-
-        <!-- item framelayout-->
+            android:layout_marginTop="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_recommend_screen" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
