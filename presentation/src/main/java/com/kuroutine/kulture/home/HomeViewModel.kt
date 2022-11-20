@@ -38,6 +38,18 @@ class HomeViewModel @Inject constructor(
     }
     val publicQuestionList: LiveData<List<DashboardQuestionModel>?> = _publicQuestionList
 
+    private val _publicDoneQuestionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
+        value = null
+    }
+    val publicDoneQuestionList: LiveData<List<DashboardQuestionModel>?> = _publicDoneQuestionList
+
+
+    private val _publicProcessingQuestionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
+        value = null
+    }
+    val publicProcessingQuestionList: LiveData<List<DashboardQuestionModel>?> = _publicProcessingQuestionList
+
+
     private val _searchedQuestionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
         value = null
     }
@@ -89,15 +101,33 @@ class HomeViewModel @Inject constructor(
                                 _language.value?.let { ulang ->
                                     translateUsecase.getText(model.title, lang, ulang) { str ->
                                         model.translatedTitle = str
-                                        val nList = mutableListOf<DashboardQuestionModel>()
-                                        list2.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
-                                        _publicQuestionList.value = nList
+                                        val doneList = mutableListOf<DashboardQuestionModel>()
+                                        val processingList = mutableListOf<DashboardQuestionModel>()
+
+                                        list2.forEach { item ->
+                                            if (model.questionState == "질문 중") {
+                                                processingList.add(item.copy(translatedTitle = item.translatedTitle))
+                                                _publicProcessingQuestionList.value = processingList
+                                            } else if (model.questionState == "질문 완료") {
+                                                doneList.add(item.copy(translatedTitle = item.translatedTitle))
+                                                _publicDoneQuestionList.value = doneList
+                                            }
+                                        }
                                     }
                                 } ?: run {
                                     model.translatedTitle = model.title
-                                    val nList = mutableListOf<DashboardQuestionModel>()
-                                    list2.forEach { item -> nList.add(item.copy(translatedTitle = item.translatedTitle)) }
-                                    _publicQuestionList.value = nList
+                                    val doneList = mutableListOf<DashboardQuestionModel>()
+                                    val processingList = mutableListOf<DashboardQuestionModel>()
+
+                                    list2.forEach { item ->
+                                        if (model.questionState == "질문 중") {
+                                            processingList.add(item.copy(translatedTitle = item.translatedTitle))
+                                            _publicProcessingQuestionList.value = processingList
+                                        } else if (model.questionState == "질문 완료") {
+                                            doneList.add(item.copy(translatedTitle = item.translatedTitle))
+                                            _publicDoneQuestionList.value = doneList
+                                        }
+                                    }
                                 }
                             }
                         }

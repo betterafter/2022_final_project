@@ -22,11 +22,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_home_public_question_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="완료"
+                android:text="질문 중"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

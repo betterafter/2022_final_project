@@ -95,13 +95,30 @@ class HomePublicDashboardFragment : Fragment() {
             adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel, parentFragmentManager)
             setItemViewCacheSize(-1)
         }
+
+        binding.btnHomePublicQuestionState.setOnClickListener {
+            if (binding.btnHomePublicQuestionState.text == "질문 완료") {
+                binding.btnHomePublicQuestionState.text = "질문 중"
+                (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicProcessingQuestionList.value)
+            } else {
+                binding.btnHomePublicQuestionState.text = "질문 완료"
+                (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicDoneQuestionList.value)
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
-        homeViewModel.publicQuestionList.observe(viewLifecycleOwner) {
-            (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
-            //(binding.rvHomePublicQuestion.adapter as HomeListAdapter).notifyDataSetChanged()
+        homeViewModel.publicDoneQuestionList.observe(viewLifecycleOwner) {
+            if (binding.btnHomePublicQuestionState.text == "질문 완료") {
+                (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
+            }
+        }
+
+        homeViewModel.publicProcessingQuestionList.observe(viewLifecycleOwner) {
+            if (binding.btnHomePublicQuestionState.text == "질문 중") {
+                (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(it)
+            }
         }
     }
 
