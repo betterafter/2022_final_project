@@ -1,7 +1,9 @@
 package com.kuroutine.kulture.chatroom
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,25 +59,19 @@ class PublicChatRoomFragment : Fragment() {
     }
 
     private fun init() {
-        binding.rvPublicChatroomList.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPublicChatroomList.adapter =
-                ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
-        }
+        Log.d("[keykat]", "public init")
+        binding.rvPublicChatroomList.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.rvPublicChatroomList.adapter =
+            ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            chatRoomViewModel.getLanguage()
-        }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         chatRoomViewModel.publicChatRoomModelList.observe(viewLifecycleOwner) {
             (binding.rvPublicChatroomList.adapter as ChatRoomAdapter).submitList(it)
-        }
-
-        chatRoomViewModel.language.observe(viewLifecycleOwner) {
-            chatRoomViewModel.getChatRooms()
+            (binding.rvPublicChatroomList.adapter as ChatRoomAdapter).notifyDataSetChanged()
         }
     }
 
@@ -87,14 +83,16 @@ class PublicChatRoomFragment : Fragment() {
         startActivity(intent)
     }
 
-    fun getAdapter(): HomeListAdapter? {
+    fun getAdapter(): ChatRoomAdapter? {
         _binding?.let {
             it.rvPublicChatroomList.adapter?.let {
-                return binding.rvPublicChatroomList.adapter as HomeListAdapter
+                return binding.rvPublicChatroomList.adapter as ChatRoomAdapter
             } ?: run {
+                Log.d("[keykat]", "public adapter null")
                 return null
             }
         } ?: run {
+            Log.d("[keykat]", "public adapter null")
             return null
         }
     }

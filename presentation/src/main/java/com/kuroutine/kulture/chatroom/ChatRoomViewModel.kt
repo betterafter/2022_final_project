@@ -64,28 +64,33 @@ class ChatRoomViewModel @Inject constructor(
     }
 
     fun getChatRooms() {
+
         viewModelScope.launch {
             chatUsecase.getChatRooms { list1, list2 ->
-                list1.forEach { model ->
+                _chatRoomModelList.value = list1
+                _publicChatRoomModelList.value = list2
+
+                list1.forEachIndexed { index, model ->
                     viewModelScope.launch {
                         model.contents?.last()?.message?.let { it1 ->
                             _language.value?.let { ulang ->
                                 checkLanguage(it1) { lang ->
                                     viewModelScope.launch {
                                         translateUsecase.getText(it1, lang, ulang) { str ->
+                                            Log.d("[keykat]", "index:: $index")
                                             model.contents!!.last().message = str
-                                            val nList = mutableListOf<ChatRoomModel>()
-                                            list1.forEach { item -> nList.add(item.copy(contents = item.contents)) }
-                                            _chatRoomModelList.value = nList
+                                            _chatRoomModelList.value = list1
                                         }
                                     }
                                 }
+                            } ?: run {
+                                _chatRoomModelList.value = list1
                             }
                         }
                     }
                 }
 
-                list2.forEach { model ->
+                list2.forEachIndexed { index, model ->
                     viewModelScope.launch {
                         model.contents?.last()?.message?.let { it1 ->
                             _language.value?.let { ulang ->
@@ -93,12 +98,12 @@ class ChatRoomViewModel @Inject constructor(
                                     viewModelScope.launch {
                                         translateUsecase.getText(it1, lang, ulang) { str ->
                                             model.contents!!.last().message = str
-                                            val nList = mutableListOf<ChatRoomModel>()
-                                            list2.forEach { item -> nList.add(item.copy(contents = item.contents)) }
-                                            _publicChatRoomModelList.value = nList
+                                            _publicChatRoomModelList.value = list2
                                         }
                                     }
                                 }
+                            } ?: run {
+                                _publicChatRoomModelList.value = list2
                             }
                         }
                     }

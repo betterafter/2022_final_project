@@ -3,6 +3,7 @@ package com.kuroutine.kulture.chatroom
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kuroutine.databinding.FragmentChatroomBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kuroutine.kulture.home.HomeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,9 +36,6 @@ class ChatRoomFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        privateChatRoomFragment = PrivateChatRoomFragment()
-        publicChatRoomFragment = PublicChatRoomFragment()
     }
 
     override fun onCreateView(
@@ -50,11 +52,22 @@ class ChatRoomFragment : Fragment() {
         }
         val root: View = binding.root
 
+        privateChatRoomFragment = PrivateChatRoomFragment()
+        publicChatRoomFragment = PublicChatRoomFragment()
+
         initFragment()
         init()
         initObserver()
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            chatRoomViewModel.getLanguage()
+        }
     }
 
     private fun init() {
@@ -70,8 +83,6 @@ class ChatRoomFragment : Fragment() {
             }
         }.attach()
 
-        chatRoomViewModel.getChatRooms()
-
         chatRoomViewModel.getCurrentUser()
     }
 
@@ -82,6 +93,8 @@ class ChatRoomFragment : Fragment() {
     }
 
     private fun initObserver() {
-
+        chatRoomViewModel.language.observe(viewLifecycleOwner) {
+            chatRoomViewModel.getChatRooms()
+        }
     }
 }

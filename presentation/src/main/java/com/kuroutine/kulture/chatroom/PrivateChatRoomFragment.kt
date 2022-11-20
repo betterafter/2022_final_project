@@ -1,7 +1,9 @@
 package com.kuroutine.kulture.chatroom
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,25 +60,20 @@ class PrivateChatRoomFragment : Fragment() {
     }
 
     private fun init() {
-        binding.rvPrivateChatroomList.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvPrivateChatroomList.adapter =
-                ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
-        }
+        Log.d("[keykat]", "private init")
 
-        CoroutineScope(Dispatchers.Main).launch {
-            chatRoomViewModel.getLanguage()
-        }
+        binding.rvPrivateChatroomList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrivateChatroomList.adapter =
+                ChatRoomAdapter(moveToChatActivity = ::moveToChatActivity, chatRoomViewModel)
+
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver() {
         chatRoomViewModel.chatRoomModelList.observe(viewLifecycleOwner) {
             (binding.rvPrivateChatroomList.adapter as ChatRoomAdapter).submitList(it)
-        }
-
-        chatRoomViewModel.language.observe(viewLifecycleOwner) {
-            chatRoomViewModel.getChatRooms()
+            (binding.rvPrivateChatroomList.adapter as ChatRoomAdapter).notifyDataSetChanged()
         }
     }
 
@@ -88,14 +85,16 @@ class PrivateChatRoomFragment : Fragment() {
         startActivity(intent)
     }
 
-    fun getAdapter(): HomeListAdapter? {
+    fun getAdapter(): ChatRoomAdapter? {
         _binding?.let {
             it.rvPrivateChatroomList.adapter?.let {
-                return binding.rvPrivateChatroomList.adapter as HomeListAdapter
+                return binding.rvPrivateChatroomList.adapter as ChatRoomAdapter
             } ?: run {
+                Log.d("[keykat]", "private adapter null")
                 return null
             }
         } ?: run {
+            Log.d("[keykat]", "private adapter null")
             return null
         }
     }

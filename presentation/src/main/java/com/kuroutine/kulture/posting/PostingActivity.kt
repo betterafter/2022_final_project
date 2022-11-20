@@ -136,7 +136,6 @@ class PostingActivity : AppCompatActivity() {
                     )
                     bottomSheetDialog.getLocations(addresses)
                     showBottomSheet()
-                    Log.d("[keykat]", "address: ${addresses}")
                 } catch (e: Exception) {
                     Log.d("[keykat]", "$e")
                 }

@@ -25,7 +25,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
     private val languageIdentifier = LanguageIdentification
         .getClient(
             LanguageIdentificationOptions.Builder()
-                .setConfidenceThreshold(0.5f)
+                .setConfidenceThreshold(0.3f)
                 .build()
         )
 
@@ -56,7 +56,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
                     translator.downloadModelIfNeeded(conditions)
                         .addOnSuccessListener {
                             downloadedCount += 1
-                            Log.d("[keykat]", "$downloadedCount")
+                            // Log.d("[keykat]", "$downloadedCount")
                         }
                         .addOnFailureListener { exception ->
                             Log.d("[keykat]", "download failed: $lang")
@@ -82,32 +82,31 @@ class MlKitDatasourceImpl : MlKitDatasource {
             .build()
         val translator = Translation.getClient(options)
 
-        translator.translate(text)
-            .addOnSuccessListener { translatedText ->
-                // Translation successful.
-                callback(translatedText)
-                Log.d("[keykat]", "text: $text -> translateText: $translatedText")
-            }
-            .addOnFailureListener { exception ->
-                callback(text)
-            }
-
-//        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
-//            .addOnSuccessListener {
-//                translator.translate(text)
-//                    .addOnSuccessListener { translatedText ->
-//                        // Translation successful.
-//                        callback(translatedText)
-//                        Log.d("[keykat]", "text: $text -> translateText: $translatedText")
-//                    }
-//                    .addOnFailureListener { exception ->
-//                        Log.d("[keykat]", "exception: $exception")
-//                        callback(text)
-//                    }
+//        translator.translate(text)
+//            .addOnSuccessListener { translatedText ->
+//                // Translation successful.
+//                callback(translatedText)
 //            }
 //            .addOnFailureListener { exception ->
-//                Log.d("[keykat]", "exception: $exception")
 //                callback(text)
 //            }
+
+        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
+            .addOnSuccessListener {
+                translator.translate(text)
+                    .addOnSuccessListener { translatedText ->
+                        // Translation successful.
+                        callback(translatedText)
+                        Log.d("[keykat]", "text: $text -> translateText: $translatedText")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d("[keykat]", "exception: $exception")
+                        callback(text)
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("[keykat]", "exception: $exception")
+                callback(text)
+            }
     }
 }
