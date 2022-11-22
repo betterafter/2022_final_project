@@ -2,6 +2,7 @@ package com.example.kudata.entity
 
 data class User(
     val uid: String?,
+    val messageToken: String?,
     val userName: String?,
     val userEmail: String?,
     val userRank: String?,

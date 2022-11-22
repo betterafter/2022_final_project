@@ -10,8 +10,10 @@ import com.example.domain.usecase.login.LoginUsecase
 import com.example.domain.usecase.user.UserUsecase
 import com.example.kuroutine.R
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,12 +42,14 @@ class LoginViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            var profile = R.drawable.ic_profile_fill
             loginUsecase.googleLogin(data) {
                 _currentUser.value = it
-                viewModelScope.launch { userUsercas.initUser(
+                viewModelScope.launch {
+                    userUsercas.initUser()
+                    val token = FirebaseMessaging.getInstance().token.await()
+                    Log.d("[keykat]", "token ::: $token")
+                }
 
-                ) }
             }
         }
     }

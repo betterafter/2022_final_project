@@ -97,7 +97,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
                     .addOnSuccessListener { translatedText ->
                         // Translation successful.
                         callback(translatedText)
-                        Log.d("[keykat]", "text: $text -> translateText: $translatedText")
+                        // Log.d("[keykat]", "text: $text -> translateText: $translatedText")
                     }
                     .addOnFailureListener { exception ->
                         Log.d("[keykat]", "exception: $exception")

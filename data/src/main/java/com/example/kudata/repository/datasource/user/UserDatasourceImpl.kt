@@ -10,9 +10,11 @@ import com.example.kudata.utils.PROFILE_IMAGE_STORE_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -28,19 +30,31 @@ class UserDatasourceImpl : UserDatasource {
     override suspend fun initUserInfo() {
         _auth.currentUser?.uid?.let { id ->
             _fireStore.collection(id).get().addOnSuccessListener {
-                val user = User(
-                    id,
-                    _auth.currentUser?.displayName,
-                    _auth.currentUser?.email,
-                    "bronze",
-                    0,
-                    language = "en",
-                    profile = "",
-                    mapOf(),
-                    mapOf()
-                )
-                if (it.isEmpty) {
-                    _fireStore.collection("/users").document(id).set(user)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val token = FirebaseMessaging.getInstance().token.await()
+
+                    val user = User(
+                        uid = id,
+                        messageToken = token,
+                        userName = _auth.currentUser?.displayName,
+                        userEmail = _auth.currentUser?.email,
+                        userRank = "bronze",
+                        userXp = 0,
+                        language = "en",
+                        profile = "",
+                        mapOf(),
+                        mapOf()
+                    )
+
+                    Log.d("[keykat]", "id::: $id")
+                    Log.d("[keykat]", "token::: $token")
+                    if (it.isEmpty) {
+                        _fireStore.collection("/users").document(id).set(user)
+                    } else {
+                        val map = mutableMapOf<String, Any>()
+                        map["messageToken"] = token
+                        _fireStore.collection("/users").document(id).update(map)
+                    }
                 }
             }
         }
@@ -94,6 +108,7 @@ class UserDatasourceImpl : UserDatasource {
 
                 val user = User(
                     uid = data["uid"] as String?,
+                    messageToken = data["messageToken"] as String?,
                     userName = data["userName"] as String?,
                     userEmail = data["userEmail"] as String?,
                     userRank = data["userRank"] as String?,
@@ -119,6 +134,7 @@ class UserDatasourceImpl : UserDatasource {
 
                     val user = User(
                         uid = data["uid"] as String?,
+                        messageToken = data["messageToken"] as String?,
                         userName = data["userName"] as String?,
                         userEmail = data["userEmail"] as String?,
                         userRank = data["userRank"] as String?,
@@ -141,6 +157,7 @@ class UserDatasourceImpl : UserDatasource {
 
                         val user = User(
                             uid = data["uid"] as String?,
+                            messageToken = data["messageToken"] as String?,
                             userName = data["userName"] as String?,
                             userEmail = data["userEmail"] as String?,
                             userRank = data["userRank"] as String?,
@@ -168,6 +185,7 @@ class UserDatasourceImpl : UserDatasource {
 
                 user = User(
                     uid = data["uid"] as String?,
+                    messageToken = data["messageToken"] as String?,
                     userName = data["userName"] as String?,
                     userEmail = data["userEmail"] as String?,
                     userRank = data["userRank"] as String?,
@@ -187,6 +205,7 @@ class UserDatasourceImpl : UserDatasource {
 
                     user = User(
                         uid = data["uid"] as String?,
+                        messageToken = data["messageToken"] as String?,
                         userName = data["userName"] as String?,
                         userEmail = data["userEmail"] as String?,
                         userRank = data["userRank"] as String?,

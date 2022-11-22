@@ -76,6 +76,9 @@ dependencies {
     // ML KIT 라이브러리
     implementation 'com.google.mlkit:language-id:17.0.4'
     implementation 'com.google.mlkit:translate:17.0.1'
+
+    // firebase message
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
 }
 
 kapt {

@@ -3,8 +3,6 @@ package com.kuroutine.kulture.chat
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -17,13 +15,22 @@ import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
-import com.kuroutine.kulture.data.ChatViewType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_private_chat.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.ProtocolException
+import java.net.URL
 import java.util.*
+
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
@@ -84,6 +91,54 @@ class ChatActivity : AppCompatActivity() {
         binding.ivPrivatechatSendbutton.setOnClickListener {
             chatViewModel.sendMessage(binding.etPrivatechatMessagebox.text.toString())
             binding.etPrivatechatMessagebox.text.clear()
+
+            sendFcm()
+        }
+    }
+
+    fun sendFcm() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val authKey: String = "AAAABZQS7bg:APA91bEkVguSGt5OHlJKThl8OeM00pIDFXypBO3A5Xkx3-bbc7B1otF-xKeNZ69v5xO52RuKArGBGbKb737e6HbF4fIaXb1_r79XfT0qEovT7Fc-Y1dtN56L13ejRHwhntBhN0DTewNK" // You FCM AUTH key
+            val FMCurl = "https://fcm.googleapis.com/fcm/send" // default
+            try {
+                val url = URL(FMCurl)
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.setUseCaches(false)
+                conn.setDoInput(true)
+                conn.setDoOutput(true)
+                conn.setRequestMethod("POST")
+                conn.setRequestProperty("Authorization", "key=$authKey")
+                conn.setRequestProperty("Content-Type", "application/json")
+                val json = JSONObject()
+                val info = JSONObject()
+                info.put("title", "안녕?") // Notification title
+                info.put("body", "반가워") // Notification body
+                // 수신자 토큰
+                json.put("to", "dl8r90npSry5iqLH6e_8oP:APA91bHKSt0YvZt_o8tTDHgVb-1htIPrNkA7e64zZvhdSDtJrsZa4zRem_EeYOvsl2yOjv75dVAyDTYlH3bDwTF6zmgAdPwchVw_t57POOoW4glzE7c9whQb-2RPwWqysdUdyN5JVNUn")
+
+                //중요한 부분
+                json.put("notification", info)
+
+                val wr = OutputStreamWriter(conn.outputStream)
+                wr.write(json.toString())
+                wr.flush()
+                conn.inputStream
+
+                val `in` = BufferedReader(InputStreamReader(conn.inputStream))
+                var inputLine: String?
+                val response = StringBuffer()
+
+                while (`in`.readLine().also { inputLine = it } != null) {
+                    response.append(inputLine)
+                }
+                `in`.close()
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: ProtocolException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
     }
 
