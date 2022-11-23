@@ -10,6 +10,7 @@ val PICK_IMG_FROM_ALBUM = 0
 val EXTRA_KEY_MOVETOCHAT = "moveToChat"
 val EXTRA_QKEY_MOVETOCHAT = "qMoveToChat"
 val EXTRA_KEY_ISPRIVATE = "isPrivate"
+val EXTRA_KEY_USERS = "users"
 
 @SuppressLint("SimpleDateFormat")
 fun SimpleDateFormat.now(): String =

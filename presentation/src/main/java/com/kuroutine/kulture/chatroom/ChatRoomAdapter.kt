@@ -16,13 +16,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ChatRoomAdapter(
-    val moveToChatActivity: (String, String, Boolean) -> Unit,
+    val moveToChatActivity: (String, String, Array<String>, Boolean) -> Unit,
     private val viewModel: ChatRoomViewModel
 ) : ListAdapter<ChatRoomModel, ChatRoomAdapter.ViewHolder>(DiffUtils()) {
 
     class ViewHolder(
         private val binding: ItemChatroomBinding,
-        private val callback: (String, String, Boolean) -> Unit,
+        private val callback: (String, String, Array<String>, Boolean) -> Unit,
         private val viewModel: ChatRoomViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
         suspend fun bind(data: ChatRoomModel) {
@@ -53,9 +53,14 @@ class ChatRoomAdapter(
 
             // 채팅방 눌렀을 때 대화방으로 이동
             binding.cvChatroomItem.setOnClickListener {
+                val array: MutableList<String> = mutableListOf()
+                data.users?.forEach {
+                    array.add(it.key)
+                }
+
                 data.users?.forEach {
                     if (it.value) {
-                        callback(data.qid, it.key, data.isPrivate)
+                        callback(data.qid, it.key, array.toTypedArray(), data.isPrivate)
                         return@setOnClickListener
                     }
                 }

@@ -78,6 +78,7 @@ object DtoTranslator {
 
         return UserModel(
             uid = user.uid,
+            messageToken = user.messageToken,
             userName = user.userName,
             userEmail = user.userEmail,
             userRank = user.userRank,

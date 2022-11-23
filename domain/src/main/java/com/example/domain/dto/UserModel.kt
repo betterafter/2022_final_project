@@ -2,6 +2,7 @@ package com.example.domain.dto
 
 data class UserModel(
     val uid: String?,
+    val messageToken: String?,
     val userName: String?,
     val userEmail: String?,
     val userRank: String?,

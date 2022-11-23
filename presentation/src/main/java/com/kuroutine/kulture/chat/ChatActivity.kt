@@ -3,6 +3,7 @@ package com.kuroutine.kulture.chat
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,6 +15,7 @@ import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
+import com.kuroutine.kulture.EXTRA_KEY_USERS
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_private_chat.view.*
@@ -40,6 +42,7 @@ class ChatActivity : AppCompatActivity() {
 
     var qid: String? = null
     var uid: String? = null
+    var users: Array<String>? = null
     var isPrivate: Boolean = false
 
     private lateinit var tts: TextToSpeech
@@ -70,6 +73,7 @@ class ChatActivity : AppCompatActivity() {
 
         qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
         uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
+        users = intent.getStringArrayExtra(EXTRA_KEY_USERS)
         isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
 
         init(qid, uid, isPrivate)
@@ -94,16 +98,24 @@ class ChatActivity : AppCompatActivity() {
     private fun initListener() {
         binding.ivPrivatechatSendbutton.setOnClickListener {
             chatViewModel.sendMessage(binding.etPrivatechatMessagebox.text.toString())
+            val message = binding.etPrivatechatMessagebox.text.toString()
             binding.etPrivatechatMessagebox.text.clear()
 
-            chatViewModel.sendPushMessage(
-                to = "dl8r90npSry5iqLH6e_8oP:APA91bHKSt0YvZt_o8tTDHgVb-1htIPrNkA7e64zZvhdSDtJrsZa4zRem_EeYOvsl2yOjv75dVAyDTYlH3bDwTF6zmgAdPwchVw_t57POOoW4glzE7c9whQb-2RPwWqysdUdyN5JVNUn",
-                title = "안녕??????",
-                body = "반가워!!!!!!",
-                qid = qid ?: "",
-                uid = uid ?: "",
-                isPrivate = isPrivate
-            )
+            users?.forEach {
+                if (chatViewModel.currentUser.value?.uid != it) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val user = chatViewModel.getUser(it)
+                        chatViewModel.sendPushMessage(
+                            to = user?.messageToken ?: "",
+                            title = user?.userName ?: "unknown",
+                            body = message,
+                            qid = qid ?: "",
+                            uid = uid ?: "",
+                            isPrivate = isPrivate
+                        )
+                    }
+                }
+            }
         }
     }
 

@@ -77,7 +77,6 @@ class ChatRoomViewModel @Inject constructor(
                                 checkLanguage(it1) { lang ->
                                     viewModelScope.launch {
                                         translateUsecase.getText(it1, lang, ulang) { str ->
-                                            Log.d("[keykat]", "index:: $index")
                                             model.contents!!.last().message = str
                                             _chatRoomModelList.value = list1
                                         }
