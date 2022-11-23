@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi
 import com.example.domain.DtoTranslator
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
+import com.example.domain.dto.FcmResponseModel
+import com.example.kudata.entity.FcmResponse
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.LoginRepository
 import com.google.firebase.auth.FirebaseUser
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 class ChatUsecaseImpl @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val chatRepository: ChatRepository
+    private val chatRepository: ChatRepository,
 ) : ChatUsecase {
     override suspend fun getCurrentUser(): FirebaseUser? {
         return loginRepository.getUser()
@@ -47,5 +49,17 @@ class ChatUsecaseImpl @Inject constructor(
         chatRepository.getChatRooms { list1, list2 ->
             callback(DtoTranslator.chatRoomsTranslator(list1), DtoTranslator.chatRoomsTranslator(list2))
         }
+    }
+
+    override suspend fun sendPushMessage(
+        to: String,
+        title: String,
+        body: String,
+        qid: String,
+        uid: String,
+        isPrivate: Boolean
+    ): FcmResponseModel? {
+        return chatRepository.sendPushMessage(to, title, body, qid, uid, isPrivate)
+            ?.let { DtoTranslator.fcmModelTranslator(it) }
     }
 }

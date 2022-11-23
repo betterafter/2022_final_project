@@ -38,6 +38,10 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPrivateChatBinding
     private val chatViewModel by viewModels<ChatViewModel>()
 
+    var qid: String? = null
+    var uid: String? = null
+    var isPrivate: Boolean = false
+
     private lateinit var tts: TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,9 +68,9 @@ class ChatActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
-        val uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
-        val isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+        qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
+        uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
+        isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
 
         init(qid, uid, isPrivate)
         initAdapter()
@@ -92,53 +96,14 @@ class ChatActivity : AppCompatActivity() {
             chatViewModel.sendMessage(binding.etPrivatechatMessagebox.text.toString())
             binding.etPrivatechatMessagebox.text.clear()
 
-            sendFcm()
-        }
-    }
-
-    fun sendFcm() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val authKey: String = "AAAABZQS7bg:APA91bEkVguSGt5OHlJKThl8OeM00pIDFXypBO3A5Xkx3-bbc7B1otF-xKeNZ69v5xO52RuKArGBGbKb737e6HbF4fIaXb1_r79XfT0qEovT7Fc-Y1dtN56L13ejRHwhntBhN0DTewNK" // You FCM AUTH key
-            val FMCurl = "https://fcm.googleapis.com/fcm/send" // default
-            try {
-                val url = URL(FMCurl)
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.setUseCaches(false)
-                conn.setDoInput(true)
-                conn.setDoOutput(true)
-                conn.setRequestMethod("POST")
-                conn.setRequestProperty("Authorization", "key=$authKey")
-                conn.setRequestProperty("Content-Type", "application/json")
-                val json = JSONObject()
-                val info = JSONObject()
-                info.put("title", "안녕?") // Notification title
-                info.put("body", "반가워") // Notification body
-                // 수신자 토큰
-                json.put("to", "dl8r90npSry5iqLH6e_8oP:APA91bHKSt0YvZt_o8tTDHgVb-1htIPrNkA7e64zZvhdSDtJrsZa4zRem_EeYOvsl2yOjv75dVAyDTYlH3bDwTF6zmgAdPwchVw_t57POOoW4glzE7c9whQb-2RPwWqysdUdyN5JVNUn")
-
-                //중요한 부분
-                json.put("notification", info)
-
-                val wr = OutputStreamWriter(conn.outputStream)
-                wr.write(json.toString())
-                wr.flush()
-                conn.inputStream
-
-                val `in` = BufferedReader(InputStreamReader(conn.inputStream))
-                var inputLine: String?
-                val response = StringBuffer()
-
-                while (`in`.readLine().also { inputLine = it } != null) {
-                    response.append(inputLine)
-                }
-                `in`.close()
-            } catch (e: MalformedURLException) {
-                e.printStackTrace()
-            } catch (e: ProtocolException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            chatViewModel.sendPushMessage(
+                to = "dl8r90npSry5iqLH6e_8oP:APA91bHKSt0YvZt_o8tTDHgVb-1htIPrNkA7e64zZvhdSDtJrsZa4zRem_EeYOvsl2yOjv75dVAyDTYlH3bDwTF6zmgAdPwchVw_t57POOoW4glzE7c9whQb-2RPwWqysdUdyN5JVNUn",
+                title = "안녕??????",
+                body = "반가워!!!!!!",
+                qid = qid ?: "",
+                uid = uid ?: "",
+                isPrivate = isPrivate
+            )
         }
     }
 

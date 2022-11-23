@@ -5,6 +5,8 @@ import com.example.kudata.repository.datasource.chat.ChatDataSource
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.repository.datasource.dashboard.DashboardDatasource
 import com.example.kudata.repository.datasource.dashboard.DashboardDatasourceImpl
+import com.example.kudata.repository.datasource.fcm.FcmDatasource
+import com.example.kudata.repository.datasource.fcm.FcmDatasourceImpl
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasource
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasource
@@ -54,4 +56,8 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideMlKitDatasource(): MlKitDatasource = MlKitDatasourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideFcmDatasource(): FcmDatasource = FcmDatasourceImpl()
 }

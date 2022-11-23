@@ -87,6 +87,21 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun sendPushMessage(
+        to: String,
+        title: String,
+        body: String,
+        qid: String,
+        uid: String,
+        isPrivate: Boolean
+    ) {
+        viewModelScope.launch {
+            chatUsecase.sendPushMessage(
+                to, title, body, qid, uid, isPrivate
+            )
+        }
+    }
+
     fun getMessages(animationCallback: (() -> Unit)) {
         clearList()
 

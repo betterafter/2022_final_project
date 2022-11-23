@@ -8,6 +8,7 @@ import com.example.kudata.repository.PapagoRepository
 import com.example.kudata.repository.UserRepository
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.repository.datasource.dashboard.DashboardDatasourceImpl
+import com.example.kudata.repository.datasource.fcm.FcmDatasourceImpl
 import com.example.kudata.repository.datasource.login.FacebookLoginDatasourceImpl
 import com.example.kudata.repository.datasource.login.GoogleLoginDatasourceImpl
 import com.example.kudata.repository.datasource.mltranslator.MlKitDatasourceImpl
@@ -45,8 +46,9 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideChatRepository(
-        chatDataSourceImpl: ChatDataSourceImpl
-    ): ChatRepository = ChatRepositoryUmpl(chatDataSourceImpl)
+        chatDataSourceImpl: ChatDataSourceImpl,
+        fcmDatasourceImpl: FcmDatasourceImpl
+    ): ChatRepository = ChatRepositoryUmpl(chatDataSourceImpl, fcmDatasourceImpl)
 
     @Provides
     @Singleton

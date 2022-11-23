@@ -5,10 +5,13 @@ import android.util.Log
 import com.example.domain.dto.ChatModel
 import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.dto.FcmMessageResultModel
+import com.example.domain.dto.FcmResponseModel
 import com.example.domain.dto.UserModel
 import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.entity.FcmResponse
 import com.example.kudata.entity.User
 import com.example.kudata.repository.DashboardRepository
 import getValue
@@ -40,6 +43,22 @@ object DtoTranslator {
         "vi" to "베트남어",
     )
 
+    suspend fun fcmModelTranslator(fcmResponse: FcmResponse): FcmResponseModel {
+        val resultList: MutableList<FcmMessageResultModel> = mutableListOf()
+        fcmResponse.results?.forEach {
+            resultList.add(
+                FcmMessageResultModel(it?.messageId)
+            )
+        }
+
+        return FcmResponseModel(
+            multicastId = fcmResponse.multicastId,
+            success = fcmResponse.success,
+            failure = fcmResponse.failure,
+            canonicalIds = fcmResponse.canonicalIds,
+            results = resultList.toList()
+        )
+    }
 
     suspend fun userTranslator(user: User, dashboardRepository: DashboardRepository): UserModel {
         val questionMap = user.questionList

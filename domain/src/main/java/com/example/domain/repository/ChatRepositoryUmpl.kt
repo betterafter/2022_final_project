@@ -2,12 +2,15 @@ package com.example.domain.repository
 
 import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
+import com.example.kudata.entity.FcmResponse
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.datasource.chat.ChatDataSource
+import com.example.kudata.repository.datasource.fcm.FcmDatasource
 import javax.inject.Inject
 
 class ChatRepositoryUmpl @Inject constructor(
-    private val chatDataSource: ChatDataSource
+    private val chatDataSource: ChatDataSource,
+    private val fcmDatasource: FcmDatasource
 ) : ChatRepository {
 
     // 채팅방 초기화. 사용자의 uid 기준으로 채팅방 생성
@@ -35,5 +38,16 @@ class ChatRepositoryUmpl @Inject constructor(
         chatDataSource.getRealtimeMessage {
             getListCallback(it)
         }
+    }
+
+    override suspend fun sendPushMessage(
+        to: String,
+        title: String,
+        body: String,
+        qid: String,
+        uid: String,
+        isPrivate: Boolean
+    ): FcmResponse? {
+        return fcmDatasource.getFcmResult(to, title, body, qid, uid, isPrivate)
     }
 }

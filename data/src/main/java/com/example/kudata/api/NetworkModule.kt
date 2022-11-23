@@ -40,4 +40,16 @@ object NetworkModule {
     fun providePapagoService(): PapagoApi {
         return retrofit.create(PapagoApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideFcmService(): FcmApi {
+        return Retrofit.Builder()
+            .baseUrl("https://fcm.googleapis.com/")
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+            .create(FcmApi::class.java)
+    }
 }
