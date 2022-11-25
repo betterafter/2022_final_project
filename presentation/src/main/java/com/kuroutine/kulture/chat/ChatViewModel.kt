@@ -93,11 +93,12 @@ class ChatViewModel @Inject constructor(
         body: String,
         qid: String,
         uid: String,
+        userProfile: String,
         isPrivate: Boolean
     ) {
         viewModelScope.launch {
             chatUsecase.sendPushMessage(
-                to, title, body, qid, uid, isPrivate
+                to, title, body, qid, uid, userProfile, isPrivate
             )
         }
     }

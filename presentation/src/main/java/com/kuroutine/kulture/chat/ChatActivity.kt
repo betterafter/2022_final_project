@@ -102,15 +102,17 @@ class ChatActivity : AppCompatActivity() {
             binding.etPrivatechatMessagebox.text.clear()
 
             users?.forEach {
-                if (chatViewModel.currentUser.value?.uid != it) {
-                    CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val currUser = chatViewModel.currentUser.value?.uid?.let { it1 -> chatViewModel.getUser(it1) }
+                    if (chatViewModel.currentUser.value?.uid != it) {
                         val user = chatViewModel.getUser(it)
                         chatViewModel.sendPushMessage(
                             to = user?.messageToken ?: "",
-                            title = user?.userName ?: "unknown",
+                            title = currUser?.userName ?: "unknown",
                             body = message,
                             qid = qid ?: "",
                             uid = uid ?: "",
+                            userProfile = currUser?.profile ?: "",
                             isPrivate = isPrivate
                         )
                     }

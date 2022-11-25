@@ -19,6 +19,7 @@ interface ChatUsecase {
         body: String,
         qid: String,
         uid: String,
+        userProfile: String,
         isPrivate: Boolean
     ): FcmResponseModel?
 }

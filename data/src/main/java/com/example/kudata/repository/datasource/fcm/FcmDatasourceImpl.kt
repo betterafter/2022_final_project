@@ -1,5 +1,6 @@
 package com.example.kudata.repository.datasource.fcm
 
+import android.util.Log
 import com.example.kudata.api.NetworkModule
 import com.example.kudata.entity.FcmData
 import com.example.kudata.entity.FcmNotification
@@ -14,11 +15,14 @@ class FcmDatasourceImpl: FcmDatasource {
         body: String,
         qid: String,
         uid: String,
+        userProfile: String,
         isPrivate: Boolean
-    ): FcmResponse? =
-        NetworkModule.provideFcmService().fcmMessagingService(
+    ): FcmResponse? {
+        Log.d("[keykat]", "title: $title, to: $to, userProfile: $userProfile")
+        return NetworkModule.provideFcmService().fcmMessagingService(
             "application/json",
             "key=$FCM_SERVER_KEY",
-            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, isPrivate))
+            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, userProfile, isPrivate))
         ).body()
+    }
 }
