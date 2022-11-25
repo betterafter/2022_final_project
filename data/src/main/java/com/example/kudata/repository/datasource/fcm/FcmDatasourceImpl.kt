@@ -15,6 +15,7 @@ class FcmDatasourceImpl: FcmDatasource {
         body: String,
         qid: String,
         uid: String,
+        users: List<String>,
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponse? {
@@ -22,7 +23,7 @@ class FcmDatasourceImpl: FcmDatasource {
         return NetworkModule.provideFcmService().fcmMessagingService(
             "application/json",
             "key=$FCM_SERVER_KEY",
-            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, userProfile, isPrivate))
+            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, userProfile, isPrivate, users))
         ).body()
     }
 }

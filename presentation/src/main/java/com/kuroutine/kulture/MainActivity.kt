@@ -13,6 +13,7 @@ import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityMainBinding
 import com.kuroutine.kulture.recommend.RecommendFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_history.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val viewPager2Index = intent.getIntExtra(EXTRA_MAIN_VIEWPAGER_INDEX, R.id.navigation_home)
+        binding.navView.selectedItemId = viewPager2Index
     }
 
     interface OnBackPressedListener {

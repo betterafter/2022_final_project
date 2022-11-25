@@ -29,6 +29,12 @@ class LoginViewModel @Inject constructor(
 
     val permissionList: MutableList<String> = listOf("public_profile", "email") as MutableList<String>
 
+    fun checkAutoLogin() {
+        viewModelScope.launch {
+            _currentUser.value = loginUsecase.checkAutoLoginUSer()
+        }
+    }
+
     fun getGoogleSignInIntent() {
         viewModelScope.launch {
             _googleSignInIntent.value = loginUsecase.getGoogleSignInIntent()

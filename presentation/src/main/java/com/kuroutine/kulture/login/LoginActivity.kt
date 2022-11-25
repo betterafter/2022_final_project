@@ -31,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
             lifecycleOwner = this@LoginActivity
         }
 
+        loginViewModel.checkAutoLogin()
+
         initObserver()
         initListener()
 

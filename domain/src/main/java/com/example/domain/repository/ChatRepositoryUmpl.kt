@@ -46,9 +46,10 @@ class ChatRepositoryUmpl @Inject constructor(
         body: String,
         qid: String,
         uid: String,
+        users: List<String>,
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponse? {
-        return fcmDatasource.getFcmResult(to, title, body, qid, uid, userProfile, isPrivate)
+        return fcmDatasource.getFcmResult(to, title, body, qid, uid, users, userProfile, isPrivate)
     }
 }

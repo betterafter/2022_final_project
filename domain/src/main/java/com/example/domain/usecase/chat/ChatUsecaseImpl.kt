@@ -57,10 +57,11 @@ class ChatUsecaseImpl @Inject constructor(
         body: String,
         qid: String,
         uid: String,
+        users: List<String>,
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponseModel? {
-        return chatRepository.sendPushMessage(to, title, body, qid, uid, userProfile, isPrivate)
+        return chatRepository.sendPushMessage(to, title, body, qid, uid, users, userProfile, isPrivate)
             ?.let { DtoTranslator.fcmModelTranslator(it) }
     }
 }

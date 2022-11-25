@@ -24,6 +24,10 @@ class GoogleLoginDatasourceImpl @Inject constructor(
 ) : GoogleLoginDatasource {
     private val firebaseAuth = Firebase.auth
 
+    override suspend fun checkAutoLoginUSer(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
     override suspend fun getGoogleUser(): FirebaseUser? {
         return firebaseAuth.currentUser
     }

@@ -11,6 +11,10 @@ val EXTRA_KEY_MOVETOCHAT = "moveToChat"
 val EXTRA_QKEY_MOVETOCHAT = "qMoveToChat"
 val EXTRA_KEY_ISPRIVATE = "isPrivate"
 val EXTRA_KEY_USERS = "users"
+val EXTRA_MAIN_VIEWPAGER_INDEX = "mainViewPagerIndex"
+val EXTRA_SHOULD_MOVE_TO_SPECIFIC_PAGE = "shouldMoveToSpecificPage"
+
+val PAGE_CHAT = "pageChat"
 
 @SuppressLint("SimpleDateFormat")
 fun SimpleDateFormat.now(): String =

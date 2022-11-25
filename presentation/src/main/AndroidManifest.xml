@@ -66,7 +66,12 @@
         </activity>
         <activity
             android:name="com.kuroutine.kulture.chat.ChatActivity"
+            android:launchMode="singleTask"
             android:exported="true">
+            <intent-filter>
+                <action android:name="CHAT_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <service android:name="com.kuroutine.message.MessageService"

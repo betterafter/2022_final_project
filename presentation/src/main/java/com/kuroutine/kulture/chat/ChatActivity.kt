@@ -1,6 +1,7 @@
 package com.kuroutine.kulture.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -16,21 +17,14 @@ import com.example.kuroutine.databinding.ActivityPrivateChatBinding
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_KEY_USERS
+import com.kuroutine.kulture.EXTRA_MAIN_VIEWPAGER_INDEX
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
+import com.kuroutine.kulture.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_private_chat.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.ProtocolException
-import java.net.URL
 import java.util.*
 
 
@@ -71,10 +65,22 @@ class ChatActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        qid = intent.getStringExtra(EXTRA_QKEY_MOVETOCHAT)
-        uid = intent.getStringExtra(EXTRA_KEY_MOVETOCHAT)
-        users = intent.getStringArrayExtra(EXTRA_KEY_USERS)
-        isPrivate = intent.getBooleanExtra(EXTRA_KEY_ISPRIVATE, false)
+        val bundle = intent.extras
+        qid = bundle?.getString("qid")
+        qid = if (bundle?.getString("qid") != null) bundle.getString("qid") else intent.getStringExtra(
+            EXTRA_QKEY_MOVETOCHAT
+        )
+        uid = if (bundle?.getString("uid") != null) bundle.getString("uid") else intent.getStringExtra(
+            EXTRA_KEY_MOVETOCHAT
+        )
+        users =
+            if (bundle?.getStringArray("users") != null) bundle.getStringArray("users") else intent.getStringArrayExtra(
+                EXTRA_KEY_USERS
+            )
+        isPrivate =
+            if (bundle?.getBoolean("isPrivate") != null) bundle.getBoolean("isPrivate") else intent.getBooleanExtra(
+                EXTRA_KEY_ISPRIVATE, false
+            )
 
         init(qid, uid, isPrivate)
         initAdapter()
@@ -112,6 +118,7 @@ class ChatActivity : AppCompatActivity() {
                             body = message,
                             qid = qid ?: "",
                             uid = uid ?: "",
+                            users = users?.toList() ?: listOf(),
                             userProfile = currUser?.profile ?: "",
                             isPrivate = isPrivate
                         )
@@ -194,5 +201,12 @@ class ChatActivity : AppCompatActivity() {
 
     fun notifyCallback(index: Int) {
         //(binding.rvPrivatechatChatrv.adapter as PrivateChatAdapter).notifyItemChanged(index)
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(EXTRA_MAIN_VIEWPAGER_INDEX, R.id.navigation_chat)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

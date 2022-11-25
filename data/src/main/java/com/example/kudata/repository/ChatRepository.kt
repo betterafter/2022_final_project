@@ -16,6 +16,7 @@ interface ChatRepository {
         body: String,
         qid: String,
         uid: String,
+        users: List<String>,
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponse?

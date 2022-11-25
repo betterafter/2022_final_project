@@ -13,6 +13,9 @@ class LoginUsecaseImpl @Inject constructor(
     private val loginRepository: LoginRepository,
     private val userRepository: UserRepository
 ) : LoginUsecase {
+    override suspend fun checkAutoLoginUSer(): FirebaseUser? {
+        return loginRepository.checkAutoLoginUSer()
+    }
     // google
     override suspend fun getGoogleSignInIntent() : Intent = loginRepository.getGoogleSignInIntent()
 
