@@ -10,4 +10,9 @@ interface ChatDataSource {
     suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit)
     suspend fun sendMessage(message: String, timeStamp: Long)
     suspend fun getRealtimeMessage(updatedMessageCallback: ((Map<String, ChatContent>) -> Unit))
+    suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    )
 }

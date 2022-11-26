@@ -23,4 +23,9 @@ interface ChatUsecase {
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponseModel?
+    suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    )
 }

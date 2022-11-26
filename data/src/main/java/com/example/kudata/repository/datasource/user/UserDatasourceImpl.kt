@@ -83,12 +83,16 @@ class UserDatasourceImpl : UserDatasource {
             }
         }
 
+        val user = getUserInfo(userUid)
+
         _auth.currentUser?.uid?.let { it ->
             val map = mutableMapOf<String, Any>()
             userName?.let { map["userName"] = it }
             userEmail?.let { map["userEmail"] = it }
             userRank?.let { map["userRank"] = it }
-            userXp?.let { map["userXp"] = it }
+            userXp?.let {
+                map["userXp"] = if (user != null) user.userXp + userXp else userXp
+            }
             language?.let { map["language"] = it }
             profile?.let { map["profile"] = profileString }
             questionList?.let { map["questionList"] = questionList }

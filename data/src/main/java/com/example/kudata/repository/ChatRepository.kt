@@ -20,4 +20,10 @@ interface ChatRepository {
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponse?
+
+    suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    )
 }

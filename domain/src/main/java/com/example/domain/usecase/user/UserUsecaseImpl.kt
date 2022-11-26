@@ -53,8 +53,18 @@ class UserUsecaseImpl @Inject constructor(
         )
     }
 
-    suspend fun achieveXp(xp: Int) {
-
+    override suspend fun updateXp(uid: String, xp: Int) {
+        userRepository.updateUserInfo(
+            userUid = uid,
+            userName = null,
+            userEmail = null,
+            userRank = null,
+            userXp = xp,
+            language = null,
+            profile = null,
+            questionList = null,
+            favoriteList = null
+        )
     }
 
     override suspend fun setUserProfileImage(uri: Uri) {

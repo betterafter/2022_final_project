@@ -10,4 +10,5 @@ interface UserUsecase {
     suspend fun getUsers(): List<UserModel>
     suspend fun updateLanguage(lang: String)
     suspend fun setUserProfileImage(uri: Uri)
+    suspend fun updateXp(uid: String, xp: Int)
 }

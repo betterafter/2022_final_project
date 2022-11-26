@@ -3,8 +3,10 @@ package com.example.kudata.repository.datasource.chat
 import android.util.Log
 import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
+import com.example.kudata.entity.DashboardQuestionContent
 import com.example.kudata.utils.CHAT_ROOM_CONTENT_KEY
 import com.example.kudata.utils.CHAT_ROOM_KEY
+import com.example.kudata.utils.DASHBOARD_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +33,7 @@ class ChatDataSourceImpl : ChatDataSource {
                 val room = ChatRoom(
                     qid,
                     private = isPrivate,
+                    end = false,
                     users,
                     mapOf()
                 )
@@ -54,6 +57,27 @@ class ChatDataSourceImpl : ChatDataSource {
         }
     }
 
+    override suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    ) {
+        val r = db.reference.child(CHAT_ROOM_KEY).get().await()
+        r.children.forEach {
+            val q = it.getValue(ChatRoom::class.java)
+            if (q?.qid == qid) {
+                val key = it.key
+                key?.let {
+                    val ref = db.reference.child(DASHBOARD_KEY).child(key)
+                    private?.let { ref.child("private").setValue(private) }
+                    end?.let { ref.child("end").setValue(end) }
+
+                    return
+                }
+            }
+        }
+    }
+
     // 공개 질문 올릴 때 채팅방 바로 생성
     override suspend fun initPublicChatRoom(qid: String, isPrivate: Boolean) {
         firebaseAuth.currentUser?.let {
@@ -61,6 +85,7 @@ class ChatDataSourceImpl : ChatDataSource {
             val room = ChatRoom(
                 qid,
                 private = isPrivate,
+                end = false,
                 users,
                 mapOf()
             )

@@ -14,6 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
+import com.kuroutine.kulture.CommonDialog
+import com.kuroutine.kulture.DetailDialog
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
 import com.kuroutine.kulture.EXTRA_KEY_USERS
@@ -157,6 +159,20 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.ivPrivatechatFinish.setOnClickListener {
+            val dialog = DetailDialog(
+                "채팅을 종료합니다",
+                "답변자가 도움이 되셨나요? (질문자 및 답변자 내공 +10)",
+                {
+                    qid?.let { it1 -> chatViewModel.updateQuestionFinishState(it1, true) }
+                    users?.forEach { uid ->
+                        chatViewModel.updateUserXp(uid, 10)
+                    }
+                }, {}
+            )
+            dialog.show(supportFragmentManager, "")
+        }
     }
 
     private fun initAdapter() {
@@ -179,7 +195,7 @@ class ChatActivity : AppCompatActivity() {
 
         chatViewModel.language.observe(this) {
             chatViewModel.getMessages {
-                Log.d("[keykat]" ,"chats: $it")
+                Log.d("[keykat]", "chats: $it")
                 chatViewModel.chatModelList.value?.let {
                     if (it.isNotEmpty()) {
                         binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)

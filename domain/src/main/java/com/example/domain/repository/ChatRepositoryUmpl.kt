@@ -52,4 +52,12 @@ class ChatRepositoryUmpl @Inject constructor(
     ): FcmResponse? {
         return fcmDatasource.getFcmResult(to, title, body, qid, uid, users, userProfile, isPrivate)
     }
+
+    override suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    ) {
+        chatDataSource.updateChat(qid, private, end)
+    }
 }

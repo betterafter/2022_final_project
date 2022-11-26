@@ -123,6 +123,7 @@ object DtoTranslator {
         return ChatRoomModel(
             qid = chatRoom.qid,
             users = chatRoom.users,
+            end = chatRoom.end,
             isPrivate = chatRoom.private,
             contents = chatRoom.content?.let { chatTranslator(it, null) }
         )

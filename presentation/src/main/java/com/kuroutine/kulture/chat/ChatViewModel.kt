@@ -81,6 +81,18 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun updateQuestionFinishState(qid: String, finish: Boolean) {
+        viewModelScope.launch {
+            chatUsecase.updateChat(qid, null, finish)
+        }
+    }
+
+    fun updateUserXp(uid: String, xp: Int) {
+        viewModelScope.launch {
+            userUsecase.updateXp(uid, xp)
+        }
+    }
+
     fun sendMessage(message: String) {
         viewModelScope.launch {
             chatUsecase.sendMessage(message)

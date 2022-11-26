@@ -64,4 +64,12 @@ class ChatUsecaseImpl @Inject constructor(
         return chatRepository.sendPushMessage(to, title, body, qid, uid, users, userProfile, isPrivate)
             ?.let { DtoTranslator.fcmModelTranslator(it) }
     }
+
+    override suspend fun updateChat(
+        qid: String?,
+        private: Boolean?,
+        end: Boolean?
+    ) {
+        chatRepository.updateChat(qid, private, end)
+    }
 }
