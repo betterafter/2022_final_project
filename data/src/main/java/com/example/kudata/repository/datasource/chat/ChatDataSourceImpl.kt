@@ -104,6 +104,7 @@ class ChatDataSourceImpl : ChatDataSource {
         getChatRoomIdCallback: ((String?) -> Unit)
     ) {
         try {
+            Log.d("[keykat]", "check room::: $qid, $uid2")
             firebaseAuth.currentUser?.let { user ->
                 db.reference.child(CHAT_ROOM_KEY).orderByChild("/qid").equalTo(qid)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -188,7 +189,8 @@ class ChatDataSourceImpl : ChatDataSource {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val map = mutableMapOf<String, ChatContent>()
                         snapshot.children.forEach {
-                            it.getValue(ChatContent::class.java)?.let { content -> map[it.key!!] = content }
+                            it.getValue(ChatContent::class.java)?.let { content -> map[it.key!!] = content
+                            Log.d("[keykat]", "content: $content")}
                         }
 
                         updatedMessageCallback(map)

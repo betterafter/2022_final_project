@@ -19,11 +19,13 @@ class FcmDatasourceImpl: FcmDatasource {
         userProfile: String,
         isPrivate: Boolean
     ): FcmResponse? {
-        Log.d("[keykat]", "title: $title, to: $to, userProfile: $userProfile")
+        var usersString = ""
+        users.forEach { usersString = "$usersString$it," }
+        usersString = usersString.substring(0, usersString.length)
         return NetworkModule.provideFcmService().fcmMessagingService(
             "application/json",
             "key=$FCM_SERVER_KEY",
-            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, userProfile, isPrivate, users))
+            FcmRequest(to, FcmNotification(title, body), FcmData(qid, uid, userProfile, isPrivate.toString(), usersString))
         ).body()
     }
 }

@@ -6,7 +6,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bumptech.glide.Glide
@@ -36,6 +38,7 @@ class MessageService : FirebaseMessagingService() {
         Log.d("[keykat]", "onNewToken:: $token")
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -68,9 +71,8 @@ class MessageService : FirebaseMessagingService() {
             this,
             NOTIFICATION_ID,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-                    or PendingIntent.FLAG_IMMUTABLE
-                    or PendingIntent.FLAG_ONE_SHOT
+            PendingIntent.FLAG_CANCEL_CURRENT
+                    or PendingIntent.FLAG_MUTABLE
         )
 
 

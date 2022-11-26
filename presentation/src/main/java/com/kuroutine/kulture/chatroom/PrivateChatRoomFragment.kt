@@ -80,6 +80,7 @@ class PrivateChatRoomFragment : Fragment() {
 
     private fun moveToChatActivity(qid: String, uid: String, users: Array<String>, isPrivate: Boolean) {
         val intent = Intent(this.context, ChatActivity::class.java)
+        Log.d("[keykat]", "moveToactivity::: $uid, $qid, users: $users, isPrivate: $isPrivate")
         intent.putExtra(EXTRA_KEY_MOVETOCHAT, uid)
         intent.putExtra(EXTRA_QKEY_MOVETOCHAT, qid)
         intent.putExtra(EXTRA_KEY_USERS, users)

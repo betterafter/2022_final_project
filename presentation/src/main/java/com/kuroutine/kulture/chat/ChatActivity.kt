@@ -37,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
     var qid: String? = null
     var uid: String? = null
     var users: Array<String>? = null
-    var isPrivate: Boolean = false
+    var isPrivate: String? = null
 
     private lateinit var tts: TextToSpeech
 
@@ -66,20 +66,24 @@ class ChatActivity : AppCompatActivity() {
         super.onResume()
 
         val bundle = intent.extras
-        qid = bundle?.getString("qid")
+
         qid = if (bundle?.getString("qid") != null) bundle.getString("qid") else intent.getStringExtra(
             EXTRA_QKEY_MOVETOCHAT
         )
         uid = if (bundle?.getString("uid") != null) bundle.getString("uid") else intent.getStringExtra(
             EXTRA_KEY_MOVETOCHAT
         )
-        users =
-            if (bundle?.getStringArray("users") != null) bundle.getStringArray("users") else intent.getStringArrayExtra(
-                EXTRA_KEY_USERS
-            )
+        if (bundle?.getString("users") != null) {
+            val usersString = bundle.getString("users")
+            users = usersString?.split(",")?.toTypedArray()
+        } else {
+            users = intent.getStringArrayExtra(EXTRA_KEY_USERS)
+        }
+
+
         isPrivate =
-            if (bundle?.getBoolean("isPrivate") != null) bundle.getBoolean("isPrivate") else intent.getBooleanExtra(
-                EXTRA_KEY_ISPRIVATE, false
+            if (bundle?.getString("isPrivate") != null) bundle.getString("isPrivate") else intent.getStringExtra(
+                EXTRA_KEY_ISPRIVATE
             )
 
         init(qid, uid, isPrivate)
@@ -88,9 +92,16 @@ class ChatActivity : AppCompatActivity() {
         initObserver()
     }
 
-    private fun init(qid: String?, uid: String?, isPrivate: Boolean) {
+    override fun onDestroy() {
+        super.onDestroy()
+        intent.extras?.clear()
+        this.finish()
+    }
+
+    private fun init(qid: String?, uid: String?, isPrivate: String?) {
         if (qid != null) {
-            chatViewModel.initChatRoom(qid, uid, isPrivate = isPrivate) {
+            val private = isPrivate == "true"
+            chatViewModel.initChatRoom(qid, uid, isPrivate = private) {
                 CoroutineScope(Dispatchers.Main).launch {
                     chatViewModel.getLanguage()
                 }
@@ -120,7 +131,7 @@ class ChatActivity : AppCompatActivity() {
                             uid = uid ?: "",
                             users = users?.toList() ?: listOf(),
                             userProfile = currUser?.profile ?: "",
-                            isPrivate = isPrivate
+                            isPrivate = isPrivate == "true"
                         )
                     }
                 }
@@ -148,6 +159,7 @@ class ChatActivity : AppCompatActivity() {
 
         chatViewModel.language.observe(this) {
             chatViewModel.getMessages {
+                Log.d("[keykat]" ,"chats: $it")
                 chatViewModel.chatModelList.value?.let {
                     if (it.isNotEmpty()) {
                         binding.rvPrivatechatChatrv.smoothScrollToPosition(it.size)
