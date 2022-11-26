@@ -189,8 +189,7 @@ class ChatDataSourceImpl : ChatDataSource {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val map = mutableMapOf<String, ChatContent>()
                         snapshot.children.forEach {
-                            it.getValue(ChatContent::class.java)?.let { content -> map[it.key!!] = content
-                            Log.d("[keykat]", "content: $content")}
+                            it.getValue(ChatContent::class.java)?.let { content -> map[it.key!!] = content }
                         }
 
                         updatedMessageCallback(map)

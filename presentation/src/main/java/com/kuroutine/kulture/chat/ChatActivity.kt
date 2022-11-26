@@ -67,25 +67,45 @@ class ChatActivity : AppCompatActivity() {
 
         val bundle = intent.extras
 
+//        Log.d("[keykat]", "qid1::: ${bundle?.getString("qid")}")
+//        Log.d("[keykat]", "qid2::: ${intent.getStringExtra(
+//            EXTRA_QKEY_MOVETOCHAT
+//        )}")
+//
+//        Log.d("[keykat]", "uid1::: ${bundle?.getString("uid")}")
+//        Log.d("[keykat]", "uid2::: ${intent.getStringExtra(
+//            EXTRA_KEY_MOVETOCHAT
+//        )}")
+//
+//        Log.d("[keykat]", "isPrivate1::: ${bundle?.getString("isPrivate")}")
+//        Log.d("[keykat]", "isPrivate2::: ${intent.getBooleanExtra(
+//            EXTRA_KEY_ISPRIVATE
+//        , true)}")
+//
+//        Log.d("[keykat]", "users1::: ${bundle?.getString("users")}")
+//        Log.d("[keykat]", "users2::: ${intent.getStringArrayExtra(
+//            EXTRA_KEY_USERS
+//        )}")
+
         qid = if (bundle?.getString("qid") != null) bundle.getString("qid") else intent.getStringExtra(
             EXTRA_QKEY_MOVETOCHAT
         )
         uid = if (bundle?.getString("uid") != null) bundle.getString("uid") else intent.getStringExtra(
             EXTRA_KEY_MOVETOCHAT
         )
-        if (bundle?.getString("users") != null) {
+        users = if (bundle?.getString("users") != null) {
             val usersString = bundle.getString("users")
-            users = usersString?.split(",")?.toTypedArray()
+            usersString?.split(",")?.toTypedArray()
         } else {
-            users = intent.getStringArrayExtra(EXTRA_KEY_USERS)
+            intent.getStringArrayExtra(EXTRA_KEY_USERS)
         }
 
-
         isPrivate =
-            if (bundle?.getString("isPrivate") != null) bundle.getString("isPrivate") else intent.getStringExtra(
-                EXTRA_KEY_ISPRIVATE
-            )
+            if (bundle?.getString("isPrivate") != null) bundle.getString("isPrivate") else intent.getBooleanExtra(
+                EXTRA_KEY_ISPRIVATE, true
+            ).toString()
 
+        // Log.d("[keykat]", "qid: $qid, uid: $uid, users: $users, isprivate: $isPrivate")
         init(qid, uid, isPrivate)
         initAdapter()
         initListener()
