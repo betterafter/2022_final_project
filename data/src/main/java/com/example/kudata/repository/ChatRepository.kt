@@ -5,7 +5,7 @@ import com.example.kudata.entity.ChatRoom
 import com.example.kudata.entity.FcmResponse
 
 interface ChatRepository {
-    suspend fun initRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit))
+    suspend fun initRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: ((ChatRoom?) -> Unit))
     suspend fun enterRoom(qid: String, getChatRoomIdCallback: ((String?) -> Unit))
     suspend fun getChatRooms(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit)
     suspend fun sendMessage(message: String, timeStamp: Long)

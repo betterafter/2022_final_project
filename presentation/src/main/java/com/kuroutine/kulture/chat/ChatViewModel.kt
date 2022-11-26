@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.dto.ChatModel
+import com.example.domain.dto.ChatRoomModel
 import com.example.domain.dto.DashboardQuestionModel
 import com.example.domain.dto.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
@@ -49,10 +50,10 @@ class ChatViewModel @Inject constructor(
     }
 
     // 방에 맨 처음 입장할 때 실행.
-    fun initChatRoom(qid: String, compUid: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+    fun initChatRoom(qid: String, compUid: String?, isPrivate: Boolean, initialCallback: ((ChatRoomModel?) -> Unit)) {
         viewModelScope.launch {
             chatUsecase.initRoom(qid, compUid, isPrivate) {
-                initialCallback()
+                initialCallback(it)
             }
         }
     }

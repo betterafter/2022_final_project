@@ -119,13 +119,13 @@ object DtoTranslator {
         return list
     }
 
-    private fun chatRoomTranslator(chatRoom: ChatRoom): ChatRoomModel {
+    fun chatRoomTranslator(chatRoom: ChatRoom?): ChatRoomModel {
         return ChatRoomModel(
-            qid = chatRoom.qid,
-            users = chatRoom.users,
-            end = chatRoom.end,
-            isPrivate = chatRoom.private,
-            contents = chatRoom.content?.let { chatTranslator(it, null) }
+            qid = chatRoom?.qid ?: "",
+            users = chatRoom?.users,
+            end = chatRoom?.end ?: false,
+            isPrivate = chatRoom?.private ?: true,
+            contents = chatRoom?.content?.let { chatTranslator(it, null) }
         )
     }
 

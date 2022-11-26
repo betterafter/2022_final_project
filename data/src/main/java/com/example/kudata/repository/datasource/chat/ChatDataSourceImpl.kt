@@ -24,7 +24,12 @@ class ChatDataSourceImpl : ChatDataSource {
 
     var roomId: String? = null
 
-    override suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit)) {
+    override suspend fun initChatRoom(
+        qid: String,
+        uid2: String?,
+        isPrivate: Boolean,
+        initialCallback: ((ChatRoom?) -> Unit)
+    ) {
         roomId = null
         if (isPrivate) {
             firebaseAuth.currentUser?.let {
@@ -44,15 +49,20 @@ class ChatDataSourceImpl : ChatDataSource {
                             db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
                         }
 
+                        val chatRoom = db.reference.child(CHAT_ROOM_KEY).child(roomId!!)
+                            .get().await()
+
                         checkIfExistPersonalChatRoom(qid, uid2) {
-                            initialCallback()
+                            initialCallback(chatRoom.getValue(ChatRoom::class.java))
                         }
                     }
                 }
             }
         } else {
             enterPublicRoom(qid) {
-                initialCallback()
+                val chatRoom =
+                    db.reference.child(CHAT_ROOM_KEY).child(roomId!!).get().result.getValue(ChatRoom::class.java)
+                initialCallback(chatRoom)
             }
         }
     }
@@ -65,10 +75,12 @@ class ChatDataSourceImpl : ChatDataSource {
         val r = db.reference.child(CHAT_ROOM_KEY).get().await()
         r.children.forEach {
             val q = it.getValue(ChatRoom::class.java)
+            Log.d("[keykat]", "qid: ${q?.qid}, qid::: $qid end: $end")
             if (q?.qid == qid) {
+                Log.d("[keykat]", "key: ${it.key}")
                 val key = it.key
                 key?.let {
-                    val ref = db.reference.child(DASHBOARD_KEY).child(key)
+                    val ref = db.reference.child(CHAT_ROOM_KEY).child(key)
                     private?.let { ref.child("private").setValue(private) }
                     end?.let { ref.child("end").setValue(end) }
 

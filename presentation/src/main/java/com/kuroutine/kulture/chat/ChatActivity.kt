@@ -123,7 +123,16 @@ class ChatActivity : AppCompatActivity() {
     private fun init(qid: String?, uid: String?, isPrivate: String?) {
         if (qid != null) {
             val private = isPrivate == "true"
-            chatViewModel.initChatRoom(qid, uid, isPrivate = private) {
+            chatViewModel.initChatRoom(qid, uid, isPrivate = private) { room ->
+                room?.let {
+                    if (it.end) {
+                        binding.etPrivatechatMessagebox.setText("종료된 대화방입니다.")
+                        binding.etPrivatechatMessagebox.isEnabled = false
+                    } else {
+                        binding.etPrivatechatMessagebox.isEnabled = true
+                    }
+                }
+
                 CoroutineScope(Dispatchers.Main).launch {
                     chatViewModel.getLanguage()
                 }
@@ -169,7 +178,8 @@ class ChatActivity : AppCompatActivity() {
                     users?.forEach { uid ->
                         chatViewModel.updateUserXp(uid, 10)
                     }
-                }, {}
+                    this.finish()
+                }, { }
             )
             dialog.show(supportFragmentManager, "")
         }

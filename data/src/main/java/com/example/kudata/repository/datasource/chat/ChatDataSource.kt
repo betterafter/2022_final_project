@@ -4,7 +4,7 @@ import com.example.kudata.entity.ChatContent
 import com.example.kudata.entity.ChatRoom
 
 interface ChatDataSource {
-    suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: (() -> Unit))
+    suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: ((ChatRoom?) -> Unit))
     suspend fun initPublicChatRoom(qid: String, isPrivate: Boolean)
     suspend fun enterPublicRoom(qid: String, callback: () -> Unit)
     suspend fun getUserChatRoomsAsync(callback: (List<ChatRoom>, List<ChatRoom>) -> Unit)

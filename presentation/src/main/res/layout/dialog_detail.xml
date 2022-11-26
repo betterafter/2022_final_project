@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_radius_5"
             android:backgroundTint="@color/white"
@@ -61,7 +61,7 @@
 
             <Button
                 android:id="@+id/btn_confirm"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:onClick="shutDownClick"
@@ -76,7 +76,7 @@
 
             <Button
                 android:id="@+id/btn_dismiss"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:onClick="shutDownClick"
