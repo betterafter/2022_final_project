@@ -30,9 +30,9 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateQuestionState(questionState: String) {
+    fun updateQuestionState(qid: String, questionState: String) {
         viewModelScope.launch {
-            dashboardUsecase.updateQuestionState(questionState)
+            dashboardUsecase.updateQuestionState(qid, questionState)
         }
     }
 

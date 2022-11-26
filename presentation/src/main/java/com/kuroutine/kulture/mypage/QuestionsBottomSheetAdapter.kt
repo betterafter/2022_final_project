@@ -52,11 +52,11 @@ class QuestionsBottomSheetAdapter(
                     .setTitle("질문상태를 선택하세요")
                     .setNegativeButton("질문 중") { dialog, which ->
                         binding.tvHomeStateLabel.text = "질문 중" //질문상태 변경
-                        viewModel.updateQuestionState("질문 중")
+                        viewModel.updateQuestionState(data.id, "질문 중")
                     }
                     .setPositiveButton("질문 완료") { dialog, which ->
                         binding.tvHomeStateLabel.text = "질문 완료" //질문상태 변경
-                        viewModel.updateQuestionState("질문 완료")
+                        viewModel.updateQuestionState(data.id, "질문 완료")
                     }
                     .create()
                     .show()
