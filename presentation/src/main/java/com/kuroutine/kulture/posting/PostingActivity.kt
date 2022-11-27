@@ -40,6 +40,7 @@ class PostingActivity : AppCompatActivity() {
     lateinit var toggleButtonGroup: MaterialButtonToggleGroup
     lateinit var locationButton: ImageView
     lateinit var locationTextView: EditText
+    lateinit var backButton: ImageView
 
     private lateinit var bottomSheetDialog: com.kuroutine.kulture.posting.BottomSheet
 
@@ -59,6 +60,7 @@ class PostingActivity : AppCompatActivity() {
         toggleButtonGroup = findViewById(R.id.tbg_posting_post_type)
         locationButton = findViewById(R.id.ib_posting_location)
         locationTextView = findViewById(R.id.tv_posting_location)
+        backButton = findViewById(R.id.iv_posting_back)
 
         postingViewModel.imageList.value?.let {
             adapter = MultiImgAdapter(it, this)
@@ -109,6 +111,10 @@ class PostingActivity : AppCompatActivity() {
                     this.finish()
                 }
             }
+        }
+
+        backButton.setOnClickListener {
+            onBackPressed()
         }
 
         locationButton.setOnClickListener {

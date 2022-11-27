@@ -169,6 +169,10 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+        binding.ivPrivatechatBack.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.ivPrivatechatFinish.setOnClickListener {
             val dialog = DetailDialog(
                 "채팅을 종료합니다",
