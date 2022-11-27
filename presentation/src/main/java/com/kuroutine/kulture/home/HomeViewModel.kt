@@ -1,5 +1,6 @@
 package com.kuroutine.kulture.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -102,11 +103,11 @@ class HomeViewModel @Inject constructor(
                                         val processingList = mutableListOf<DashboardQuestionModel>()
 
                                         list2.forEach { item ->
-                                            if (model.questionState == "질문 중") {
-                                                processingList.add(item.copy(translatedTitle = item.translatedTitle))
+                                            if (item.questionState == "질문 중") {
+                                                processingList.add(item.copy(translatedTitle = model.translatedTitle))
                                                 _publicProcessingQuestionList.value = processingList
-                                            } else if (model.questionState == "질문 완료") {
-                                                doneList.add(item.copy(translatedTitle = item.translatedTitle))
+                                            } else if (item.questionState == "질문 완료") {
+                                                doneList.add(item.copy(translatedTitle = model.translatedTitle))
                                                 _publicDoneQuestionList.value = doneList
                                             }
                                         }
@@ -117,11 +118,11 @@ class HomeViewModel @Inject constructor(
                                     val processingList = mutableListOf<DashboardQuestionModel>()
 
                                     list2.forEach { item ->
-                                        if (model.questionState == "질문 중") {
-                                            processingList.add(item.copy(translatedTitle = item.translatedTitle))
+                                        if (item.questionState == "질문 중") {
+                                            processingList.add(item.copy(translatedTitle = model.translatedTitle))
                                             _publicProcessingQuestionList.value = processingList
-                                        } else if (model.questionState == "질문 완료") {
-                                            doneList.add(item.copy(translatedTitle = item.translatedTitle))
+                                        } else if (item.questionState == "질문 완료") {
+                                            doneList.add(item.copy(translatedTitle = model.translatedTitle))
                                             _publicDoneQuestionList.value = doneList
                                         }
                                     }
