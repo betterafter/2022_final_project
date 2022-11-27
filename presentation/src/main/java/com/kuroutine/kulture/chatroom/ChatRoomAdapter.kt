@@ -31,6 +31,19 @@ class ChatRoomAdapter(
             val activity =
                 (binding.root.context as ViewComponentManager.FragmentContextWrapper).baseContext as Activity
 
+            // 채팅방 상단 정보 디자인
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.getQuestion(data.qid) { question ->
+                    if (!activity.isFinishing && !activity.isDestroyed)
+                        Glide.with(binding.root.context)
+                            .load(question.imageList?.first())
+                            .transform(RoundedCorners(15))
+                            .into(binding.ivChatroomQuestionImage)
+
+                    binding.tvChatroomQuestionTitle.text = question.translatedTitle
+                }
+            }
+
             // 채팅방 대화창 및 프로필 디자인
             data.contents?.last()?.let { model ->
                 binding.tvItemChatroomContent.text = model.message
@@ -69,19 +82,6 @@ class ChatRoomAdapter(
                         callback(data.qid, it.key, array.toTypedArray(), data.isPrivate)
                         return@setOnClickListener
                     }
-                }
-            }
-
-            // 채팅방 상단 정보 디자인
-            CoroutineScope(Dispatchers.Main).launch {
-                viewModel.getQuestion(data.qid) { question ->
-                    if (!activity.isFinishing && !activity.isDestroyed)
-                        Glide.with(binding.root.context)
-                            .load(question.imageList?.first())
-                            .transform(RoundedCorners(15))
-                            .into(binding.ivChatroomQuestionImage)
-
-                    binding.tvChatroomQuestionTitle.text = question.translatedTitle
                 }
             }
         }

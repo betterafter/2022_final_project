@@ -49,11 +49,16 @@ class ChatDataSourceImpl : ChatDataSource {
                             db.reference.child(CHAT_ROOM_KEY).push().setValue(room).await()
                         }
 
-                        val chatRoom = db.reference.child(CHAT_ROOM_KEY).child(roomId!!)
-                            .get().await()
+                        roomId?.let {
+
+                        }
+                        val chatRoom = if (roomId != null) {
+                            db.reference.child(CHAT_ROOM_KEY).child(roomId!!)
+                                .get().await().getValue(ChatRoom::class.java)
+                        } else null
 
                         checkIfExistPersonalChatRoom(qid, uid2) {
-                            initialCallback(chatRoom.getValue(ChatRoom::class.java))
+                            initialCallback(chatRoom)
                         }
                     }
                 }
@@ -61,8 +66,11 @@ class ChatDataSourceImpl : ChatDataSource {
         } else {
             enterPublicRoom(qid) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val chatRoom =
-                        db.reference.child(CHAT_ROOM_KEY).child(roomId!!).get().await().getValue(ChatRoom::class.java)
+                    val chatRoom = if (roomId != null) {
+                        db.reference.child(CHAT_ROOM_KEY).child(roomId!!)
+                            .get().await().getValue(ChatRoom::class.java)
+                    } else null
+
                     initialCallback(chatRoom)
                 }
             }

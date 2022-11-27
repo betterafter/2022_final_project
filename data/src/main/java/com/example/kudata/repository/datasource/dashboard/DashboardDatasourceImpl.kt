@@ -115,6 +115,7 @@ class DashboardDatasourceImpl : DashboardDatasource {
         ref.children.forEach {
             val q = it.getValue(DashboardQuestionContent::class.java)
             if (q?.id == uid) {
+                Log.d("[keykat]" ," qid: ${q?.id}, uid:: $uid")
                 return it.getValue(DashboardQuestionContent::class.java)
             }
         }
