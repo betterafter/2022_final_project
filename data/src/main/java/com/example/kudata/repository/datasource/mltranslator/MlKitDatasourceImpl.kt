@@ -82,31 +82,31 @@ class MlKitDatasourceImpl : MlKitDatasource {
             .build()
         val translator = Translation.getClient(options)
 
-//        translator.translate(text)
-//            .addOnSuccessListener { translatedText ->
-//                // Translation successful.
-//                callback(translatedText)
-//            }
-//            .addOnFailureListener { exception ->
-//                callback(text)
-//            }
-
-        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
-            .addOnSuccessListener {
-                translator.translate(text)
-                    .addOnSuccessListener { translatedText ->
-                        // Translation successful.
-                        callback(translatedText)
-                        // Log.d("[keykat]", "text: $text -> translateText: $translatedText")
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d("[keykat]", "exception: $exception")
-                        callback(text)
-                    }
+        translator.translate(text)
+            .addOnSuccessListener { translatedText ->
+                // Translation successful.
+                callback(translatedText)
             }
             .addOnFailureListener { exception ->
-                Log.d("[keykat]", "exception: $exception")
                 callback(text)
             }
+
+//        translator.downloadModelIfNeeded(DownloadConditions.Builder().build())
+//            .addOnSuccessListener {
+//                translator.translate(text)
+//                    .addOnSuccessListener { translatedText ->
+//                        // Translation successful.
+//                        callback(translatedText)
+//                        // Log.d("[keykat]", "text: $text -> translateText: $translatedText")
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        Log.d("[keykat]", "exception: $exception")
+//                        callback(text)
+//                    }
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.d("[keykat]", "exception: $exception")
+//                callback(text)
+//            }
     }
 }
