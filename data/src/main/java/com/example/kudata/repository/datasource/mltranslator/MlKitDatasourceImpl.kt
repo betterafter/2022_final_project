@@ -56,7 +56,7 @@ class MlKitDatasourceImpl : MlKitDatasource {
                     translator.downloadModelIfNeeded(conditions)
                         .addOnSuccessListener {
                             downloadedCount += 1
-                            // Log.d("[keykat]", "$downloadedCount")
+                            Log.d("[keykat]", "$downloadedCount")
                         }
                         .addOnFailureListener { exception ->
                             Log.d("[keykat]", "download failed: $lang")
