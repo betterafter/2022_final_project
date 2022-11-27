@@ -124,12 +124,14 @@ class ChatActivity : AppCompatActivity() {
         if (qid != null) {
             val private = isPrivate == "true"
             chatViewModel.initChatRoom(qid, uid, isPrivate = private) { room ->
-                room?.let {
-                    if (it.end) {
-                        binding.etPrivatechatMessagebox.setText("종료된 대화방입니다.")
-                        binding.etPrivatechatMessagebox.isEnabled = false
-                    } else {
-                        binding.etPrivatechatMessagebox.isEnabled = true
+                CoroutineScope(Dispatchers.Main).launch {
+                    room?.let {
+                        if (it.end) {
+                            binding.etPrivatechatMessagebox.setText("종료된 대화방입니다.")
+                            binding.etPrivatechatMessagebox.isEnabled = false
+                        } else {
+                            binding.etPrivatechatMessagebox.isEnabled = true
+                        }
                     }
                 }
 
