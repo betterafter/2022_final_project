@@ -53,6 +53,12 @@ class HomeViewModel @Inject constructor(
     }
     val searchedQuestionList: LiveData<List<DashboardQuestionModel>?> = _searchedQuestionList
 
+    private val _publicQuestionState = MutableLiveData<String>().apply {
+        value = "질문 중"
+    }
+    val publicQuestionState: LiveData<String?> = _publicQuestionState
+
+
     private val _searchedPublicQuestionList = MutableLiveData<List<DashboardQuestionModel>?>().apply {
         value = null
     }
@@ -62,6 +68,25 @@ class HomeViewModel @Inject constructor(
         value = null
     }
     val currentUser: LiveData<UserModel?> = _currentUser
+
+    fun setPublicQuestionState(state: String) {
+        _publicQuestionState.value = state
+    }
+
+    fun setReversedPublicDoneList() {
+        val list = _publicDoneQuestionList.value
+        _publicDoneQuestionList.value = list?.reversed()
+    }
+
+    fun setReversedPublicProcessingList() {
+        val list = _publicProcessingQuestionList.value
+        _publicProcessingQuestionList.value = list?.reversed()
+    }
+
+    fun setReversedPrivateList() {
+        val list = _questionList.value
+        _questionList.value = list?.reversed()
+    }
 
     // 사용자에 맞는 언어로 실시간 변환
     suspend fun getQuestions() {
@@ -104,10 +129,10 @@ class HomeViewModel @Inject constructor(
 
                                         list2.forEach { item ->
                                             if (item.questionState == "질문 중") {
-                                                processingList.add(item.copy(translatedTitle = model.translatedTitle))
+                                                processingList.add(item.copy(translatedTitle = item.translatedTitle))
                                                 _publicProcessingQuestionList.value = processingList
                                             } else if (item.questionState == "질문 완료") {
-                                                doneList.add(item.copy(translatedTitle = model.translatedTitle))
+                                                doneList.add(item.copy(translatedTitle = item.translatedTitle))
                                                 _publicDoneQuestionList.value = doneList
                                             }
                                         }
@@ -119,10 +144,10 @@ class HomeViewModel @Inject constructor(
 
                                     list2.forEach { item ->
                                         if (item.questionState == "질문 중") {
-                                            processingList.add(item.copy(translatedTitle = model.translatedTitle))
+                                            processingList.add(item.copy(translatedTitle = item.translatedTitle))
                                             _publicProcessingQuestionList.value = processingList
                                         } else if (item.questionState == "질문 완료") {
-                                            doneList.add(item.copy(translatedTitle = model.translatedTitle))
+                                            doneList.add(item.copy(translatedTitle = item.translatedTitle))
                                             _publicDoneQuestionList.value = doneList
                                         }
                                     }
