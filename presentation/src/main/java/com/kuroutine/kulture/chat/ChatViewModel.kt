@@ -1,15 +1,14 @@
 package com.kuroutine.kulture.chat
 
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.dto.ChatModel
-import com.example.domain.dto.ChatRoomModel
-import com.example.domain.dto.DashboardQuestionModel
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.ChatModel
+import com.example.domain.entity.ChatRoomModel
+import com.example.domain.entity.DashboardQuestionModel
+import com.example.domain.entity.UserModel
 import com.example.domain.usecase.chat.ChatUsecase
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.TranslateUsecase

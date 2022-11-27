@@ -1,4 +1,4 @@
-package com.example.kudata.entity
+package com.example.kudata.dto
 
 data class ChatContent(
     val uid: String = "",

@@ -1,4 +1,4 @@
-package com.example.domain.dto
+package com.example.domain.entity
 
 data class FcmResponseModel(
     var multicastId: String?,

@@ -1,12 +1,10 @@
 package com.example.kudata.repository.datasource.chat
 
 import android.util.Log
-import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.ChatRoom
-import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.dto.ChatContent
+import com.example.kudata.dto.ChatRoom
 import com.example.kudata.utils.CHAT_ROOM_CONTENT_KEY
 import com.example.kudata.utils.CHAT_ROOM_KEY
-import com.example.kudata.utils.DASHBOARD_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -1,7 +1,7 @@
 package com.example.domain.usecase.user
 
 import android.net.Uri
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.UserModel
 
 interface UserUsecase {
     suspend fun initUser()

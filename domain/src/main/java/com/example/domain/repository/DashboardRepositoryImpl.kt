@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
 import android.net.Uri
-import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.dto.DashboardQuestionContent
 import com.example.kudata.repository.DashboardRepository
 import com.example.kudata.repository.datasource.dashboard.DashboardDatasource
 import javax.inject.Inject

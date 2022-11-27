@@ -1,4 +1,4 @@
-package com.example.kudata.entity
+package com.example.kudata.dto
 
 import com.google.gson.annotations.SerializedName
 

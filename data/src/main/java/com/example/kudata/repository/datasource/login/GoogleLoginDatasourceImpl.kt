@@ -1,11 +1,9 @@
 package com.example.kudata.repository.datasource.login
 
-import android.R.attr.data
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.example.kudata.R
-import com.example.kudata.entity.FirebaseExecutor
+import com.example.kudata.dto.FirebaseExecutor
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

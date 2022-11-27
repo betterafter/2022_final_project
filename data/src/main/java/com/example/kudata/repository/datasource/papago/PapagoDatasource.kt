@@ -1,6 +1,6 @@
 package com.example.kudata.repository.datasource.papago
 
-import com.example.kudata.entity.TranslateResult
+import com.example.kudata.dto.TranslateResult
 
 interface PapagoDatasource {
     suspend fun getPapagoTranslateResult(text: String, source: String, target: String): TranslateResult?

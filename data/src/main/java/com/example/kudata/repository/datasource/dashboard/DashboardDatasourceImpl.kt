@@ -1,15 +1,9 @@
 package com.example.kudata.repository.datasource.dashboard
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.net.Uri
 import android.util.Log
-import android.widget.EditText
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.DashboardAnswerContent
-import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.dto.DashboardQuestionContent
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.repository.datasource.user.UserDatasourceImpl
 import com.example.kudata.utils.DASHBOARD_KEY
@@ -20,14 +14,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*

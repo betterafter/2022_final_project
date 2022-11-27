@@ -18,9 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.domain.dto.DashboardQuestionModel
-import com.example.domain.dto.LanguageModel
-import com.example.domain.dto.QuestionModel
+import com.example.domain.entity.DashboardQuestionModel
+import com.example.domain.entity.LanguageModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.FragmentMypageBinding
 import com.kuroutine.kulture.PICK_IMG_FROM_ALBUM

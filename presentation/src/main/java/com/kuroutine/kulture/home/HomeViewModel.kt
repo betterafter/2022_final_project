@@ -1,19 +1,16 @@
 package com.kuroutine.kulture.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.dto.DashboardQuestionModel
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.DashboardQuestionModel
+import com.example.domain.entity.UserModel
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.papago.TranslateUsecase
 import com.example.domain.usecase.user.UserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 

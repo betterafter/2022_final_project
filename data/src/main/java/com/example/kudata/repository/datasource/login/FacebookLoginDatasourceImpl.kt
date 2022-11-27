@@ -2,7 +2,7 @@ package com.example.kudata.repository.datasource.login
 
 import android.content.Intent
 import android.util.Log
-import com.example.kudata.entity.FirebaseExecutor
+import com.example.kudata.dto.FirebaseExecutor
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback

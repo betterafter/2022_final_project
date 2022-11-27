@@ -1,7 +1,7 @@
 package com.example.kudata.repository.datasource.dashboard
 
 import android.net.Uri
-import com.example.kudata.entity.DashboardQuestionContent
+import com.example.kudata.dto.DashboardQuestionContent
 
 interface DashboardDatasource {
     suspend fun postQuestion(

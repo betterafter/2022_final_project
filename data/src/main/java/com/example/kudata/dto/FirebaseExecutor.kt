@@ -1,4 +1,4 @@
-package com.example.kudata.entity
+package com.example.kudata.dto
 
 import android.os.Handler
 import android.os.Looper

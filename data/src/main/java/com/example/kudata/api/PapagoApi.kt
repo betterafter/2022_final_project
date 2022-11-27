@@ -1,9 +1,9 @@
 package com.example.kudata.api
 
-import com.example.kudata.entity.PapagoLangRequest
-import com.example.kudata.entity.PapagoLangResponse
-import com.example.kudata.entity.PapagoRequest
-import com.example.kudata.entity.PapagoResponse
+import com.example.kudata.dto.PapagoLangRequest
+import com.example.kudata.dto.PapagoLangResponse
+import com.example.kudata.dto.PapagoRequest
+import com.example.kudata.dto.PapagoResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header

@@ -1,8 +1,8 @@
 package com.example.kudata.repository
 
-import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.ChatRoom
-import com.example.kudata.entity.FcmResponse
+import com.example.kudata.dto.ChatContent
+import com.example.kudata.dto.ChatRoom
+import com.example.kudata.dto.FcmResponse
 
 interface ChatRepository {
     suspend fun initRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: ((ChatRoom?) -> Unit))

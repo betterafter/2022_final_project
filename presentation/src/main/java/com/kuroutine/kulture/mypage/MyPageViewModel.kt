@@ -1,13 +1,12 @@
 package com.kuroutine.kulture.mypage
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.dto.LanguageModel
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.LanguageModel
+import com.example.domain.entity.UserModel
 import com.example.domain.usecase.dashboard.DashboardUsecase
 import com.example.domain.usecase.user.UserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel

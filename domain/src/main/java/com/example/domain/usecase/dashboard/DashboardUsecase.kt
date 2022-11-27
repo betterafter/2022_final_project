@@ -1,8 +1,8 @@
 package com.example.domain.usecase.dashboard
 
 import android.net.Uri
-import com.example.domain.dto.DashboardQuestionModel
-import com.example.kudata.entity.DashboardQuestionContent
+import com.example.domain.entity.DashboardQuestionModel
+import com.example.kudata.dto.DashboardQuestionContent
 
 interface DashboardUsecase {
     suspend fun postQuestion(

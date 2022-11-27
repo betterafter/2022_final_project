@@ -1,13 +1,9 @@
 package com.example.domain.repository
 
 import android.net.Uri
-import com.example.kudata.entity.User
+import com.example.kudata.dto.User
 import com.example.kudata.repository.UserRepository
 import com.example.kudata.repository.datasource.user.UserDatasource
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(

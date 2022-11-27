@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
-import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.ChatRoom
-import com.example.kudata.entity.FcmResponse
+import com.example.kudata.dto.ChatContent
+import com.example.kudata.dto.ChatRoom
+import com.example.kudata.dto.FcmResponse
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.datasource.chat.ChatDataSource
 import com.example.kudata.repository.datasource.fcm.FcmDatasource

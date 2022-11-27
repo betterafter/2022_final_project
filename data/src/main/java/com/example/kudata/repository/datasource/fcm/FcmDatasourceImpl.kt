@@ -1,11 +1,10 @@
 package com.example.kudata.repository.datasource.fcm
 
-import android.util.Log
 import com.example.kudata.api.NetworkModule
-import com.example.kudata.entity.FcmData
-import com.example.kudata.entity.FcmNotification
-import com.example.kudata.entity.FcmRequest
-import com.example.kudata.entity.FcmResponse
+import com.example.kudata.dto.FcmData
+import com.example.kudata.dto.FcmNotification
+import com.example.kudata.dto.FcmRequest
+import com.example.kudata.dto.FcmResponse
 import com.example.kudata.utils.FCM_SERVER_KEY
 
 class FcmDatasourceImpl: FcmDatasource {

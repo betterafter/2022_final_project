@@ -1,7 +1,7 @@
 package com.example.kudata.repository.datasource.user
 
 import android.net.Uri
-import com.example.kudata.entity.User
+import com.example.kudata.dto.User
 
 interface UserDatasource {
     suspend fun initUserInfo()

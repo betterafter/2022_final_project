@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.kudata.entity.TranslateResult
+import com.example.kudata.dto.TranslateResult
 import com.example.kudata.repository.PapagoRepository
 import com.example.kudata.repository.datasource.papago.PapagoDatasource
 import javax.inject.Inject

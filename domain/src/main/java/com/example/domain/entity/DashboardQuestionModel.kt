@@ -1,6 +1,6 @@
-package com.example.domain.dto
+package com.example.domain.entity
 
-import com.example.kudata.entity.DashboardAnswerContent
+import com.example.kudata.dto.DashboardAnswerContent
 
 data class DashboardQuestionModel(
     val id: String = "",

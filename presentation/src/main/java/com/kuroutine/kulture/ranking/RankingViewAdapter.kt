@@ -7,10 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
-import com.example.domain.dto.ChatModel
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.UserModel
 import com.example.kuroutine.R
-import com.kuroutine.kulture.chat.PrivateChatAdapter
 
 class RankingViewAdapter: RecyclerView.Adapter<RankingViewAdapter.ViewHolder>() {
 

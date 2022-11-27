@@ -1,6 +1,6 @@
 package com.example.kudata.repository.datasource.fcm
 
-import com.example.kudata.entity.FcmResponse
+import com.example.kudata.dto.FcmResponse
 
 interface FcmDatasource {
     suspend fun getFcmResult(

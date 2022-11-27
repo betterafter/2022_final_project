@@ -1,18 +1,14 @@
 package com.kuroutine.kulture.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
-import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.entity.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ItemHomeBinding
 import com.kuroutine.kulture.CommonDialog

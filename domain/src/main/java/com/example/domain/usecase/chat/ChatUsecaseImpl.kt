@@ -3,15 +3,12 @@ package com.example.domain.usecase.chat
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.domain.DtoTranslator
-import com.example.domain.dto.ChatModel
-import com.example.domain.dto.ChatRoomModel
-import com.example.domain.dto.FcmResponseModel
-import com.example.kudata.entity.FcmResponse
+import com.example.domain.entity.ChatModel
+import com.example.domain.entity.ChatRoomModel
+import com.example.domain.entity.FcmResponseModel
 import com.example.kudata.repository.ChatRepository
 import com.example.kudata.repository.LoginRepository
 import com.google.firebase.auth.FirebaseUser
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class ChatUsecaseImpl @Inject constructor(

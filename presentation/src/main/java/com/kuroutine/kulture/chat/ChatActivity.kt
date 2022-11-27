@@ -11,10 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.domain.dto.DashboardQuestionModel
+import com.example.domain.entity.DashboardQuestionModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.ActivityPrivateChatBinding
-import com.kuroutine.kulture.CommonDialog
 import com.kuroutine.kulture.DetailDialog
 import com.kuroutine.kulture.EXTRA_KEY_ISPRIVATE
 import com.kuroutine.kulture.EXTRA_KEY_MOVETOCHAT
@@ -23,7 +22,6 @@ import com.kuroutine.kulture.EXTRA_MAIN_VIEWPAGER_INDEX
 import com.kuroutine.kulture.EXTRA_QKEY_MOVETOCHAT
 import com.kuroutine.kulture.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_private_chat.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

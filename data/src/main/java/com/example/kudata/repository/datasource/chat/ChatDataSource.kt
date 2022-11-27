@@ -1,7 +1,7 @@
 package com.example.kudata.repository.datasource.chat
 
-import com.example.kudata.entity.ChatContent
-import com.example.kudata.entity.ChatRoom
+import com.example.kudata.dto.ChatContent
+import com.example.kudata.dto.ChatRoom
 
 interface ChatDataSource {
     suspend fun initChatRoom(qid: String, uid2: String?, isPrivate: Boolean, initialCallback: ((ChatRoom?) -> Unit))

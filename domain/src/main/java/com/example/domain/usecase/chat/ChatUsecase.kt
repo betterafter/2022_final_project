@@ -1,9 +1,8 @@
 package com.example.domain.usecase.chat
 
-import com.example.domain.dto.ChatModel
-import com.example.domain.dto.ChatRoomModel
-import com.example.domain.dto.FcmResponseModel
-import com.example.kudata.entity.FcmResponse
+import com.example.domain.entity.ChatModel
+import com.example.domain.entity.ChatRoomModel
+import com.example.domain.entity.FcmResponseModel
 import com.google.firebase.auth.FirebaseUser
 
 interface ChatUsecase {

@@ -1,4 +1,4 @@
-package com.example.domain.dto
+package com.example.domain.entity
 
 import android.net.Uri
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.dto.LanguageModel
 import com.example.kuroutine.R
 import com.example.kuroutine.databinding.LayoutBottomsheetLanguageBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

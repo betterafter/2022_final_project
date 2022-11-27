@@ -3,8 +3,7 @@ package com.example.kudata.repository.datasource.user
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.util.Log
-import com.example.kudata.entity.DashboardQuestionContent
-import com.example.kudata.entity.User
+import com.example.kudata.dto.User
 import com.example.kudata.repository.datasource.chat.ChatDataSourceImpl
 import com.example.kudata.utils.PROFILE_IMAGE_STORE_KEY
 import com.google.firebase.auth.ktx.auth

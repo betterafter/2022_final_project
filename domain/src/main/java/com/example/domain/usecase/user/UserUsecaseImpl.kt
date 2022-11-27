@@ -1,9 +1,8 @@
 package com.example.domain.usecase.user
 
 import android.net.Uri
-import android.util.Log
 import com.example.domain.DtoTranslator
-import com.example.domain.dto.UserModel
+import com.example.domain.entity.UserModel
 import com.example.kudata.repository.DashboardRepository
 import com.example.kudata.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope

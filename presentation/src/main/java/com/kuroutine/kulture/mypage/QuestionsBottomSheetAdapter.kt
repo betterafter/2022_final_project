@@ -2,23 +2,15 @@ package com.kuroutine.kulture.mypage
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.dto.DashboardQuestionModel
-import com.example.domain.dto.LanguageModel
-import com.example.domain.dto.QuestionModel
+import com.example.domain.entity.DashboardQuestionModel
 import com.example.kuroutine.R
-import com.example.kuroutine.databinding.ItemLanguageBinding
 import com.example.kuroutine.databinding.ItemQuestionBinding
-import com.google.android.material.internal.ContextUtils.getActivity
 
 class QuestionsBottomSheetAdapter(
     private val selectCallback: (DashboardQuestionModel) -> Unit,

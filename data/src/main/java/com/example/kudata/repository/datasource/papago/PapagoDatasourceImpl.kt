@@ -1,14 +1,11 @@
 package com.example.kudata.repository.datasource.papago
 
 import com.example.kudata.api.NetworkModule
-import com.example.kudata.entity.PapagoLangRequest
-import com.example.kudata.entity.PapagoLangResponse
-import com.example.kudata.entity.PapagoRequest
-import com.example.kudata.entity.TranslateResult
+import com.example.kudata.dto.PapagoLangRequest
+import com.example.kudata.dto.PapagoRequest
+import com.example.kudata.dto.TranslateResult
 import com.example.kudata.utils.PAPAGO_ID
-import com.example.kudata.utils.PAPAGO_ID_2
 import com.example.kudata.utils.PAPAGO_SECRET
-import com.example.kudata.utils.PAPAGO_SECRET_2
 
 class PapagoDatasourceImpl : PapagoDatasource {
     override suspend fun getPapagoTranslateResult(text: String, source: String, target: String): TranslateResult? =

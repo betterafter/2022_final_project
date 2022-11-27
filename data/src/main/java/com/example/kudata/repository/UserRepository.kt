@@ -1,8 +1,7 @@
 package com.example.kudata.repository
 
 import android.net.Uri
-import com.example.kudata.entity.User
-import com.google.firebase.auth.FirebaseUser
+import com.example.kudata.dto.User
 
 interface UserRepository {
 
