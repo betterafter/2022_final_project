@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.domain"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+<!--    <application-->
+<!--        tools:replace="android:name"-->
+<!--        android:name=".App"-->
+<!--        android:allowBackup="true">-->
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.ApplicationId"-->
+<!--            android:value="@string/facebook_app_id" />-->
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.ClientToken"-->
+<!--            android:value="@string/facebook_client_token" />-->
+<!--    </application>-->
 
 </manifest>

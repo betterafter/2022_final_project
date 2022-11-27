@@ -7,19 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.kuroutine.home.HomeFragment"
+        android:name="com.kuroutine.kulture.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.kuroutine.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_ranking"
+        android:name="com.kuroutine.kulture.ranking.RankingFragment"
+        android:label="@string/title_ranking"
+        tools:layout="@layout/fragment_ranking" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.kuroutine.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_recommend"
+        android:name="com.kuroutine.kulture.recommend.RecommendFragment"
+        android:label="@string/title_recommend"
+        tools:layout="@layout/fragment_recommend" />
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.kuroutine.kulture.chatroom.ChatRoomFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chatroom" />
+
+    <fragment
+        android:id="@+id/navigation_myPage"
+        android:name="com.kuroutine.kulture.mypage.MyPageFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_mypage" />
 </navigation>

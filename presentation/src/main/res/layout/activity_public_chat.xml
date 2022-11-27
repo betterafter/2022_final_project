@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/iv_publicchat_back"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+        app:tint="@color/main_color" />
+
+    <TextView
+        android:id="@+id/tv_publicchat_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/tossbold"
+        android:text="공개 질문"
+        android:textColor="@color/main_color"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_publicchat_photo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_publicchat_back"
+        app:srcCompat="@drawable/ic_baseline_insert_photo_24"
+        app:tint="#B5B5B5" />
+
+    <TextView
+        android:id="@+id/tv_publicchat_title"
+        android:layout_width="286dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="11dp"
+        android:ems="10"
+        android:hint="제목"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/tv_publicchat_details"
+        app:layout_constraintTop_toBottomOf="@+id/tv_publicchat_name" />
+
+    <TextView
+        android:id="@+id/tv_publicchat_details"
+        android:layout_width="352dp"
+        android:layout_height="90dp"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="상세내용"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/iv_publicchat_photo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_publicchat_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_publicchat_chatrv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_publicchat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_publicchat_details" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_publicchat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:background="#F8F8F8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/et_publicchat_messagebox"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:background="@drawable/message_box_background"
+            android:hint="Type a message.."
+            android:paddingLeft="10dp" />
+
+        <ImageView
+            android:id="@+id/iv_publicchat_sendbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="10"
+            android:src="@drawable/send_icon" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

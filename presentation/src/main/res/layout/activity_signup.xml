@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient">
+
+    <EditText
+        android:id="@+id/et_signup_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/textView9"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="199dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt_background"
+        android:hint="Name"
+        android:paddingLeft="20dp" />
+
+    <EditText
+        android:id="@+id/et_signup_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/et_signup_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt_background"
+        android:hint="Email"
+        android:paddingLeft="20dp" />
+
+    <EditText
+        android:id="@+id/et_signup_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/et_signup_email"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt_background"
+        android:hint="Password"
+        android:paddingLeft="20dp" />
+
+    <Button
+        android:id="@+id/btn_signup_signup"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_signup_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="156dp"
+        android:background="@drawable/chat_left_backgroud"
+        android:backgroundTint="@color/sub_color_2"
+        android:fontFamily="@font/tossbold"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="#4C5CB8"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:fontFamily="@font/tossbold"
+        android:text="회원가입"
+        android:textColor="#131313"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
