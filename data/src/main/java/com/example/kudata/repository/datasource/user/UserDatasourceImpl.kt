@@ -131,6 +131,7 @@ class UserDatasourceImpl : UserDatasource {
 
     override suspend fun getUserInfo(uid: String?, callback: (User) -> Unit) {
         uid?.let {
+            Log.d("[keykat]", "it::::: $it")
             _fireStore.collection("/users").document(it).get().addOnCompleteListener { snapShot ->
                 snapShot.result.data?.let { data ->
                     val questionList = getQuestionListFromData(data)

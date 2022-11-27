@@ -179,7 +179,9 @@ class ChatActivity : AppCompatActivity() {
                         chatViewModel.updateUserXp(uid, 10)
                     }
                     this.finish()
-                }, { }
+                }, {
+
+                }
             )
             dialog.show(supportFragmentManager, "")
         }

@@ -60,9 +60,11 @@ class ChatDataSourceImpl : ChatDataSource {
             }
         } else {
             enterPublicRoom(qid) {
-                val chatRoom =
-                    db.reference.child(CHAT_ROOM_KEY).child(roomId!!).get().result.getValue(ChatRoom::class.java)
-                initialCallback(chatRoom)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val chatRoom =
+                        db.reference.child(CHAT_ROOM_KEY).child(roomId!!).get().await().getValue(ChatRoom::class.java)
+                    initialCallback(chatRoom)
+                }
             }
         }
     }
