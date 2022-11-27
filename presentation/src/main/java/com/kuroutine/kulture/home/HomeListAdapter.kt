@@ -73,7 +73,7 @@ class HomeListAdapter(
                     if (data.uid != viewModel.currentUser.value?.uid) {
                         callback(data.id, data.uid, data.isPrivate)
                     } else {
-                        val dialog = CommonDialog("다른 사람이 대답해주길 기다리는 중이에요.")
+                        val dialog = CommonDialog("자신의 게시물은 채팅내역에서 확인하세요.")
                         dialog.show(fragmentManager, "")
                     }
                 }
