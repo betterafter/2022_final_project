@@ -57,8 +57,8 @@ class HomePublicDashboardFragment : Fragment() {
         initObserver()
 
         var array = arrayListOf<String>()
-        array.add("최신순")
         array.add("과거순")
+        array.add("최신순")
         var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, array)
         val spinner: Spinner = binding.spinner
         spinner.adapter = adapter
