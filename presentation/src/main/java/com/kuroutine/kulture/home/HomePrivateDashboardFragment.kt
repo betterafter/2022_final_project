@@ -65,13 +65,13 @@ class HomePrivateDashboardFragment : Fragment() {
         var adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, array)
         val spinner: Spinner = binding.spinner
         spinner.adapter = adapter
+        var spinnerCurrentItem = spinner.selectedItem.toString()
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (spinner.selectedItem.toString() == "최신순") {
-
-                } else { //과거순
-
+                if (spinnerCurrentItem != spinner.selectedItem.toString()) {
+                    homeViewModel.setReversedPrivateList()
+                    spinnerCurrentItem = spinner.selectedItem.toString()
                 }
             }
 

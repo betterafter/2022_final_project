@@ -33,9 +33,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomePublicDashboardFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModels(
-        ownerProducer = { requireParentFragment() }
-    )
+    private val homeViewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
     private var _binding: FragmentHomePublicDashboardBinding? = null
 
     // This property is only valid between onCreateView and
@@ -47,9 +45,7 @@ class HomePublicDashboardFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomePublicDashboardBinding.inflate(inflater, container, false).apply {
             viewModel = homeViewModel
@@ -66,13 +62,19 @@ class HomePublicDashboardFragment : Fragment() {
         var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, array)
         val spinner: Spinner = binding.spinner
         spinner.adapter = adapter
+        var spinnerCurrentItem = spinner.selectedItem.toString()
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (spinner.selectedItem.toString() == "최신순") {
-
-                } else { //과거순
-
+                if (spinnerCurrentItem != spinner.selectedItem.toString()) {
+                    if (homeViewModel.publicQuestionState.value == "질문 완료") {
+                        homeViewModel.setReversedPublicDoneList()
+                        (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicDoneQuestionList.value)
+                    } else {
+                        homeViewModel.setReversedPublicProcessingList()
+                        (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicProcessingQuestionList.value)
+                    }
+                    spinnerCurrentItem = spinner.selectedItem.toString()
                 }
             }
 
@@ -90,17 +92,18 @@ class HomePublicDashboardFragment : Fragment() {
 
     private fun init() {
         binding.rvHomePublicQuestion.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = HomeListAdapter(moveToChatActivity = ::moveToChatActivity, homeViewModel, parentFragmentManager)
             setItemViewCacheSize(-1)
         }
 
         binding.btnHomePublicQuestionState.setOnClickListener {
             if (binding.btnHomePublicQuestionState.text == "질문 완료") {
+                homeViewModel.setPublicQuestionState("질문 중")
                 binding.btnHomePublicQuestionState.text = "질문 중"
                 (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicProcessingQuestionList.value)
             } else {
+                homeViewModel.setPublicQuestionState("질문 완료")
                 binding.btnHomePublicQuestionState.text = "질문 완료"
                 (binding.rvHomePublicQuestion.adapter as HomeListAdapter).submitList(homeViewModel.publicDoneQuestionList.value)
             }

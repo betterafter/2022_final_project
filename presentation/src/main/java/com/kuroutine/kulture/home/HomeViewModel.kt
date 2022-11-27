@@ -74,18 +74,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setReversedPublicDoneList() {
-        val list = _publicDoneQuestionList.value
-        _publicDoneQuestionList.value = list?.reversed()
+        _publicDoneQuestionList.value = _publicDoneQuestionList.value?.reversed()
     }
 
     fun setReversedPublicProcessingList() {
-        val list = _publicProcessingQuestionList.value
-        _publicProcessingQuestionList.value = list?.reversed()
+        _publicProcessingQuestionList.value = _publicProcessingQuestionList.value?.reversed()
     }
 
     fun setReversedPrivateList() {
-        val list = _questionList.value
-        _questionList.value = list?.reversed()
+        val li = mutableListOf<DashboardQuestionModel>()
+        _questionList.value?.forEach { li.add(it) }
+        _questionList.value = null
+        _questionList.value = li.reversed()
     }
 
     // 사용자에 맞는 언어로 실시간 변환
